@@ -82,6 +82,14 @@ def blur(im, blur_amount, api_res):
         im.paste(blur_image, crop_box)
     return im
 
+def updateWebServerSide(licensePlateResults):
+    response = requests.post(
+    'http://localhost:3000/lisencePlateRecognition',
+    data={'licenseResults':json.dumps(licensePlateResults)})
+    if response.status_code != 201:
+        print(response.text)
+        exit(1)
+
 
 def draw_bb(im, data):
     draw = ImageDraw.Draw(im)
@@ -125,9 +133,8 @@ def main():
                                        (filename.stem, filename.suffix)))
 
         result.append(api_res)
-    json1 = json.dumps(result, indent=2)
-    print(json.dumps(result, indent=2))
-
-
+    print(json.dumps(result))
+    updateWebServerSide(result)
+        # print(licensePlateResults)
 if __name__ == '__main__':
     main()
