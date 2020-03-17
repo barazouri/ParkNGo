@@ -1,5 +1,5 @@
 module.exports = {
-    MLAB_URL : "mongodb://<dbuser>:<dbpassword>@ds161024.mlab.com:61024/parkNGo",
-    DB_USER : "db_usr",
-    DB_PASS : "db_pass1"
+    MLAB_URL : "mongodb://<dbuser>:<dbpassword>@ds135653.mlab.com:35653/parkngo",
+    DB_USER : "Bar",
+    DB_PASS : "bar123"
 }

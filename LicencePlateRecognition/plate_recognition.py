@@ -134,7 +134,7 @@ def main():
 
         result.append(api_res)
     print(json.dumps(result))
-    updateWebServerSide(result)
+    # updateWebServerSide(result)
         # print(licensePlateResults)
 if __name__ == '__main__':
     main()
