@@ -1,0 +1,49 @@
+ "profileId": 1,
+    "firstName": "Guy",
+    "lastName": "Golpur",
+    "email": "guygolpur@gmail.com",
+    "paymentMethod": [
+        {
+            "creditCardNumber": "12345677",
+            "expiryDate": "20.02.2020",
+            "nameOnCard": "Guy Golpur"
+        }
+    ],
+    "host": [
+        {
+            "bankAccount": "1234",
+            "parkingSpots": [
+                {
+                    "parkingId": "1A",
+                    "address": "Hartglass",
+                    "Policy": "free cancelation",
+                    "parkingSize": "4X3",
+                    "price": 13,
+                    "windowsOfTime": "01.10.2020",
+                    "availability": "yes"
+                }
+            ],
+            "hostReviews": [
+                {
+                    "reviewFrom": "Bar",
+                    "rank": 5,
+                    "review": "The parking spot was just like we expected",
+                    "data": "01.11.2020"
+                }
+            ]
+        }
+    ],
+    "driver": [
+        {
+            "licensePlate": "123456789",
+            "parkingSpotOrderId": "2A",
+            "driverReviews": [
+                {
+                    "reviewFrom": "Bar",
+                    "rank": 5,
+                    "review": "The driver was just like we expected",
+                    "data": "01.11.2020"
+                }
+            ]
+        }
+    ]

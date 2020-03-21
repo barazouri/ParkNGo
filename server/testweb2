@@ -1,0 +1,49 @@
+ "profileId": 2,
+    "firstName": "Bar",
+    "lastName": "Azouri",
+    "email": "barazouri4@gmail.com",
+    "paymentMethod": [
+        {
+            "creditCardNumber": "12345688",
+            "expiryDate": "20.02.2020",
+            "nameOnCard": "Bar Azouri"
+        }
+    ],
+    "host": [
+        {
+            "bankAccount": "2345",
+            "parkingSpots": [
+                {
+                    "parkingId": "2A",
+                    "address": "Emil Zula 2",
+                    "Policy": "free cancelation",
+                    "parkingSize": "4X3",
+                    "price": 12,
+                    "windowsOfTime": "01.10.2020",
+                    "availability": "yes"
+                }
+            ],
+            "hostReviews": [
+                {
+                    "reviewFrom": "Guy",
+                    "rank": 5,
+                    "review": "The parking spot was just like we expected",
+                    "data": "01.11.2020"
+                }
+            ]
+        }
+    ],
+    "driver": [
+        {
+            "licensePlate": "123456788",
+            "parkingSpotOrderId": "1A",
+            "driverReviews": [
+                {
+                    "reviewFrom": "Guy",
+                    "rank": 5,
+                    "review": "The driver was just like we expected",
+                    "data": "01.11.2020"
+                }
+            ]
+        }
+    ]
