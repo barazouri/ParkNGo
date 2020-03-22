@@ -1,5 +1,6 @@
 const express = require('express');
 const resultsCtl = require('./controller/results.ctl');
+const lisencePlateRecognition = require('./controller/lisencePlateRecognition')
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -16,6 +17,7 @@ app.get('/getAllAvailableParking', resultsCtl.getAllAvailableParking);
 app.get('/getAllParkingSpots', resultsCtl.getAllParkingSpots);
 app.get('/getAllDrivers', resultsCtl.getAllDrivers);
 app.post('/addProfileBasic',resultsCtl.addProfileBasic);
+app.post('/lisencePlateRecognition',lisencePlateRecognition.licensePlateUpdate)
 
 
 
