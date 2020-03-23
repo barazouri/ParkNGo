@@ -2,12 +2,13 @@ const Profiles = require('../models/profiles');
 // const axios = require('axios');
 // let newArr = require('./class/ResultGenerator');            //my class into controller/class
 module.exports = {
+   /**Get without params */
    async getAllProfiles(req, res) {
       try {
          const arrProfile = []
          const profilesFound = await Profiles.find({})
          profilesFound.map(profile => {
-            arrProfile.push(profile.profileId, profile.firstName, profile.lastName, profile.email, profile.paymentMethod, profile.parkingSpots, profile.driver)
+            arrProfile.push(profile.profileId, profile.firstName, profile.lastName, profile.email, profile.paymentMethod, profile.parkingSpots, profile.driverLicensePlate, profile.driverCarSize, profile.totalRankDriver, profile.driverOrderSpot, profile.driverReviews)
          })
          console.log(arrProfile);
          return res.json(arrProfile);
@@ -65,9 +66,9 @@ module.exports = {
          const arrDrivers = []
          const driversFound = await Profiles.find({})
          driversFound.map(profile => {
-            if(profile.driver.length != 0)
+            if(profile.driverLicensePlate.length != 0)
             {
-               arrDrivers.push(profile.firstName, profile.lastName, profile.driver[0].licensePlate)
+               arrDrivers.push(profile.firstName, profile.lastName, profile.driverLicensePlate, profile.driverCarSize, profile.totalRankDriver, profile.driverOrderSpot, profile.driverReviews)
             }
          })
          console.log(arrDrivers);
@@ -75,17 +76,52 @@ module.exports = {
       } catch (err) { console.error(err);return res.json(err); }
    },
 
+/***
+ *
+ * 
+ * 
+ * 
+ * 
+ */
+/**Get with params */
+async getAllParkingReviewsByProfile(req, res, next) {
+   try {
+      const { email = null } = req.query;
+      const result = await Profiles.find({ "email": email });
+      console.log(result[0].parkingSpots[0].hostReviews);
+      // console.log(result[0].parkingSpots[0]);
+      res.json(result[0].parkingSpots[0].hostReviews);
+   } catch (err) 
+   { console.error(err);
+      return res.json(err); 
+   };
+},
+
+async getSpecificDriverReviews(req, res, next) {
+   try {
+      const { email = null } = req.query;
+      const result = await Profiles.find({ "email": email });
+      console.log(result[0].driverReviews);
+      // console.log(result[0].parkingSpots[0]);
+      res.json(result[0].driverReviews);
+   } catch (err) 
+   { console.error(err);
+      return res.json(err); 
+   };
+},
 
 
 
 
 
-
-
-
-
-
-   /**Post */
+/***
+ *
+ * 
+ * 
+ * 
+ * 
+ */
+/**Post */
    async addProfileBasic(req, res, next) {
       try {
          const { firstName = null, lastName = null, email = null } = req.body;
@@ -110,4 +146,54 @@ module.exports = {
          }
       } catch (err) { console.error(err);return res.json(err); };
    },
+
+   async editDriverProfile(req, res, next) {
+      try {
+         const { email = null, driverLicensePlate = null, driverCarSize = null } = req.body;
+         const userFound = await Profiles.find({ email: email });
+         if (!userFound.length) {
+            console.log("A profile with that gmail account isn't exist");
+            return res.json("A profile with that gmail account isn't exist");
+         }
+         else {
+            await Profiles.updateMany(
+               { "email": email },
+               { $set: { "driverLicensePlate": driverLicensePlate, "driverCarSize": driverCarSize } }
+            )
+            console.log(`${email}'s profile updated: \n driverLicensePlate -> ${driverLicensePlate} \n driverCarSize -> ${driverCarSize}`);
+            res.json(`${email}'s profile updated: driverLicensePlate -> ${driverLicensePlate}, driverCarSize -> ${driverCarSize}`);
+         }
+
+      } catch (err) { console.error(err);return res.json(err); };
+
+   },
+
+   async editHostProfile(req, res, next) {
+      try {
+         const { email = null, address = null, policy = null, parkingSize = null, price = null, windowsOfTime = null } = req.body;
+         const userFound = await Profiles.find({ email: email });
+         if (!userFound.length) {
+            console.log("A profile with that gmail account isn't exist");
+            return res.json("A profile with that gmail account isn't exist");
+         }
+         else {
+            let parkingSpot = { "address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "windowsOfTime": windowsOfTime }
+            await Profiles.updateMany(
+               { "email": email },
+            {$push: {parkingSpots: parkingSpot}}
+               )
+            console.log(`new host created`);
+            res.json('new host created');
+         }
+
+      } catch (err) { console.error(err);return res.json(err); };
+
+   },
+
+
+
+
+
+
+
 }

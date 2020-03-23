@@ -15,7 +15,13 @@ app.get('/getAllHosts', resultsCtl.getAllHosts);
 app.get('/getAllAvailableParking', resultsCtl.getAllAvailableParking);
 app.get('/getAllParkingSpots', resultsCtl.getAllParkingSpots);
 app.get('/getAllDrivers', resultsCtl.getAllDrivers);
+
+app.get('/getAllParkingReviewsByProfile',resultsCtl.getAllParkingReviewsByProfile);
+app.get('/getSpecificDriverReviews',resultsCtl.getSpecificDriverReviews);
+
 app.post('/addProfileBasic',resultsCtl.addProfileBasic);
+app.post('/editDriverProfile',resultsCtl.editDriverProfile);
+app.post('/editHostProfile',resultsCtl.editHostProfile);
 
 
 
