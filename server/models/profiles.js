@@ -14,28 +14,33 @@ const schema = {
         parkingSpots: [{
             parkingId: String,
             address: String,
-            Policy: String,
+            policy: String,
             parkingSize: String,
             price: Number,
             windowsOfTime: String,
             availability: String,
+            totalRankParking: Number,
             hostReviews: [{
                 reviewFrom: String,
                 rank: Number,
                 review: String,
-                data: String
+                date: String
             }],
         }],
-    driver: [{
-        licensePlate: Number,
-        parkingSpotOrderId: String,
+        driverLicensePlate: Number,
+        driverCarSize: String,
+        totalRankDriver: Number,
+        driverOrderSpot: [{
+            parkingSpotID: String,
+            orderToDate: String,
+            periodOfTime: String
+        }],
         driverReviews: [{
             reviewFrom: String,
             rank: Number,
             review: String,
-            data: String
+            date: String
         }]
-    }]
 }
 
 const user_schema = new mongoose.Schema(schema);
