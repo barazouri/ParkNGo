@@ -1,49 +1,106 @@
- "profileId": 1,
+"profileId": 1,
     "firstName": "Guy",
     "lastName": "Golpur",
     "email": "guygolpur@gmail.com",
     "paymentMethod": [
         {
-            "creditCardNumber": "12345677",
+            "creditCardNumber": 12345677,
             "expiryDate": "20.02.2020",
-            "nameOnCard": "Guy Golpur"
+            "nameOnCard": "Guy Golpur",
+            "bankAccount": 1234
         }
     ],
-    "host": [
+    "parkingSpots": [
         {
-            "bankAccount": "1234",
-            "parkingSpots": [
-                {
-                    "parkingId": "1A",
-                    "address": "Hartglass",
-                    "Policy": "free cancelation",
-                    "parkingSize": "4X3",
-                    "price": 13,
-                    "windowsOfTime": "01.10.2020",
-                    "availability": "yes"
-                }
-            ],
+            "parkingId": "1A",
+            "address": "Hartglass",
+            "policy": "free cancelation",
+            "parkingSize": "4X3",
+            "price": 13,
+            "windowsOfTime": "01.10.2020",
+            "availability": "yes",
+            "totalRankParking": 5,
             "hostReviews": [
                 {
                     "reviewFrom": "Bar",
                     "rank": 5,
                     "review": "The parking spot was just like we expected",
-                    "data": "01.11.2020"
+                    "date": "01.11.2020"
+                },
+                {
+                    "reviewFrom": "Daniel",
+                    "rank": 5,
+                    "review": "We loved it!",
+                    "date": "23.03.2020"
                 }
             ]
+        },
+        {
+            "_id": {
+                "$oid": "5e78ed1842195a045c890fec"
+            },
+            "address": "hofyen 7",
+            "policy": "easy",
+            "parkingSize": "4X4",
+            "price": 20,
+            "windowsOfTime": "23.03.2020",
+            "hostReviews": []
+        },
+        {
+            "_id": {
+                "$oid": "5e7a216c49001f34a0438b34"
+            },
+            "address": "hofyen 7",
+            "policy": "easy",
+            "parkingSize": "4X4",
+            "price": 20,
+            "windowsOfTime": "23.03.2020",
+            "hostReviews": []
+        },
+        {
+            "_id": {
+                "$oid": "5e7a216d49001f34a0438b35"
+            },
+            "address": "hofyen 7",
+            "policy": "easy",
+            "parkingSize": "4X4",
+            "price": 20,
+            "windowsOfTime": "23.03.2020",
+            "hostReviews": []
+        },
+        {
+            "_id": {
+                "$oid": "5e7a216e49001f34a0438b36"
+            },
+            "address": "hofyen 7",
+            "policy": "easy",
+            "parkingSize": "4X4",
+            "price": 20,
+            "windowsOfTime": "23.03.2020",
+            "hostReviews": []
         }
     ],
-    "driver": [
+    "driverLicensePlate": 98765,
+    "driverCarSize": "1X1",
+    "totalRankDriver": 5,
+    "driverOrderSpot": [
         {
-            "licensePlate": "123456789",
-            "parkingSpotOrderId": "2A",
-            "driverReviews": [
-                {
-                    "reviewFrom": "Bar",
-                    "rank": 5,
-                    "review": "The driver was just like we expected",
-                    "data": "01.11.2020"
-                }
-            ]
+            "parkingSpotID": "2A",
+            "orderToDate": "24.03.2020",
+            "periodOfTime": "1 hour"
+        }
+    ],
+    "driverReviews": [
+        {
+            "reviewFrom": "Bar",
+            "rank": 5,
+            "review": "The driver was just like we expected",
+            "date": "01.11.2020"
+        },
+        {
+            "reviewFrom": "Daniel",
+            "rank": 5,
+            "review": "Guy parked well",
+            "date": "23.02.2020"
         }
     ]
