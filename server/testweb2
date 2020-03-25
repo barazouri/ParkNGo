@@ -1,49 +1,50 @@
- "profileId": 2,
+"profileId": 2,
     "firstName": "Bar",
     "lastName": "Azouri",
     "email": "barazouri4@gmail.com",
     "paymentMethod": [
         {
-            "creditCardNumber": "12345688",
+            "creditCardNumber": 12345688,
             "expiryDate": "20.02.2020",
-            "nameOnCard": "Bar Azouri"
+            "nameOnCard": "Bar Azouri",
+            "bankAccount": 2345
         }
     ],
-    "host": [
+    "parkingSpots": [
         {
-            "bankAccount": "2345",
-            "parkingSpots": [
-                {
-                    "parkingId": "2A",
-                    "address": "Emil Zula 2",
-                    "Policy": "free cancelation",
-                    "parkingSize": "4X3",
-                    "price": 12,
-                    "windowsOfTime": "01.10.2020",
-                    "availability": "yes"
-                }
-            ],
+            "parkingId": "2A",
+            "address": "Emil Zula 2",
+            "policy": "free cancelation",
+            "parkingSize": "4X3",
+            "price": 12,
+            "windowsOfTime": "01.10.2020",
+            "availability": "1212",
+            "totalRankParking": 5,
             "hostReviews": [
                 {
                     "reviewFrom": "Guy",
                     "rank": 5,
                     "review": "The parking spot was just like we expected",
-                    "data": "01.11.2020"
+                    "date": "01.11.2020"
                 }
             ]
         }
     ],
-    "driver": [
+    "driverLicensePlate": 123456788,
+    "driverCarSize": "2X2",
+    "totalRankDriver": 5,
+    "driverOrderSpot": [
         {
-            "licensePlate": "123456788",
-            "parkingSpotOrderId": "1A",
-            "driverReviews": [
-                {
-                    "reviewFrom": "Guy",
-                    "rank": 5,
-                    "review": "The driver was just like we expected",
-                    "data": "01.11.2020"
-                }
-            ]
+            "parkingSpotID": "1A",
+            "orderToDate": "25.04.2020",
+            "periodOfTime": "20 minutes"
+        }
+    ],
+    "driverReviews": [
+        {
+            "reviewFrom": "Guy",
+            "rank": 5,
+            "review": "The driver was just like we expected",
+            "data": "01.11.2020"
         }
     ]
