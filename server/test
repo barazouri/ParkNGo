@@ -1,45 +1,60 @@
-const mongoose = require('mongoose');
-
-const schema = {
-    profileId: { type: Number, index: 1},
-    firstName: String,
-    lastName: String,
-    email: String,
-    paymentMethod: [{
-        creditCardNumber: Number,
-        expiryDate: String,
-        nameOnCard: String
-    }],
-    host: [{
-        bankAccount: Number,
-        parkingSpots: [{
-            parkingId: String,
-            address: String,
-            Policy: String,
-            parkingSize: String,
-            price: Number,
-            windowsOfTime: String,
-            availability: String
-        }],
-        hostReviews: [{
-            reviewFrom: String,
-            rank: Number,
-            review: String,
-            data: String
-        }]
-    }],
-    driver: [{
-        licensePlate: Number,
-        parkingSpotOrderId: String,
-        driverReviews: [{
-            reviewFrom: String,
-            rank: Number,
-            review: String,
-            data: String
-        }]
-    }]
-}
-
-const user_schema = new mongoose.Schema(schema);
-const profile = mongoose.model('profile' ,user_schema);
-module.exports = profile;
+"profileId": 3,
+    "firstName": "Guy",
+    "lastName": "Gol",
+    "email": "guygol@gmail.com",
+    "paymentMethod": [],
+    "parkingSpots": [
+        {
+            "_id": {
+                "$oid": "5e7a32adb171ef05acd894ca"
+            },
+            "parkingId": "3A",
+            "address": "Brodetski 27",
+            "policy": "free canceletion",
+            "parkingSize": "10X5",
+            "price": 14,
+            "windowsOfTime": "01.03.2020",
+            "hostReviews": []
+        },
+        {
+            "_id": {
+                "$oid": "5e7a32c4b171ef05acd894cb"
+            },
+            "parkingId": "3B",
+            "address": "Brodetski 27",
+            "policy": "free canceletion",
+            "parkingSize": "10X5",
+            "price": 14,
+            "windowsOfTime": "01.03.2020",
+            "hostReviews": []
+        },
+        {
+            "_id": {
+                "$oid": "5e7a32c5b171ef05acd894cc"
+            },
+            "parkingId": "3C",
+            "address": "Brodetski 27",
+            "policy": "free canceletion",
+            "parkingSize": "10X5",
+            "price": 14,
+            "windowsOfTime": "01.03.2020",
+            "hostReviews": []
+        },
+        {
+            "_id": {
+                "$oid": "5e7a32c6b171ef05acd894cd"
+            },
+            "parkingId": "3D",
+            "address": "hofyen 9",
+            "policy": "easy",
+            "parkingSize": "4X4",
+            "price": 20,
+            "windowsOfTime": "23.03.2020",
+            "hostReviews": []
+        }
+    ],
+    "driverOrderSpot": [],
+    "driverReviews": [],
+    "__v": 0,
+    "driverCarSize": "2X1",
+    "driverLicensePlate": 2468
