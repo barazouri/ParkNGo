@@ -1,6 +1,4 @@
 const Profiles = require('../models/profiles');
-// const axios = require('axios');
-// let newArr = require('./class/ResultGenerator');            //my class into controller/class
 module.exports = {
    /**Get without params */
    async getAllProfiles(req, res) {
@@ -35,11 +33,12 @@ module.exports = {
          const arrAvailable = []
          const AvailableFound = await Profiles.find({})
          AvailableFound.map(profile => {
-            if(profile.parkingSpots.length != 0){
-            if(profile.parkingSpots[0].availability == 'yes')
-            {
-               arrAvailable.push(profile.firstName, profile.lastName, profile.parkingSpots[0])
-            }}
+            profile.parkingSpots.map(parkingSpot => {
+               if(parkingSpot.availability != "no" && parkingSpot.length != 0)
+               {
+                  arrAvailable.push(parkingSpot);
+               }
+            })
          })
          console.log(arrAvailable);
          return res.json(arrAvailable);
@@ -53,7 +52,7 @@ module.exports = {
          AllParkingFound.map(profile => {
             if(profile.parkingSpots.length != 0)
             {
-               arrAllParking.push(profile.firstName, profile.lastName, profile.parkingSpots[0])
+               arrAllParking.push(profile.firstName, profile.lastName, profile.parkingSpots)
             }
          })
          console.log(arrAllParking);
@@ -88,9 +87,14 @@ async getAllParkingReviewsByProfile(req, res, next) {
    try {
       const { email = null } = req.query;
       const result = await Profiles.find({ "email": email });
-      console.log(result[0].parkingSpots[0].hostReviews);
-      // console.log(result[0].parkingSpots[0]);
-      res.json(result[0].parkingSpots[0].hostReviews);
+      const allReviews = [];
+      result.map(parkingSpot => {
+         parkingSpot.parkingSpots.map(hostReview => {
+            allReviews.push(hostReview.hostReviews);
+         })
+      })
+      console.log(allReviews);
+      res.json(allReviews);
    } catch (err) 
    { console.error(err);
       return res.json(err); 
@@ -102,7 +106,6 @@ async getSpecificDriverReviews(req, res, next) {
       const { email = null } = req.query;
       const result = await Profiles.find({ "email": email });
       console.log(result[0].driverReviews);
-      // console.log(result[0].parkingSpots[0]);
       res.json(result[0].driverReviews);
    } catch (err) 
    { console.error(err);
@@ -168,7 +171,7 @@ async getSpecificDriverReviews(req, res, next) {
 
    },
 
-   async editHostProfile(req, res, next) {
+   async addNewParkingSpot(req, res, next) {
       try {
          const { email = null, address = null, policy = null, parkingSize = null, price = null, windowsOfTime = null } = req.body;
          const userFound = await Profiles.find({ email: email });
@@ -190,10 +193,55 @@ async getSpecificDriverReviews(req, res, next) {
 
    },
 
+   async editSpecificParking(req, res, next) {
+      try {
+         const { parkingId = null, address = null, policy = null, parkingSize = null, price = null, windowsOfTime = null } = req.body;
+         const parkingIDFound = await Profiles.find({ parkingSpots: {$elemMatch: {parkingId }}});
+         if (!parkingIDFound.length) {
+            console.log("A parking spot with that ID does not exist");
+            return res.json("A parking spot with that ID does not exist");
+         }
+         else {
+            let parkingSpot = { "parkingId": parkingId,"address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "windowsOfTime": windowsOfTime }
+            await Profiles.updateOne(
+               { parkingSpots: {$elemMatch: {parkingId: parkingId }} },
+               { $set: { 'parkingSpots.$.parkingId': parkingSpot.parkingId,
+               'parkingSpots.$.address': parkingSpot.address,
+               'parkingSpots.$.policy': parkingSpot.policy,
+               'parkingSpots.$.parkingSize': parkingSpot.parkingSize,
+               'parkingSpots.$.price': parkingSpot.price,
+               'parkingSpots.$.windowsOfTime': parkingSpot.windowsOfTime, } }
+            )
+            console.log(`${parkingId}'s parking spot has been updated`);
+            res.json(`${parkingId}'s parking spot has been updated`);
+         }
 
+      } catch (err) { console.error(err);return res.json(err); };
 
+   },
 
-
-
+   async hostWriteReviewOnDriver(req, res) {
+      try {
+         let { profileId = null, parkingId = null, reviewFrom = null, rank = null, review = null, date = null  } = req.body
+         const userFound = await Profiles.find({ profileId: profileId });
+         if (!userFound.length) {
+             console.log("A profile with that profileId account does not exist");
+             return res.json("A profile with that profileId account does not exist");
+         }
+         else {
+             let reviewObj = {
+                 "reviewFrom": reviewFrom,
+                 "rank": rank,
+                 "review": review,
+                 "date": date
+             }
+          await Profiles.updateOne(
+                 {"profileId": profileId, "parkingSpots.parkingId": parkingId},
+                 { $push: {'parkingSpots.$.hostReviews': reviewObj} }
+             )
+             }
+         return res.json(`${reviewFrom} wrote a review.........Rank: ${rank}.........Review: ${review}.........Date: ${date}`);
+      } catch (err) { console.error(err);return res.json(err); }
+  },
 
 }
