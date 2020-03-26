@@ -10,35 +10,27 @@ module.exports = {
                 return res.json("A profile with that gmail account isn't exist");
             }
             else {
-             await Profiles.updateOne(
-                    {"profileId": profileId, "parkingSpots.parkingId": parkingId},
-                    { $set: {'parkingSpots.$.availability': plateNumber} }
-                )
+                await Profiles.updateOne(
+                        {"profileId": profileId, "parkingSpots.parkingId": parkingId},
+                        { $set: {'parkingSpots.$.availability': plateNumber} }
+                    )
+                if(plateNumber.length == 0){
+                    // add date to this queryti find the specific park on a specific date
+                    await Profiles.updateOne(
+                        {"driverOrderSpot.parkingSpotID": parkingId},
+                        { $set: {'driverOrderSpot.$.exitTime': Date.now() } }
+                    )
+                }
+                else{
+                    // Need to add validation function to check if this numberPlate exist in the system
+                    await Profiles.updateOne(
+                        {"driverLicensePlate": plateNumber, "driverOrderSpot.parkingSpotID": parkingId},
+                        { $set: {'driverOrderSpot.$.enteredTime': Date.now() } }
+                    )
+                }
                 }
             return res.json(plateNumber);
          } catch (err) { console.error(err);return res.json(err); }
     }
 }
 
-
-// async editSpecificParking(req, res, next) {
-//     try {
-//        const { parkingId = null, address = null, policy = null, parkingSize = null, price = null, windowsOfTime = null } = req.body;
-//        const parkingIDFound = await Profiles.find({ parkingSpots: {$elemMatch: {parkingId }}});
-//        if (!parkingIDFound.length) {
-//           console.log("A parking spot with that ID does not exist");
-//           return res.json("A parking spot with that ID does not exist");
-//        }
-//        else {
-//           let parkingSpot = { "parkingId": parkingId,"address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "windowsOfTime": windowsOfTime }
-//           await Profiles.updateOne(
-//              { parkingSpots: {$elemMatch: {parkingId: parkingId }} },
-//              { $set: { parkingSpots: parkingSpot } }
-//           )
-//           // console.log(`${email}'s profile updated: \n driverLicensePlate -> ${driverLicensePlate} \n driverCarSize -> ${driverCarSize}`);
-//           // res.json(`${email}'s profile updated: driverLicensePlate -> ${driverLicensePlate}, driverCarSize -> ${driverCarSize}`);
-//        }
-
-//     } catch (err) { console.error(err);return res.json(err); };
-
-//  },
