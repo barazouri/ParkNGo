@@ -220,7 +220,7 @@ async getSpecificDriverReviews(req, res, next) {
 
    },
 
-   async hostWriteReviewOnDriver(req, res) {
+   async driverWriteReviewOnHost(req, res) {
       try {
          let { profileId = null, parkingId = null, reviewFrom = null, rank = null, review = null, date = null  } = req.body
          const userFound = await Profiles.find({ profileId: profileId });
@@ -243,5 +243,29 @@ async getSpecificDriverReviews(req, res, next) {
          return res.json(`${reviewFrom} wrote a review.........Rank: ${rank}.........Review: ${review}.........Date: ${date}`);
       } catch (err) { console.error(err);return res.json(err); }
   },
+  
+  async hostWriteReviewOnDriver(req, res) {
+   try {
+      let { reviewFrom = null, profileId = null, rank = null, review = null, date = null  } = req.body
+      const userFound = await Profiles.find({ profileId: profileId });
+      if (!userFound.length) {
+          console.log("A profile with that profileId account does not exist");
+          return res.json("A profile with that profileId account does not exist");
+      }
+      else {
+          let reviewObj = {
+              "reviewFrom": reviewFrom,
+              "rank": rank,
+              "review": review,
+              "date": date
+          }
+       await Profiles.updateOne(
+              {"profileId": profileId},
+              { $push: {'driverReviews': reviewObj} }
+          )
+          }
+      return res.json(`${reviewFrom} wrote a review.........On: ${profileId}.........Rank: ${rank}.........Review: ${review}.........Date: ${date}`);
+   } catch (err) { console.error(err);return res.json(err); }
+},
 
 }

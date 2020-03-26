@@ -23,6 +23,7 @@ app.post('/addProfileBasic',resultsCtl.addProfileBasic);
 app.post('/editDriverProfile',resultsCtl.editDriverProfile);
 app.post('/addNewParkingSpot',resultsCtl.addNewParkingSpot);
 app.post('/editSpecificParking',resultsCtl.editSpecificParking);
+app.post('/driverWriteReviewOnHost',resultsCtl.driverWriteReviewOnHost);
 app.post('/hostWriteReviewOnDriver',resultsCtl.hostWriteReviewOnDriver);
 
 
