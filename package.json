@@ -1,0 +1,23 @@
+{
+  "name": "parkngo",
+  "version": "1.0.0",
+  "description": "Run License plate recognision steps: python3 -m venv work source work/bin/activate python3 cameraStream.py",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barazouri/ParkNGo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/barazouri/ParkNGo/issues"
+  },
+  "homepage": "https://github.com/barazouri/ParkNGo#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.19.0"
+  }
+}

@@ -1,47 +1,65 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import { DrawerNavigator } from 'react-navigation';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Home  from '../../Screens/Home/Home'
+import UploadPark  from '../../Screens/UploadPark/UploadPark'
+import Profile  from '../../Screens/Profile/Profile'
+import ParkingResults  from '../../Screens/ParkingResults/ParkingResults'
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-class HomeScreen extends React.Component {
+
+class Navigation extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      page: 'Location'
+    }
+  }
+  screenOptions = (route) => {
+
+  }
   render() {
+    const Tab = createBottomTabNavigator();
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('DrawerOpen')}>
-          <Text>Open Drawer</Text>
-        </TouchableOpacity>
-        <Text style={{ fontWeight: 'bold', marginTop: 20 }}>Home</Text>
-      </View>
+        <Tab.Navigator>
+            <Tab.Screen        
+            // initialRouteName="Feed"
+            name="Home"
+            options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+            ),
+            }}
+            component={Home} />
+            <Tab.Screen 
+            // initialRouteName="Feed"
+            name="UploadPark" 
+            component={ParkingResults} 
+            options={{
+            tabBarLabel: 'Upload',
+            tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="upload" color={color} size={size} />
+            ),
+            }}
+            />
+            <Tab.Screen 
+            // initialRouteName="Feed"
+            name="Profile" 
+            component={Profile} 
+            options={{
+            tabBarLabel: 'Profile',
+            tabBarIcon: ({ color, size }) => (
+            <Icon name="user-circle" size={30} color={color} />
+            ),
+            }}
+            />
+        </Tab.Navigator>
     );
   }
 }
 
-class SettingsScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('DrawerOpen')}>
-          <Text>Open Drawer</Text>
-        </TouchableOpacity>
-        <Text style={{ fontWeight: 'bold', marginTop: 20 }}>Settings</Text>
-      </View>
-    );
-  }
-}
-
-const Navigation = new DrawerNavigator(
-  {
-    Home: HomeScreen,
-    Settings: SettingsScreen,
-  },
-  {
-    drawerBackgroundColor: 'rgba(255,255,255,.9)',
-    contentOptions: {
-      activeTintColor: '#fff',
-      activeBackgroundColor: '#6b52ae',
-    },
-  }
-);
 
 export default Navigation;
