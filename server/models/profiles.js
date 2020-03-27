@@ -19,6 +19,7 @@ const schema = {
             price: Number,
             windowsOfTime: String,
             availability: String,
+            directions: String,
             totalRankParking: Number,
             hostReviews: [{
                 reviewFrom: String,
@@ -27,7 +28,7 @@ const schema = {
                 date: String
             }],
         }],
-        driverLicensePlate: Number,
+        driverLicensePlate: String,
         driverCarSize: String,
         totalRankDriver: Number,
         driverOrderSpot: [{

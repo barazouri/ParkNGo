@@ -173,14 +173,14 @@ async getSpecificDriverReviews(req, res, next) {
 
    async addNewParkingSpot(req, res, next) {
       try {
-         const { email = null, address = null, policy = null, parkingSize = null, price = null, windowsOfTime = null } = req.body;
+         const { email = null, address = null, policy = null, parkingSize = null, price = null, windowsOfTime = null, directions = null } = req.body;
          const userFound = await Profiles.find({ email: email });
          if (!userFound.length) {
             console.log("A profile with that gmail account isn't exist");
             return res.json("A profile with that gmail account isn't exist");
          }
          else {
-            let parkingSpot = { "address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "windowsOfTime": windowsOfTime }
+            let parkingSpot = { "address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "windowsOfTime": windowsOfTime, "directions": directions, "availability": "yes", "totalRankParking": 0 }
             await Profiles.updateMany(
                { "email": email },
             {$push: {parkingSpots: parkingSpot}}
@@ -195,14 +195,14 @@ async getSpecificDriverReviews(req, res, next) {
 
    async editSpecificParking(req, res, next) {
       try {
-         const { parkingId = null, address = null, policy = null, parkingSize = null, price = null, windowsOfTime = null } = req.body;
+         const { parkingId = null, address = null, policy = null, parkingSize = null, price = null, windowsOfTime = null, directions = null } = req.body;
          const parkingIDFound = await Profiles.find({ parkingSpots: {$elemMatch: {parkingId }}});
          if (!parkingIDFound.length) {
             console.log("A parking spot with that ID does not exist");
             return res.json("A parking spot with that ID does not exist");
          }
          else {
-            let parkingSpot = { "parkingId": parkingId,"address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "windowsOfTime": windowsOfTime }
+            let parkingSpot = { "parkingId": parkingId,"address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "windowsOfTime": windowsOfTime, "directions": directions }
             await Profiles.updateOne(
                { parkingSpots: {$elemMatch: {parkingId: parkingId }} },
                { $set: { 'parkingSpots.$.parkingId': parkingSpot.parkingId,
@@ -210,7 +210,8 @@ async getSpecificDriverReviews(req, res, next) {
                'parkingSpots.$.policy': parkingSpot.policy,
                'parkingSpots.$.parkingSize': parkingSpot.parkingSize,
                'parkingSpots.$.price': parkingSpot.price,
-               'parkingSpots.$.windowsOfTime': parkingSpot.windowsOfTime, } }
+               'parkingSpots.$.windowsOfTime': parkingSpot.windowsOfTime,
+               'parkingSpots.$.directions': parkingSpot.directions, } }
             )
             console.log(`${parkingId}'s parking spot has been updated`);
             res.json(`${parkingId}'s parking spot has been updated`);
