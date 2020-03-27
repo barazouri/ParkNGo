@@ -19,6 +19,7 @@ const schema = {
             price: Number,
             windowsOfTime: String,
             availability: String,
+            directions: String,
             totalRankParking: Number,
             hostReviews: [{
                 reviewFrom: String,

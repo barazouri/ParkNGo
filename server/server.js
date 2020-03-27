@@ -1,5 +1,6 @@
 const express = require('express');
 const resultsCtl = require('./controller/results.ctl');
+const searchCtl = require('./controller/search.ctl');
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -25,6 +26,11 @@ app.post('/addNewParkingSpot',resultsCtl.addNewParkingSpot);
 app.post('/editSpecificParking',resultsCtl.editSpecificParking);
 app.post('/driverWriteReviewOnHost',resultsCtl.driverWriteReviewOnHost);
 app.post('/hostWriteReviewOnDriver',resultsCtl.hostWriteReviewOnDriver);
+
+/*** Search */
+app.get('/searchParkingSpotByLocation',searchCtl.searchParkingSpotByLocation);
+app.get('/searchParkingSpotByLocationAndPrice',searchCtl.searchParkingSpotByLocationAndPrice);
+
 
 
 
