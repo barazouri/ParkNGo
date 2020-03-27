@@ -26,10 +26,12 @@ app.post('/addNewParkingSpot',resultsCtl.addNewParkingSpot);
 app.post('/editSpecificParking',resultsCtl.editSpecificParking);
 app.post('/driverWriteReviewOnHost',resultsCtl.driverWriteReviewOnHost);
 app.post('/hostWriteReviewOnDriver',resultsCtl.hostWriteReviewOnDriver);
+app.post('/addwindowsOfTimeToParkingSpot',resultsCtl.addwindowsOfTimeToParkingSpot);
 
 /*** Search */
 app.get('/searchParkingSpotByLocation',searchCtl.searchParkingSpotByLocation);
 app.get('/searchParkingSpotByLocationAndPrice',searchCtl.searchParkingSpotByLocationAndPrice);
+app.get('/searchParkingSpotByLocationAndPriceAndSize',searchCtl.searchParkingSpotByLocationAndPriceAndSize);
 
 
 

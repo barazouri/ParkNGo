@@ -173,14 +173,20 @@ async getSpecificDriverReviews(req, res, next) {
 
    async addNewParkingSpot(req, res, next) {
       try {
-         const { email = null, address = null, policy = null, parkingSize = null, price = null, windowsOfTime = null, directions = null } = req.body;
+         const { email = null, address = null, policy = null, parkingSize = null, price = null, AvailablefromTime = null, AvailableUntilTime = null, directions = null } = req.body;
          const userFound = await Profiles.find({ email: email });
+         let fromTime = new Date(AvailablefromTime)
+         let untilDate = new Date(AvailableUntilTime)
+         let windowsOfTime = {
+            AvailablefromTime: fromTime,
+            AvailableUntilTime: untilDate,
+         }
          if (!userFound.length) {
             console.log("A profile with that gmail account isn't exist");
             return res.json("A profile with that gmail account isn't exist");
          }
          else {
-            let parkingSpot = { "address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "windowsOfTime": windowsOfTime, "directions": directions, "availability": "yes", "totalRankParking": 0 }
+            let parkingSpot = { "address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "directions": directions, "availability": "yes","windowsOfTime": windowsOfTime, "totalRankParking": 0 }
             await Profiles.updateMany(
                { "email": email },
             {$push: {parkingSpots: parkingSpot}}
@@ -195,13 +201,19 @@ async getSpecificDriverReviews(req, res, next) {
 
    async editSpecificParking(req, res, next) {
       try {
-         const { parkingId = null, address = null, policy = null, parkingSize = null, price = null, windowsOfTime = null, directions = null } = req.body;
+         const { parkingId = null, address = null, policy = null, parkingSize = null, price = null, AvailablefromTime = null, AvailableUntilTime = null, directions = null } = req.body;
          const parkingIDFound = await Profiles.find({ parkingSpots: {$elemMatch: {parkingId }}});
          if (!parkingIDFound.length) {
             console.log("A parking spot with that ID does not exist");
             return res.json("A parking spot with that ID does not exist");
          }
          else {
+            let fromTime = new Date(AvailablefromTime)
+            let untilDate = new Date(AvailableUntilTime)
+            let windowsOfTime = {
+               AvailablefromTime: fromTime,
+               AvailableUntilTime: untilDate,
+            }
             let parkingSpot = { "parkingId": parkingId,"address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "windowsOfTime": windowsOfTime, "directions": directions }
             await Profiles.updateOne(
                { parkingSpots: {$elemMatch: {parkingId: parkingId }} },
@@ -223,8 +235,9 @@ async getSpecificDriverReviews(req, res, next) {
 
    async driverWriteReviewOnHost(req, res) {
       try {
-         let { profileId = null, parkingId = null, reviewFrom = null, rank = null, review = null, date = null  } = req.body
+         let { profileId = null, parkingId = null, reviewFrom = null, rank = null, review = null  } = req.body
          const userFound = await Profiles.find({ profileId: profileId });
+         let date = Date.now()
          if (!userFound.length) {
              console.log("A profile with that profileId account does not exist");
              return res.json("A profile with that profileId account does not exist");
@@ -234,7 +247,7 @@ async getSpecificDriverReviews(req, res, next) {
                  "reviewFrom": reviewFrom,
                  "rank": rank,
                  "review": review,
-                 "date": date
+                 "date": Date.now()
              }
           await Profiles.updateOne(
                  {"profileId": profileId, "parkingSpots.parkingId": parkingId},
@@ -247,8 +260,9 @@ async getSpecificDriverReviews(req, res, next) {
   
   async hostWriteReviewOnDriver(req, res) {
    try {
-      let { reviewFrom = null, profileId = null, rank = null, review = null, date = null  } = req.body
+      let { reviewFrom = null, profileId = null, rank = null, review = null  } = req.body
       const userFound = await Profiles.find({ profileId: profileId });
+      let date = Date.now();
       if (!userFound.length) {
           console.log("A profile with that profileId account does not exist");
           return res.json("A profile with that profileId account does not exist");
@@ -258,7 +272,7 @@ async getSpecificDriverReviews(req, res, next) {
               "reviewFrom": reviewFrom,
               "rank": rank,
               "review": review,
-              "date": date
+              "date": Date.now()
           }
        await Profiles.updateOne(
               {"profileId": profileId},
@@ -267,6 +281,33 @@ async getSpecificDriverReviews(req, res, next) {
           }
       return res.json(`${reviewFrom} wrote a review.........On: ${profileId}.........Rank: ${rank}.........Review: ${review}.........Date: ${date}`);
    } catch (err) { console.error(err);return res.json(err); }
+},
+
+async addwindowsOfTimeToParkingSpot(req, res, next) {
+   try {
+      const { parkingId = null, AvailablefromTime = null, AvailableUntilTime = null } = req.body;
+      const parkingFound = await Profiles.find({ parkingSpots: {$elemMatch: {parkingId }}});
+      let fromTime = new Date(AvailablefromTime)
+      let untilDate = new Date(AvailableUntilTime)
+      let windowsOfTime = {
+         AvailablefromTime: fromTime,
+         AvailableUntilTime: untilDate,
+      }
+      if (!parkingFound.length) {
+         console.log("A parking spot with that ID account does not exist");
+         return res.json("A parking spot with that ID account does not exist");
+      }
+      else {
+         await Profiles.updateOne(
+            {"parkingSpots.parkingId": parkingId},
+                 { $push: {'parkingSpots.$.windowsOfTime': windowsOfTime} }
+            )
+         console.log(`new window Of Time created`);
+         res.json('new window Of Time created');
+      }
+
+   } catch (err) { console.error(err);return res.json(err); };
+
 },
 
 }
