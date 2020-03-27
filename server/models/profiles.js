@@ -27,13 +27,15 @@ const schema = {
                 date: String
             }],
         }],
-        driverLicensePlate: Number,
+        driverLicensePlate: String,
         driverCarSize: String,
         totalRankDriver: Number,
         driverOrderSpot: [{
             parkingSpotID: String,
             orderToDate: String,
-            periodOfTime: String
+            periodOfTime: String,
+            enteredTime: Date,
+            exitTime: Date,
         }],
         driverReviews: [{
             reviewFrom: String,
