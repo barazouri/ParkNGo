@@ -4,15 +4,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home  from '../../Screens/Home/Home'
 import UploadPark  from '../../Screens/UploadPark/UploadPark'
 import Profile  from '../../Screens/Profile/Profile'
-import ParkingResults  from '../../Screens/ParkingResults/ParkingResults'
+import ParkingSearch  from '../../Screens/ParkingSearch/ParkingSearch'
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 class Navigation extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       page: 'Location'
     }
@@ -36,12 +36,20 @@ class Navigation extends React.Component {
             component={Home} />
             <Tab.Screen 
             // initialRouteName="Feed"
-            name="UploadPark" 
-            component={ParkingResults} 
+            name="Search" 
+            component={ParkingSearch} 
             options={{
-            tabBarLabel: 'Upload',
+            tabBarLabel: 'Search',
+          headerTitle: props => <Text>button</Text>,
+          headerRight: () => (
+                      <Button
+                        onPress={() => alert('This is a button!')}
+                        title="Info"
+                        color="#fff"
+                      />
+                    ),
             tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="upload" color={color} size={size} />
+            <Icon name="search" color={color} size={size} />
             ),
             }}
             />
