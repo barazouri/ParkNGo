@@ -7,7 +7,7 @@ const schema = {
     email: String,
     paymentMethod: [{
         creditCardNumber: Number,
-        expiryDate: String,
+        expiryDate: Date,
         nameOnCard: String,
         bankAccount: Number,
     }],
@@ -17,7 +17,10 @@ const schema = {
             policy: String,
             parkingSize: String,
             price: Number,
-            windowsOfTime: String,
+            windowsOfTime: [{
+                AvailablefromTime: Date,
+                AvailableUntilTime: Date
+            }],
             availability: String,
             directions: String,
             totalRankParking: Number,
@@ -25,7 +28,7 @@ const schema = {
                 reviewFrom: String,
                 rank: Number,
                 review: String,
-                date: String
+                date: Date
             }],
         }],
         driverLicensePlate: String,
@@ -33,14 +36,16 @@ const schema = {
         totalRankDriver: Number,
         driverOrderSpot: [{
             parkingSpotID: String,
-            orderToDate: String,
-            periodOfTime: String
+            orderToDate: Date,
+            periodOfTime: String,
+            enteredTime: Date,
+            exitTime: Date
         }],
         driverReviews: [{
             reviewFrom: String,
             rank: Number,
             review: String,
-            date: String
+            date: Date
         }]
 }
 
