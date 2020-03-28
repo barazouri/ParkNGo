@@ -113,10 +113,56 @@ async getSpecificDriverReviews(req, res, next) {
    };
 },
 
+async makeSpecificParkingNotAvailable(req, res, next) {
+   try {
+      const { parkingId = null, profileId = null } = req.query;
+      const result = await Profiles.find({ profileId: profileId});
+         await Profiles.updateOne(
+            { "profileId": profileId, "parkingSpots.parkingId": parkingId },
+            { $set: { 'parkingSpots.$.availability': "no" } }
+         )
+      console.log(result);
+      res.json(result);
+   } catch (err) 
+   { console.error(err);
+      return res.json(err); 
+   };
+},
 
+async makeSpecificParkingAvailable(req, res, next) {
+   try {
+      const { parkingId = null, profileId = null } = req.query;
+      const result = await Profiles.find({ profileId: profileId});
+         await Profiles.updateOne(
+            { "profileId": profileId, "parkingSpots.parkingId": parkingId },
+            { $set: { 'parkingSpots.$.availability': "yes" } }
+         )
+      console.log(result);
+      res.json(result);
+   } catch (err) 
+   { console.error(err);
+      return res.json(err); 
+   };
+},
 
-
-
+async removeSpecificParkingSpot(req, res, next) {
+   try {
+      const { parkingId = null, profileId = null } = req.query;
+      const result = await Profiles.find({ profileId: profileId});
+      if (!result) {
+         console.log(`A profile with that ID does not exist`);
+         return res.json(`A profile with that ID does not exist`);
+      }
+      await Profiles.updateOne(
+         { "profileId": profileId, "parkingSpots.parkingId": parkingId },
+         {$pull: {
+            parkingSpots: {parkingId: parkingId}
+         }}
+      )
+   console.log(`${parkingId} have been removed successfully`);
+   res.json(`${parkingId} have been removed successfully`);
+   } catch (err) { console.error(err);return res.json(err); };
+},
 /***
  *
  * 
