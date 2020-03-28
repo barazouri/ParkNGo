@@ -10,18 +10,10 @@ class ParkingCardList extends Component {
 
     }
 
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => (
-      <FontAwesome name="user" size={24} color={tintColor} />
-    ),
-  };
- onPress = ({navigation}) => {
-    console.log("hello")
-    navigation.navigate('ParkingSpotDetails')
-    
-}
   render() {
-    const { navigation } = this.props
+    // console.log(this.props)
+    const { route,navigation } = this.props
+    console.log(route)
     return (
       <View style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>

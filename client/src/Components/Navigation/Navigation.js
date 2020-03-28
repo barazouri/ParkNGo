@@ -17,9 +17,7 @@ class Navigation extends React.Component {
       page: 'Location'
     }
   }
-  screenOptions = (route) => {
 
-  }
   render() {
     const Tab = createBottomTabNavigator();
     return (
