@@ -19,6 +19,10 @@ app.get('/getAllDrivers', resultsCtl.getAllDrivers);
 
 app.get('/getAllParkingReviewsByProfile',resultsCtl.getAllParkingReviewsByProfile);
 app.get('/getSpecificDriverReviews',resultsCtl.getSpecificDriverReviews);
+app.get('/makeSpecificParkingNotAvailable',resultsCtl.makeSpecificParkingNotAvailable);
+app.get('/makeSpecificParkingAvailable',resultsCtl.makeSpecificParkingAvailable);
+app.get('/removeSpecificParkingSpot',resultsCtl.removeSpecificParkingSpot);
+
 
 app.post('/addProfileBasic',resultsCtl.addProfileBasic);
 app.post('/editDriverProfile',resultsCtl.editDriverProfile);
@@ -32,6 +36,8 @@ app.post('/addwindowsOfTimeToParkingSpot',resultsCtl.addwindowsOfTimeToParkingSp
 app.get('/searchParkingSpotByLocation',searchCtl.searchParkingSpotByLocation);
 app.get('/searchParkingSpotByLocationAndPrice',searchCtl.searchParkingSpotByLocationAndPrice);
 app.get('/searchParkingSpotByLocationAndPriceAndSize',searchCtl.searchParkingSpotByLocationAndPriceAndSize);
+app.get('/searchByLocationAndPriceAndSizeByTime',searchCtl.searchByLocationAndPriceAndSizeByTime);
+app.get('/searchByLocationAndPriceAndSizeByCurrentTime',searchCtl.searchByLocationAndPriceAndSizeByCurrentTime);
 
 
 
