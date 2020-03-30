@@ -1,4 +1,7 @@
-/server/node_modules
-/client/node_modules
-/work
-/node_modules/
+server/node_modules
+client/node_modules
+work
+node_modules/
+client/.expo
+client/__generated__
+client/web-build

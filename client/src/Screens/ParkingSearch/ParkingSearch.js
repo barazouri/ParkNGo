@@ -29,18 +29,18 @@ class ParkingSearch extends React.Component {
       <View style={{ flex: 1 }}>
         <Stack.Navigator>
           <Stack.Screen
-                        name="SearchForm"
-                        component={SearchForm}
-                        options={{
-                        title: 'SearchForm',
-                        ...TransitionPresets.ModalSlideFromBottomIOS,
-                        }}
-                    />
+            name='SearchForm'
+            component={SearchForm}
+            options={{
+              title: 'Search',
+              ...TransitionPresets.ModalSlideFromBottomIOS
+            }}
+          />
           <Stack.Screen
-            name='ParkingCardList'
+            name='ParkingResults'
             component={ParkingCardList}
             options={{
-              title: 'ParkingCardList',
+              title: 'Parking Results',
               ...TransitionPresets.ModalSlideFromBottomIOS
             }}
           />
@@ -48,7 +48,7 @@ class ParkingSearch extends React.Component {
             name='ParkingSpotDetails'
             component={ParkingSpotDetails}
             options={{
-              title: 'ParkingSpotDetails',
+              title: 'Parking Details',
               ...TransitionPresets.ModalSlideFromBottomIOS
             }}
           />

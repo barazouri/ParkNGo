@@ -9,11 +9,18 @@ class ParkingCardList extends Component {
         super(props)
 
     }
+    componentDidMount(){
+      const { route,navigation} = this.props
+      const {address, date, distance} = this.props.route.params
+      console.log(address)
+      console.log(date)
+      console.log(distance)
 
+    }
   render() {
     // console.log(this.props)
-    const { route,navigation } = this.props
-    console.log(route)
+    // console.log(route)
+    const { navigation} = this.props
     return (
       <View style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>

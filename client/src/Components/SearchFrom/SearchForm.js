@@ -58,7 +58,7 @@ class SearchForm extends React.Component {
     this.setState({ date: date })
   }
   submitForm (navigation) {
-    navigation.navigate('ParkingCardList', {
+    navigation.navigate('ParkingResults', {
         date: this.state.date,
         distance: this.state.distance,
         address: this.state.address,
