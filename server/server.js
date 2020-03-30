@@ -31,6 +31,7 @@ app.post('/editSpecificParking',resultsCtl.editSpecificParking);
 app.post('/driverWriteReviewOnHost',resultsCtl.driverWriteReviewOnHost);
 app.post('/hostWriteReviewOnDriver',resultsCtl.hostWriteReviewOnDriver);
 app.post('/addwindowsOfTimeToParkingSpot',resultsCtl.addwindowsOfTimeToParkingSpot);
+app.post('/addPictureToParking',resultsCtl.addPictureToParking);
 
 /*** Search */
 app.get('/searchParkingSpotByLocation',searchCtl.searchParkingSpotByLocation);

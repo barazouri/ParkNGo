@@ -30,13 +30,17 @@ const schema = {
                 review: String,
                 date: Date
             }],
+            parkingPictures: [{
+                imageUrl: String
+            }],
         }],
         driverLicensePlate: String,
         driverCarSize: String,
         totalRankDriver: Number,
         driverOrderSpot: [{
             parkingSpotID: String,
-            orderToDate: Date,
+            requireToDate: Date,
+            requireUntilDate: Date,
             periodOfTime: String,
             enteredTime: Date,
             exitTime: Date
