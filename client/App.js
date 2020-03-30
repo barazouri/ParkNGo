@@ -1,14 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MyDrawerNavigator from './src/Components/Navigation/Navigation'
+import Navigation from './src/Components/Navigation/Navigation'
+import { NavigationContainer } from '@react-navigation/native';
+import Home from './src/Screens/Home/Home'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Navigation></Navigation>
-    </View>
-  );
-}
+// import {enableScreens} from 'react-native-screens'
+// enableScreens()
 
 const styles = StyleSheet.create({
   container: {
@@ -18,3 +15,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default function App() {
+  return (
+      <NavigationContainer>
+          {/* <View style={styles.container}> */}
+            <Navigation/>
+          {/* </View> */}
+      </NavigationContainer>
+  );
+}
+
+
