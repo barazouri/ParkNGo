@@ -295,10 +295,46 @@ async removeSpecificParkingSpot(req, res, next) {
                  "review": review,
                  "date": Date.now()
              }
-          await Profiles.updateOne(
-                 {"profileId": profileId, "parkingSpots.parkingId": parkingId},
-                 { $push: {'parkingSpots.$.hostReviews': reviewObj} }
-             )
+             await Profiles.updateOne(
+               {"profileId": profileId, "parkingSpots.parkingId": parkingId},
+               { $push: {'parkingSpots.$.hostReviews': reviewObj} }
+           )
+
+             let countReviews = 0;
+             let totalRank = 0;
+             let avarageRank = 0;
+             let checkIfZero = 0;
+             let inputRank = rank;
+
+             userFound.map(profile => {
+             profile.parkingSpots.map(parkingSpot => {
+                if(parkingSpot.parkingId == parkingId)
+                {
+                  if(parkingSpot.hostReviews.length <= 0)
+                  {
+                     countReviews = countReviews + 1;
+                     totalRank = totalRank + rank;
+                  }
+                  else{
+                      parkingSpot.hostReviews.map(hostReview => {
+                           countReviews = countReviews + 1;
+                           totalRank = totalRank + hostReview.rank
+                           checkIfZero = checkIfZero + 1;
+                      })
+                     }
+                }
+             })
+            })
+            if(checkIfZero != 0)
+            {
+               totalRank = (totalRank - 0) + (inputRank - 0);
+               countReviews = countReviews + 1;
+            }
+               avarageRank = totalRank / countReviews
+            await Profiles.updateOne(
+               {"profileId": profileId, "parkingSpots.parkingId": parkingId},
+               { $set: {'parkingSpots.$.totalRankParking': avarageRank} }
+           )
              }
          return res.json(`${reviewFrom} wrote a review.........Rank: ${rank}.........Review: ${review}.........Date: ${date}`);
       } catch (err) { console.error(err);return res.json(err); }
@@ -323,6 +359,38 @@ async removeSpecificParkingSpot(req, res, next) {
        await Profiles.updateOne(
               {"profileId": profileId},
               { $push: {'driverReviews': reviewObj} }
+          )
+          /** */
+          let countReviews = 0;
+          let totalRank = 0;
+          let avarageRank = 0;
+          let checkIfZero = 0;
+          let inputRank = rank;
+
+          userFound.map(profile => {
+               if(profile.driverReviews.length <= 0)
+               {
+                  countReviews = countReviews + 1;
+                  totalRank = totalRank + rank;
+               }
+               else
+               {
+                  profile.driverReviews.map(driverReview => {
+                     countReviews = countReviews + 1;
+                     totalRank = totalRank + driverReview.rank
+                     checkIfZero = checkIfZero + 1;
+                  })
+               }
+           })
+           if(checkIfZero != 0)
+           {
+              totalRank = (totalRank - 0) + (inputRank - 0);
+              countReviews = countReviews + 1;
+           }
+              avarageRank = totalRank / countReviews
+           await Profiles.updateOne(
+              {"profileId": profileId},
+              { $set: {'totalRankDriver': avarageRank} }
           )
           }
       return res.json(`${reviewFrom} wrote a review.........On: ${profileId}.........Rank: ${rank}.........Review: ${review}.........Date: ${date}`);
@@ -356,4 +424,24 @@ async addwindowsOfTimeToParkingSpot(req, res, next) {
 
 },
 
+async addPictureToParking(req, res) {
+   try {
+      let { profileId = null, parkingId = null, imageUrl = null  } = req.body
+      const userFound = await Profiles.find({ profileId: profileId });
+      if (!userFound.length) {
+          console.log("A profile with that profileId account does not exist");
+          return res.json("A profile with that profileId account does not exist");
+      }
+      else {
+          let parkingPictures = {
+              "imageUrl": imageUrl
+          }
+       await Profiles.updateOne(
+              {"profileId": profileId, "parkingSpots.parkingId": parkingId},
+              { $push: {'parkingSpots.$.parkingPictures': parkingPictures} }
+          )
+          }
+      return res.json(`${imageUrl} have been uploaded to ${parkingId}`);
+   } catch (err) { console.error(err);return res.json(err); }
+},
 }
