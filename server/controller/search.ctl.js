@@ -109,7 +109,7 @@ async searchParkingSpotByLocation(req, res, next) {
     };
  },
 
- async searchByLocationAndPriceAndSizeByTime(req, res, next) {
+ async searchByLocationAndPriceAndSizeByTime(req, res, next) { //for now works for one futureReservation
    try {
       const { email = null, address = null, fromPrice = null, toPrice = null, fromTime = null, untilTime = null } = req.query;
       const profileResult = await Profiles.find({ "email": email});
@@ -122,6 +122,7 @@ async searchParkingSpotByLocation(req, res, next) {
        return res.json("A parking spot with that address does not exist");
     }
       const allParkingSpots = [];
+      const resultParkingSpots = [];
       result.map(profile => {
        profile.parkingSpots.map(parkingSpot => {
 
@@ -133,29 +134,60 @@ async searchParkingSpotByLocation(req, res, next) {
                   let until = window.AvailableUntilTime.getTime()-untilTimeDate.getTime()
                   if((from < 0 )&&(until > 0))
                   {
-                     console.log('enter')
+                     // console.log('enter')
                      if(profileResult[0].driverCarSize == "small")
                      {
                         allParkingSpots.push(parkingSpot);
-                        console.log("car size is small")
+                        // console.log("car size is small")
                      }
                      if((profileResult[0].driverCarSize == "medium")&& ((parkingSpot.parkingSize == "medium")||(parkingSpot.parkingSize == "big")))
                      {
                         allParkingSpots.push(parkingSpot);
-                        console.log("car size is medium")
+                        // console.log("car size is medium")
                      }
                      if((profileResult[0].driverCarSize == "big")&&(parkingSpot.parkingSize == "big"))
                      {
                         allParkingSpots.push(parkingSpot);
-                        console.log("car size is big")
+                        // console.log("car size is big")
                      }
                   }
                })
            }
          })
       })
-      console.log(allParkingSpots);
-      res.json(allParkingSpots);
+      allParkingSpots.map(parkingSpot => {
+         console.log("parkingSpot.futureReservations: ");
+         console.log("length: " + parkingSpot.futureReservations.length + ' parkingId: ' + parkingSpot.parkingId)
+         if(parkingSpot.futureReservations.length <= 0)
+         {
+            resultParkingSpots.push(parkingSpot);
+            console.log("enter first: ");
+            console.log(resultParkingSpots);
+         }
+         parkingSpot.futureReservations.map(future => {
+            let futureFromMFrom = future.requireToDate.getTime() - fromTimeDate.getTime()//
+            let futureFromMUntil = future.requireToDate.getTime() - untilTimeDate.getTime()//
+            let futureUntilMFrom = future.requireUntilDate.getTime() - fromTimeDate.getTime()//
+            let futureUntilMUntil = future.requireUntilDate.getTime() - untilTimeDate.getTime()//
+         if((futureFromMFrom > 0)&&(futureFromMUntil > 0))
+         {
+            console.log("2");
+            console.log("futureFromMUntil: " + futureFromMUntil)
+            resultParkingSpots.push(parkingSpot);
+            console.log("enter second: ");
+            console.log(resultParkingSpots);
+         }
+         if((futureUntilMFrom < 0)&&(futureUntilMUntil < 0))
+         {
+            console.log("3");
+            resultParkingSpots.push(parkingSpot);
+            console.log("enter third: ");
+            // console.log(resultParkingSpots);
+         }
+      })
+   })
+      // console.log(resultParkingSpots);
+      res.json(resultParkingSpots);
    } catch (err) 
    { console.error(err);
       return res.json(err); 
