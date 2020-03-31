@@ -5,7 +5,6 @@ import ParkingSpotDetails from '../../Components/ParkingSpotDetails/ParkingSpotD
 import SearchForm from '../../Components/SearchFrom/SearchForm'
 import {
   createStackNavigator,
-  HeaderStyleInterpolators,
   TransitionPresets
 } from '@react-navigation/stack'
 
