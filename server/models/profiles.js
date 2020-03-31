@@ -33,6 +33,16 @@ const schema = {
             parkingPictures: [{
                 imageUrl: String
             }],
+            futureReservations: [{
+                bookedBy: String,
+                requireToDate: Date,
+                requireUntilDate: Date,
+            }],
+            pastReservations: [{
+                bookedBy: String,
+                fromoDate: Date,
+                untilDate: Date,
+            }]
         }],
         driverLicensePlate: String,
         driverCarSize: String,
