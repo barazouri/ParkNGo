@@ -1,6 +1,8 @@
 const express = require('express');
 const resultsCtl = require('./controller/results.ctl');
 const searchCtl = require('./controller/search.ctl');
+const bookCtl = require('./controller/book.ctl');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -40,6 +42,8 @@ app.get('/searchParkingSpotByLocationAndPriceAndSize',searchCtl.searchParkingSpo
 app.get('/searchByLocationAndPriceAndSizeByTime',searchCtl.searchByLocationAndPriceAndSizeByTime);
 app.get('/searchByLocationAndPriceAndSizeByCurrentTime',searchCtl.searchByLocationAndPriceAndSizeByCurrentTime);
 
+/*** Book */
+app.post('/bookParkingSpot',bookCtl.bookParkingSpot);
 
 
 
