@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import ParkingCardList from '../../Components/ParkingCardList/ParkingCardList'
-import ParkingSpotDetails from '../../Components/ParkingSpotDetails/ParkingSpotDetails'
+import ParkingSpotDetails from '../ParkingSpotDetails/ParkingSpotDetails'
 import SearchForm from '../../Components/SearchFrom/SearchForm'
 import {
   createStackNavigator,
