@@ -19,7 +19,8 @@ const schema = {
             price: Number,
             windowsOfTime: [{
                 AvailablefromTime: Date,
-                AvailableUntilTime: Date
+                AvailableUntilTime: Date,
+                isAutomatic: Boolean
             }],
             availability: String,
             directions: String,
@@ -34,15 +35,29 @@ const schema = {
                 imageUrl: String
             }],
             futureReservations: [{
+                parkingId: String,
                 bookedBy: String,
                 requireToDate: Date,
                 requireUntilDate: Date,
+                enteredTime: Date,
+                exitTime: Date
             }],
             pastReservations: [{
                 bookedBy: String,
                 fromoDate: Date,
                 untilDate: Date,
-            }]
+            }],
+            hostWaitingQueue: [{
+                bookedBy: String,
+                requireToDate: Date,
+                requireUntilDate: Date,
+            }],
+            hostDeclineReservations: [{
+                parkingId: String,
+                bookedBy: String,
+                requireToDate: Date,
+                requireUntilDate: Date
+            }],
         }],
         driverLicensePlate: String,
         driverCarSize: String,
@@ -54,6 +69,17 @@ const schema = {
             periodOfTime: String,
             enteredTime: Date,
             exitTime: Date
+        }],
+        driverWaitingQueue: [{
+            parkingId: String,
+            requireToDate: Date,
+            requireUntilDate: Date,
+        }],
+        driverDeclineReservations: [{
+            parkingId: String,
+            requireToDate: Date,
+            requireUntilDate: Date,
+            reason: String
         }],
         driverReviews: [{
             reviewFrom: String,

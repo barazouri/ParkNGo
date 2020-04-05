@@ -43,7 +43,16 @@ app.get('/searchByLocationAndPriceAndSizeByTime',searchCtl.searchByLocationAndPr
 app.get('/searchByLocationAndPriceAndSizeByCurrentTime',searchCtl.searchByLocationAndPriceAndSizeByCurrentTime);
 
 /*** Book */
+app.get('/getFutureReservationsForHost',bookCtl.getFutureReservationsForHost);
+app.get('/getFutureReservationsForDriver',bookCtl.getFutureReservationsForDriver);
+app.get('/getHostWaitingQueue',bookCtl.getHostWaitingQueue);
+app.get('/getDriverWaitingQueue',bookCtl.getDriverWaitingQueue);
+app.get('/getHostDeclineReservations',bookCtl.getHostDeclineReservations);
+app.get('/getDriverDeclineReservations',bookCtl.getDriverDeclineReservations);
+
+
 app.post('/bookParkingSpot',bookCtl.bookParkingSpot);
+app.post('/approveOrDeclineReq',bookCtl.approveOrDeclineReq);
 
 
 

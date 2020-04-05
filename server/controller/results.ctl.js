@@ -399,13 +399,14 @@ async removeSpecificParkingSpot(req, res, next) {
 
 async addwindowsOfTimeToParkingSpot(req, res, next) {
    try {
-      const { parkingId = null, AvailablefromTime = null, AvailableUntilTime = null } = req.body;
+      const { parkingId = null, AvailablefromTime = null, AvailableUntilTime = null, isAutomatic = null } = req.body;
       const parkingFound = await Profiles.find({ parkingSpots: {$elemMatch: {parkingId }}});
       let fromTime = new Date(AvailablefromTime)
       let untilDate = new Date(AvailableUntilTime)
       let windowsOfTime = {
          AvailablefromTime: fromTime,
          AvailableUntilTime: untilDate,
+         isAutomatic: isAutomatic
       }
       if (!parkingFound.length) {
          console.log("A parking spot with that ID account does not exist");
