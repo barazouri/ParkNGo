@@ -1,5 +1,8 @@
 import React from 'react'
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
 import {
   StyleSheet,
   Text,
@@ -24,13 +27,18 @@ const styles = StyleSheet.create({
   distanceText: {
     marginTop: 20,
     marginBottom: 20,
-    fontSize: 20
+    fontSize: 20,
+    textAlign: 'center'
   },
   distanceInput: {
     marginBottom: 20
   },
   numberInput: {
     alignItems: 'center'
+  },
+  containerScrollView: {
+    flexGrow: 1
+    // centerContent: true,
   }
 })
 class SearchForm extends React.Component {
@@ -38,11 +46,16 @@ class SearchForm extends React.Component {
     super(props)
     this.state = {
 <<<<<<< HEAD
+<<<<<<< HEAD
       date: new Date(Date.now()),
 =======
       forDate: new Date(Date.now()),
       untilDate: null,
 >>>>>>> UI search result and details
+=======
+      forDate: new Date(Date.now()),
+      untilDate: null,
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
       mode: 'date',
       show: false,
       distance: 0,
@@ -50,19 +63,24 @@ class SearchForm extends React.Component {
     }
     // this.onChange = this.onChange.bind(this)
     // this.showDatepicker = this.showDatepicker.bind(this)
-    this.updateDate = this.updateDate.bind(this)
+    this.updateForDate = this.updateForDate.bind(this)
+    this.updateUntilDate = this.updateUntilDate.bind(this)
     this.submitForm = this.submitForm.bind(this)
     this.OnChangeDistance = this.OnChangeDistance.bind(this)
     this.handleAdress = this.handleAdress.bind(this)
   }
-  updateDate (date) {
-    this.setState({ date: date })
+  updateForDate (date) {
+    this.setState({ forDate: date })
+  }
+  updateUntilDate (date) {
+    this.setState({ untilDate: date })
   }
   submitForm (navigation) {
     navigation.navigate('ParkingResults', {
-        date: this.state.date,
-        distance: this.state.distance,
-        address: this.state.address,
+      forDate: this.state.forDate,
+      untilDate: this.state.untilDate,
+      distance: this.state.distance,
+      address: this.state.address
     })
   }
   OnChangeDistance (distance) {
@@ -74,36 +92,37 @@ class SearchForm extends React.Component {
   render () {
     const { navigation } = this.props
     return (
-      <View style={styles.container}>
-        {/* <View style={styles.addressInput}> */}
-        <Input
-          containerStyle={styles.addressInput}
-          placeholder='Address'
-          value={this.state.address}
-          onChangeText={this.handleAdress}
-        />
-        <View style={styles.distanceInput}>
-          <Text style={styles.distanceText}>
-            Distance from destenation in meters
-          </Text>
-          <View style={styles.numberInput}>
-            <NumericInput
-              value={this.state.distance}
-              onChange={this.OnChangeDistance}
-            //   onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-              totalWidth={240}
-              totalHeight={50}
-              iconSize={25}
-              minValue={0}
-              step={20}
-              valueType='real'
-              rounded
-              textColor='#B0228C'
-              iconStyle={{ color: 'white' }}
-              rightButtonBackgroundColor='#EA3788'
-              leftButtonBackgroundColor='#E56B70'
-            />
+      <SafeAreaView style={styles.container}>
+        <ScrollView centerContent={true} style={styles.containerScrollView}>
+          <Input
+            containerStyle={styles.addressInput}
+            placeholder='Address'
+            value={this.state.address}
+            onChangeText={this.handleAdress}
+          />
+          <View style={styles.distanceInput}>
+            <Text style={styles.distanceText}>
+              Distance from destenation in meters
+            </Text>
+            <View style={styles.numberInput}>
+              <NumericInput
+                value={this.state.distance}
+                onChange={this.OnChangeDistance}
+                totalWidth={240}
+                totalHeight={50}
+                iconSize={25}
+                minValue={0}
+                step={20}
+                valueType='real'
+                rounded
+                textColor='#B0228C'
+                iconStyle={{ color: 'white' }}
+                rightButtonBackgroundColor='#A9A9A9'
+                leftButtonBackgroundColor='#A9A9A9'
+              />
+            </View>
           </View>
+<<<<<<< HEAD
 <<<<<<< HEAD
         </View>
         {/* <Input containerStyle={styles.addressInput} placeholder='Address' /> */}
@@ -122,6 +141,8 @@ class SearchForm extends React.Component {
       </View>
       //   </View>
 =======
+=======
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
           {/* <Text style={{textAlign:'center', fontSize:20}}>Start Time</Text> */}
           <DateAndTimePicker updateDate={this.updateForDate} kind='Start Time'/>
           {/* <Text style={{textAlign:'center', fontSize:20}}>End Time</Text> */}
@@ -135,7 +156,10 @@ class SearchForm extends React.Component {
           />
         </ScrollView>
       </SafeAreaView>
+<<<<<<< HEAD
 >>>>>>> UI search result and details
+=======
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
     )
   }
 }

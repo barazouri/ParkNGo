@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import {
   View,
@@ -41,6 +40,7 @@ class ParkingCardList extends Component {
       //this is without distance and without untilDate API need to be change
       console.log("no distance no untilDate")
       return config.API + `/searchParkingSpotByLocation?address=${address}`
+
     }
     else if(!untilDate) {
       console.log("no untildate with distance")
@@ -74,13 +74,6 @@ class ParkingCardList extends Component {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
-<<<<<<< HEAD
-          {parkingSpots.map(({ address, uri, windowsOfTime, price, key }) => (
-            <TouchableOpacity style={{flex:1}} onPress={() => {navigation.navigate('ParkingSpotDetails')}} key={key}>
-                <Card image={uri} >
-                <Text style={{ marginBottom: 10 }}>
-                    Adress: {address}.
-=======
           {this.state.parkingSpots.map((parkingSpot, index) => (
             <TouchableOpacity
               style={{ flex: 1 }}
@@ -111,7 +104,6 @@ class ParkingCardList extends Component {
                 </Text>
                 <Text style={{ marginBottom: 10, fontSize: 20 }}>
                   Policy: {parkingSpot.policy}
->>>>>>> UI search result and details
                 </Text>
               </Card>
             </TouchableOpacity>
@@ -121,10 +113,4 @@ class ParkingCardList extends Component {
     )
   }
 }
-<<<<<<< HEAD
-
-export default ParkingCardList;
-
-=======
 export default ParkingCardList
->>>>>>> UI search result and details

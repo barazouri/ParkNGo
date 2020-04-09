@@ -1,16 +1,22 @@
 import React, { useState } from 'react'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { View, Button, Platform, StyleSheet } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 =======
+=======
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
 import { View, Text, Platform, StyleSheet } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
+<<<<<<< HEAD
 >>>>>>> UI search result and details
+=======
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
 
 const styles = StyleSheet.create({
   container: {
@@ -38,12 +44,20 @@ const styles = StyleSheet.create({
   iconClock: {
     // left: 20,
 <<<<<<< HEAD
+<<<<<<< HEAD
     right:10
+=======
+    margin: 10
   },
-  iconCelander:{
-    left:10
+  iconCelander: {
+    margin: 10
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
+  },
+  iconClose: {
+    margin: 10
   }
 })
+<<<<<<< HEAD
 const DateAndTimePicker = (props) => {
   const [date, setDate] = useState(new Date(1598051730000))
   const [mode, setMode] = useState('date')
@@ -61,6 +75,11 @@ const DateAndTimePicker = props => {
   const [date, setDate] = useState()
   const [mode, setMode] = useState('start')
 >>>>>>> UI search result and details
+=======
+const DateAndTimePicker = props => {
+  const [date, setDate] = useState()
+  const [mode, setMode] = useState('start')
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
   const [show, setShow] = useState(false)
 
   const showMode = currentMode => {
@@ -76,7 +95,10 @@ const DateAndTimePicker = props => {
     showMode('time')
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
   const hideDatePicker = () => {
     setShow(false)
   }
@@ -84,12 +106,16 @@ const DateAndTimePicker = props => {
     setShow(false)
     setDate(date)
   }
+<<<<<<< HEAD
 >>>>>>> UI search result and details
+=======
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
 
   return (
     <View style={styles.container}>
       <Text style={{ textAlign: 'center', fontSize: 20 }}>{props.kind}</Text>
       <View style={styles.iconsContainer}>
+<<<<<<< HEAD
 <<<<<<< HEAD
 
         {/* <Button onPress={showDatepicker} title="Show date picker!" /> */}
@@ -115,6 +141,23 @@ const DateAndTimePicker = props => {
           onPress={showDatepicker}
         />
       </View>
+=======
+        <MaterialCommunityIcons
+          style={styles.iconClock}
+          name='clock-outline'
+          color={mode == 'time' ? 'green' : 'black'}
+          size={40}
+          onPress={showTimepicker}
+        />
+        <MaterialCommunityIcons
+          style={styles.iconCelander}
+          name='calendar-range'
+          color={mode == 'date' ? 'green' : 'black'}
+          size={40}
+          onPress={showDatepicker}
+        />
+      </View>
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
       {!show && date && (
         <View>
           <Text
@@ -125,7 +168,10 @@ const DateAndTimePicker = props => {
           </Text>
         </View>
       )}
+<<<<<<< HEAD
 >>>>>>> UI search result and details
+=======
+>>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
       {show && (
         <DateTimePickerModal
           isVisible={show}
