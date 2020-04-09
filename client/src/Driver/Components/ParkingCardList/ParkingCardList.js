@@ -12,7 +12,7 @@ import { Card, Button } from 'react-native-elements' // 0.19.0
 import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
 
 import { parkingSpots } from './data'
-const config = require('../../../config/config')
+const config = require('../../../../config/config')
 
 const styles = StyleSheet.create({
   image: {
