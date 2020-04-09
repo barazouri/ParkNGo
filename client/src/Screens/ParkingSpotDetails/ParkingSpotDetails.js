@@ -1,7 +1,9 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native'
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
-import { Ionicons } from '@expo/vector-icons'
+import { Button } from 'react-native-elements'
+
+import { parkingSpots } from '../../Components/ParkingCardList/data'
 
 const styles = StyleSheet.create({
   container: {
@@ -9,6 +11,21 @@ const styles = StyleSheet.create({
   },
   sliderBoxContainer: {
     height: 300
+  },
+  rankContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  iconStar: {
+    fontSize: 15
+  },
+  address: {
+    fontSize: 30,
+    alignSelf: 'center'
+  },
+  submitButton: {
+    width: Dimensions.get('window').width,
+    top: 20 
   }
 })
 
@@ -24,28 +41,56 @@ class ParkingSpotDetails extends React.Component {
       ],
       rank: 10
     }
+    this.imageToArray = this.imageToArray.bind(this)
+    this.submitForm = this.submitForm.bind(this)
+  }
+  imageToArray () {
+    const { parkingSpot } = this.props.route.params
+    let images = []
+    parkingSpot.parkingPictures.map(image => {
+      images.push(image.imageUrl)
+    })
+    this.setState({ images: images })
+  }
+  componentDidMount () {
+    this.imageToArray()
+  }
+  submitForm () {
+    console.log('submited')
   }
   render () {
+    const { parkingSpot } = this.props.route.params
+    // console.log(parkingSpot)
     return (
       <View style={styles.container}>
         <View style={styles.sliderBoxContainer}>
           <SliderBox
             images={this.state.images}
             sliderBoxHeight={300}
-            onCurrentImagePressed={index =>
-              console.warn(`image ${index} pressed`)
-            }
             dotColor='#FFEE58'
             inactiveDotColor='#90A4AE'
           />
+          {/* <View style={styles.rankContainer}>
           <Ionicons
-            style={styles.iconClock}
+            style={styles.iconStar}
             name='ios-star'
             color='black'
-            size={40}
+            // size={15}
           />
-          <Text>{this.state.rank}</Text>
+          <Text>{parkingSpot.totalRankParking}</Text>
+          </View> */}
         </View>
+        <Text style={styles.address}>{parkingSpot.address}</Text>
+        <Text>{parkingSpot.directions}</Text>
+        <Text>{`${parkingSpot.price}$`}</Text>
+        <Text>{parkingSpot.policy}</Text>
+        <Button
+          title='Submit'
+          style={styles.submitButton}
+          color='#841584'
+          onPress={this.submitForm}
+          accessibilityLabel='Learn more about this purple button'
+        />
       </View>
     )
   }
