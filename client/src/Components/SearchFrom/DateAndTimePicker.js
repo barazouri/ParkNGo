@@ -1,44 +1,47 @@
 import React, { useState } from 'react'
 import { View, Text, Platform, StyleSheet } from 'react-native'
-import DateTimePicker from '@react-native-community/datetimepicker'
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from 'react-native-vector-icons';
-
+import { Ionicons } from '@expo/vector-icons'
+import { MaterialCommunityIcons } from 'react-native-vector-icons'
+import DateTimePickerModal from 'react-native-modal-datetime-picker'
 
 const styles = StyleSheet.create({
+  container: {
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.2)',
+    width: '100%',
+    height: 130,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    alignSelf: 'center',
+    marginBottom: 20
+  },
   iconsContainer: {
-    flexDirection:'row',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    alignSelf: 'center',
     alignItems: 'center',
+    justifyContent: 'center'
   },
   addressInput: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
     width: '80%',
     margin: 20
   },
   iconClock: {
     // left: 20,
-    margin:10
+    margin: 10
   },
-  iconCelander:{
-    margin:10
+  iconCelander: {
+    margin: 10
   },
   iconClose: {
-    margin:10
+    margin: 10
   }
 })
-const DateAndTimePicker = (props) => {
-  const [date, setDate] = useState(new Date(1598051730000))
+const DateAndTimePicker = props => {
+  const [date, setDate] = useState()
   const [mode, setMode] = useState('start')
   const [show, setShow] = useState(false)
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date
-    setShow(Platform.OS === 'ios')
-    props.updateDate(currentDate)
-    setDate(currentDate)
-  }
 
   const showMode = currentMode => {
     setShow(true)
@@ -52,37 +55,50 @@ const DateAndTimePicker = (props) => {
   const showTimepicker = () => {
     showMode('time')
   }
-  const closeDatepicker = () => {
+  const hideDatePicker = () => {
     setShow(false)
-    setMode("closed")
+  }
+  const handleConfirm = date => {
+    setShow(false)
+    setDate(date)
   }
 
   return (
-    <View style={{width:'100%'}}>
+    <View style={styles.container}>
+      <Text style={{ textAlign: 'center', fontSize: 20 }}>{props.kind}</Text>
       <View style={styles.iconsContainer}>
-
-        {/* <Button onPress={showDatepicker} title="Show date picker!" /> */}
-        
-        <Ionicons style={styles.iconClock} name='ios-clock' color={mode == 'time' ? 'green' : 'black'} size={40} onPress={showTimepicker}/>
-        <MaterialCommunityIcons style={styles.iconCelander} name="calendar-range" color={mode == 'date' ? 'green' : 'black'} size={40} onPress={showDatepicker}/>
-        <MaterialCommunityIcons style={styles.iconClose} name="close" color={mode == 'closed' ? 'green' : 'black'} size={40} onPress={closeDatepicker}/>
-
+        <MaterialCommunityIcons
+          style={styles.iconClock}
+          name='clock-outline'
+          color={mode == 'time' ? 'green' : 'black'}
+          size={40}
+          onPress={showTimepicker}
+        />
+        <MaterialCommunityIcons
+          style={styles.iconCelander}
+          name='calendar-range'
+          color={mode == 'date' ? 'green' : 'black'}
+          size={40}
+          onPress={showDatepicker}
+        />
       </View>
-      {mode == 'closed' && (
-          <Text style={{textAlign:"center"}}>{date.toString()}</Text>
-        )}
-      {/* <View>
-        <Button onPress={showTimepicker} title='Show time picker!' />
-      </View> */}
+      {!show && date && (
+        <View>
+          <Text
+            style={{ textAlign: 'center' }}
+          >{`Date: ${date.getDate()}/${date.getDay()}/${date.getFullYear()}`}</Text>
+          <Text style={{ textAlign: 'center' }}>
+            {`Time: ${date.getHours()}:${date.getMinutes()}`}{' '}
+          </Text>
+        </View>
+      )}
       {show && (
-        <DateTimePicker
-          testID='dateTimePicker'
-          timeZoneOffsetInMinutes={0}
+        <DateTimePickerModal
+          isVisible={show}
           value={date}
           mode={mode}
-          is24Hour={true}
-          display='default'
-          onChange={onChange}
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
         />
       )}
     </View>

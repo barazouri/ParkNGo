@@ -8,20 +8,12 @@ import Home from './src/Screens/Home/Home'
 // enableScreens()
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 });
 
 export default function App() {
   return (
       <NavigationContainer>
-          {/* <View style={styles.container}> */}
             <Navigation/>
-          {/* </View> */}
       </NavigationContainer>
   );
 }
