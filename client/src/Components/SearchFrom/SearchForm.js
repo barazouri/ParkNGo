@@ -110,9 +110,9 @@ class SearchForm extends React.Component {
             </View>
           </View>
           {/* <Text style={{textAlign:'center', fontSize:20}}>Start Time</Text> */}
-          <DateAndTimePicker updateDate={this.updateForDate} kind='Start Time'/>
+          <DateAndTimePicker updateDate={this.updateForDate} kind='Start Time' date={this.state.forDate}/>
           {/* <Text style={{textAlign:'center', fontSize:20}}>End Time</Text> */}
-          <DateAndTimePicker updateDate={this.updateForDate} kind='End Time'/>
+          <DateAndTimePicker updateDate={this.updateUntilDate} kind='End Time' />
           <Button
             title='Submit'
             style={{ width: Dimensions.get('window').width, top: 20 }}

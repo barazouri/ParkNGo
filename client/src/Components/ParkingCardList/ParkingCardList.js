@@ -33,16 +33,19 @@ class ParkingCardList extends Component {
     }
     this.handleCardPress = this.handleCardPress.bind(this)
   }
-  getUrlForApi(){
+  getUrlForApi(){       //this is without distance and without untilDate API need to be change
     let { address, forDate, untilDate, distance } = this.props.route.params
     console.log(distance)
     if (distance === 0 && !untilDate) {
-      //this is without distance and without untilDate API need to be change
+      untilDate = new Date(forDate.getTime() + (2*60*60*1000))    // + 2 hours
       console.log("no distance no untilDate")
+      console.log(address)
       return config.API + `/searchParkingSpotByLocation?address=${address}`
 
     }
     else if(!untilDate) {
+      untilDate = new Date(forDate.getTime() + (2*60*60*1000))    // + 2 hours
+      console.log(untilDate)
       console.log("no untildate with distance")
       return config.API + `/searchParkingSpotByLocation?address=${address}` //need to be change
     }
@@ -52,7 +55,6 @@ class ParkingCardList extends Component {
     }
   }
   componentDidMount () {
-    const { route, navigation } = this.props
     let url = this.getUrlForApi()
     fetch(url)
       .then(response => response.json())

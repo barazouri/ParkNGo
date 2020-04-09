@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   }
 })
 const DateAndTimePicker = props => {
-  const [date, setDate] = useState()
+  const [date, setDate] = useState(props.date)
   const [mode, setMode] = useState('start')
   const [show, setShow] = useState(false)
 
