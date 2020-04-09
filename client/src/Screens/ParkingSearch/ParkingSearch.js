@@ -8,14 +8,8 @@ import {
   TransitionPresets
 } from '@react-navigation/stack'
 
-// import { NavigationContainer } from '@react-navigation/native'
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
 })
 
 class ParkingSearch extends React.Component {
@@ -53,7 +47,6 @@ class ParkingSearch extends React.Component {
           />
         </Stack.Navigator>
 
-        {/* <ParkingCardList></ParkingCardList> */}
       </View>
     )
   }

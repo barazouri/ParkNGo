@@ -1,17 +1,8 @@
-// function SearchForm({ navigation }) {
-//         return (
-//             <View style={styles.container}>
-//                 <Text>Profile screen</Text>
-//             </View>
-//         );
-// }
-// export default SearchForm;
 import React from 'react'
 import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   SafeAreaView,
   Dimensions,
   ScrollView
@@ -23,12 +14,9 @@ import NumericInput from 'react-native-numeric-input'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   addressInput: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: 'center',
     width: '80%',
     margin: 20
   },
@@ -42,7 +30,6 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   numberInput: {
-    justifyContent: 'center',
     alignItems: 'center'
   },
   containerScrollView: {
@@ -55,7 +42,7 @@ class SearchForm extends React.Component {
     super(props)
     this.state = {
       forDate: new Date(Date.now()),
-      untilDate: new Date(Date.now()),
+      untilDate: null,
       mode: 'date',
       show: false,
       distance: 0,
@@ -122,10 +109,10 @@ class SearchForm extends React.Component {
               />
             </View>
           </View>
-          <Text style={{textAlign:'center', fontSize:20}}>Start Time</Text>
-          <DateAndTimePicker updateDate={this.updateForDate} />
-          <Text style={{textAlign:'center', fontSize:20}}>End Time</Text>
-          <DateAndTimePicker updateDate={this.updateForDate} />
+          {/* <Text style={{textAlign:'center', fontSize:20}}>Start Time</Text> */}
+          <DateAndTimePicker updateDate={this.updateForDate} kind='Start Time'/>
+          {/* <Text style={{textAlign:'center', fontSize:20}}>End Time</Text> */}
+          <DateAndTimePicker updateDate={this.updateForDate} kind='End Time'/>
           <Button
             title='Submit'
             style={{ width: Dimensions.get('window').width, top: 20 }}
