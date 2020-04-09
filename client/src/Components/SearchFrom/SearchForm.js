@@ -1,8 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
-
-=======
->>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
 import {
   StyleSheet,
   Text,
@@ -45,17 +41,8 @@ class SearchForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-<<<<<<< HEAD
-<<<<<<< HEAD
-      date: new Date(Date.now()),
-=======
       forDate: new Date(Date.now()),
       untilDate: null,
->>>>>>> UI search result and details
-=======
-      forDate: new Date(Date.now()),
-      untilDate: null,
->>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
       mode: 'date',
       show: false,
       distance: 0,
@@ -122,27 +109,6 @@ class SearchForm extends React.Component {
               />
             </View>
           </View>
-<<<<<<< HEAD
-<<<<<<< HEAD
-        </View>
-        {/* <Input containerStyle={styles.addressInput} placeholder='Address' /> */}
-        {/* <Button onPress={this.showDatepicker} title="Show date picker!" />
-          <Button onPress={this.showTimepicker} title="Show time picker!" /> */}
-        {/* {this.state.show && ( */}
-        <DateAndTimePicker updateDate={this.updateDate} />
-        {/* )} */}
-        <Button
-          title='Submit'
-          style={{ width: Dimensions.get('window').width, top: 20 }}
-          color='#841584'
-          onPress={() => this.submitForm(navigation)}
-          accessibilityLabel='Learn more about this purple button'
-        />
-      </View>
-      //   </View>
-=======
-=======
->>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
           {/* <Text style={{textAlign:'center', fontSize:20}}>Start Time</Text> */}
           <DateAndTimePicker updateDate={this.updateForDate} kind='Start Time'/>
           {/* <Text style={{textAlign:'center', fontSize:20}}>End Time</Text> */}
@@ -156,10 +122,6 @@ class SearchForm extends React.Component {
           />
         </ScrollView>
       </SafeAreaView>
-<<<<<<< HEAD
->>>>>>> UI search result and details
-=======
->>>>>>> 6b925ebfa2e720805cee53bb45d5022acc6c87af
     )
   }
 }
