@@ -101,6 +101,23 @@ async getAllParkingReviewsByProfile(req, res, next) {
    };
 },
 
+async getAllParkingSpotsByProfile(req, res, next) {
+   try {
+      const { email = null } = req.query;
+      const result = await Profiles.find({ "email": email });
+      console.log("enter")
+      const allparkingSpots = [];
+      result.map(profile => {
+            allparkingSpots.push(profile.parkingSpots);
+      })
+      console.log(allparkingSpots);
+      res.json(allparkingSpots);
+   } catch (err) 
+   { console.error(err);
+      return res.json(err); 
+   };
+},
+
 async getSpecificDriverReviews(req, res, next) {
    try {
       const { email = null } = req.query;
