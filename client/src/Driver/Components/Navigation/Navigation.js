@@ -1,7 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from '../../Screens/Home/Home'
-import UploadPark from '../../Screens/UploadPark/UploadPark'
+import Listings from '../../../Host/Screens/Listings/Listings'
 import Profile from '../../Screens/Profile/Profile'
 import ParkingSearch from '../../Screens/ParkingSearch/ParkingSearch'
 import { Ionicons } from '@expo/vector-icons'
@@ -28,7 +28,7 @@ class Navigation extends React.Component {
       <Tab.Screen
         // initialRouteName="Feed"
         name='Upload'
-        component={UploadPark}
+        component={Listings}
         options={{
           tabBarLabel: 'Upload',
           // headerRight: () => (
