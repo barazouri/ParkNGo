@@ -31,13 +31,13 @@ class Navigation extends React.Component {
         component={UploadPark}
         options={{
           tabBarLabel: 'Upload',
-          headerRight: () => (
-            <Button
-              onPress={() => alert('This is a button!')}
-              title='Info'
-              color='#fff'
-            />
-          ),
+          // headerRight: () => (
+          //   <Button
+          //     onPress={() => alert('This is a button!')}
+          //     title='Info'
+          //     color='#fff'
+          //   />
+          // ),
           tabBarIcon: ({ color, size }) => (
             <Icon name='upload' color={color} size={size} />
           )
@@ -53,13 +53,13 @@ class Navigation extends React.Component {
         component={ParkingSearch}
         options={{
           tabBarLabel: 'Search',
-          headerRight: () => (
-            <Button
-              onPress={() => alert('This is a button!')}
-              title='Info'
-              color='#fff'
-            />
-          ),
+          // headerRight: () => (
+          //   <Button
+          //     onPress={() => alert('This is a button!')}
+          //     title='Info'
+          //     color='#fff'
+          //   />
+          // ),
           tabBarIcon: ({ color, size }) => (
             <Icon name='search' color={color} size={size} />
           )

@@ -1,13 +1,13 @@
-// function SearchForm({ navigation }) {
-//         return (
-//             <View style={styles.container}>
-//                 <Text>Profile screen</Text>
-//             </View>
-//         );
-// }
-// export default SearchForm;
 import React from 'react'
-import { StyleSheet, Text, View, TextInput, Dimensions } from 'react-native'
+
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Dimensions,
+  ScrollView
+} from 'react-native'
 import { Input, Button } from 'react-native-elements'
 import DateAndTimePicker from './DateAndTimePicker'
 import NumericInput from 'react-native-numeric-input'
@@ -15,12 +15,9 @@ import NumericInput from 'react-native-numeric-input'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   addressInput: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: 'center',
     width: '80%',
     margin: 20
   },
@@ -33,7 +30,6 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   numberInput: {
-    justifyContent: 'center',
     alignItems: 'center'
   }
 })
@@ -41,7 +37,12 @@ class SearchForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+<<<<<<< HEAD
       date: new Date(Date.now()),
+=======
+      forDate: new Date(Date.now()),
+      untilDate: null,
+>>>>>>> UI search result and details
       mode: 'date',
       show: false,
       distance: 0,
@@ -103,6 +104,7 @@ class SearchForm extends React.Component {
               leftButtonBackgroundColor='#E56B70'
             />
           </View>
+<<<<<<< HEAD
         </View>
         {/* <Input containerStyle={styles.addressInput} placeholder='Address' /> */}
         {/* <Button onPress={this.showDatepicker} title="Show date picker!" />
@@ -119,6 +121,21 @@ class SearchForm extends React.Component {
         />
       </View>
       //   </View>
+=======
+          {/* <Text style={{textAlign:'center', fontSize:20}}>Start Time</Text> */}
+          <DateAndTimePicker updateDate={this.updateForDate} kind='Start Time'/>
+          {/* <Text style={{textAlign:'center', fontSize:20}}>End Time</Text> */}
+          <DateAndTimePicker updateDate={this.updateForDate} kind='End Time'/>
+          <Button
+            title='Submit'
+            style={{ width: Dimensions.get('window').width, top: 20 }}
+            color='#841584'
+            onPress={() => this.submitForm(navigation)}
+            accessibilityLabel='Learn more about this purple button'
+          />
+        </ScrollView>
+      </SafeAreaView>
+>>>>>>> UI search result and details
     )
   }
 }
