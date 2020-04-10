@@ -3,12 +3,14 @@ import { View, Text, Platform, StyleSheet } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import { Button } from 'react-native-elements'
+
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.2)',
     width: '100%',
-    height: 150,
+    height: 130,
     backgroundColor: '#fff',
     borderRadius: 20,
     alignSelf: 'center',
@@ -24,20 +26,11 @@ const styles = StyleSheet.create({
     width: '80%',
     margin: 20
   },
-  iconTimeAndDate: {
-    borderWidth: 1,
-    margin: 10,
-    borderColor: 'rgba(0,0,0,0.9)',
-    borderRadius: 15,
-    height: 50,
-    width: 50,
-    justifyContent: 'center'
+  iconClock: {
+    margin: 10
   },
   iconCelander: {
-    margin: 10,
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)',
-    borderRadius: 50
+    margin: 10
   },
   iconClose: {
     margin: 10
@@ -66,37 +59,32 @@ const DateAndTimePicker = props => {
   const handleConfirm = date => {
     setShow(false)
     setDate(date)
-    props.updateDate(date)
   }
 
   return (
     <View style={styles.container}>
       <Text style={{ textAlign: 'center', fontSize: 20 }}>{props.kind}</Text>
       <View style={styles.iconsContainer}>
-        <View style={styles.iconTimeAndDate}>
-          <MaterialCommunityIcons
-            style={{ textAlign: 'center' }}
-            name='clock-outline'
-            color={'black'}
-            size={30}
-            onPress={showTimepicker}
-          />
-        </View>
-        <View style={styles.iconTimeAndDate}>
-          <MaterialCommunityIcons
-            style={{ textAlign: 'center' }}
-            name='calendar-range'
-            color={'black'}
-            size={30}
-            onPress={showDatepicker}
-          />
-        </View>
+        <MaterialCommunityIcons
+          style={styles.iconClock}
+          name='clock-outline'
+          color={mode == 'time' ? 'green' : 'black'}
+          size={40}
+          onPress={showTimepicker}
+        />
+        <MaterialCommunityIcons
+          style={styles.iconCelander}
+          name='calendar-range'
+          color={mode == 'date' ? 'green' : 'black'}
+          size={40}
+          onPress={showDatepicker}
+        />
       </View>
       {!show && date && (
         <View>
           <Text
             style={{ textAlign: 'center' }}
-          >{`Date: ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`}</Text>
+          >{`Date: ${date.getDate()}/${date.getDay()}/${date.getFullYear()}`}</Text>
           <Text style={{ textAlign: 'center' }}>
             {`Time: ${date.getHours()}:${date.getMinutes()}`}{' '}
           </Text>

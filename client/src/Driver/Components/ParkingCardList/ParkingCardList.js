@@ -13,7 +13,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
 
 import { parkingSpots } from './data'
 const config = require('../../../../config/config')
-
+const profile = 'testguy@gmail.com'
 const styles = StyleSheet.create({
   image: {
     width: '100%',
@@ -33,25 +33,26 @@ class ParkingCardList extends Component {
     }
     this.handleCardPress = this.handleCardPress.bind(this)
   }
-  getUrlForApi(){       //this is without distance and without untilDate API need to be change
-    let { address, forDate, untilDate, distance } = this.props.route.params
-    console.log(distance)
-    if (distance === 0 && !untilDate) {
-      untilDate = new Date(forDate.getTime() + (2*60*60*1000))    // + 2 hours
-      console.log("no distance no untilDate")
-      console.log(address)
+  getUrlForApi () {
+    //this is without distance and without untilDate API need to be change
+    let { address, forDate, untilDate, price } = this.props.route.params
+    console.log(untilDate)
+    if (!untilDate && price === 0) {
+      console.log('no distance no untilDate')
       return config.API + `/searchParkingSpotByLocation?address=${address}`
-
-    }
-    else if(!untilDate) {
-      untilDate = new Date(forDate.getTime() + (2*60*60*1000))    // + 2 hours
+    } else if (!untilDate && price > 0) {
       console.log(untilDate)
-      console.log("no untildate with distance")
-      return config.API + `/searchParkingSpotByLocation?address=${address}` //need to be change
-    }
-     else {
-       console.log("all params")
-      return config.API + `/searchParkingSpotByLocation?address=${address}` //need to be change
+      console.log('no untildate with price')
+      return (
+        config.API +
+        `/searchParkingSpotByLocationAndPrice?address=${address}&fromPrice=${0}&toPrice=${price}`
+      ) //need to be change
+    } else {
+      console.log('all params')
+      return (
+        config.API +
+        `/searchByLocationAndPriceAndSizeByTime?address=${address}&email=${profile}&fromPrice=${0}&toPrice=${price}&fromTime=${forDate.toString()}&untilTime=${untilDate.toString()}&email=guygolpur@gmail.com`
+      ) //need to be change
     }
   }
   componentDidMount () {

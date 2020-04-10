@@ -60,7 +60,6 @@ class ParkingSpotDetails extends React.Component {
   }
   render () {
     const { parkingSpot } = this.props.route.params
-    // console.log(parkingSpot)
     return (
       <View style={styles.container}>
         <View style={styles.sliderBoxContainer}>
