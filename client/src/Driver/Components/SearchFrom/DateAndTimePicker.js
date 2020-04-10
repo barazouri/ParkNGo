@@ -3,6 +3,8 @@ import { View, Text, Platform, StyleSheet } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import { useFonts } from '@use-expo/font';
+
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
@@ -71,7 +73,7 @@ const DateAndTimePicker = props => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ textAlign: 'center', fontSize: 20 }}>{props.kind}</Text>
+      <Text style={{ textAlign: 'center', fontSize: 20,fontFamily: 'Inter-SemiBoldItalic'  }}>{props.kind}</Text>
       <View style={styles.iconsContainer}>
         <View style={styles.iconTimeAndDate}>
           <MaterialCommunityIcons
@@ -95,9 +97,9 @@ const DateAndTimePicker = props => {
       {!show && date && (
         <View>
           <Text
-            style={{ textAlign: 'center' }}
+            style={{ textAlign: 'center', fontFamily: 'Inter-SemiBoldItalic' }}
           >{`Date: ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`}</Text>
-          <Text style={{ textAlign: 'center' }}>
+          <Text style={{ textAlign: 'center', fontFamily: 'Inter-SemiBoldItalic' }}>
             {`Time: ${date.getHours()}:${date.getMinutes()}`}{' '}
           </Text>
         </View>

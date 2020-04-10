@@ -8,6 +8,7 @@ import {
   Image,
   StyleSheet
 } from 'react-native'
+import * as Font from 'expo-font'
 import { Card, Button } from 'react-native-elements' // 0.19.0
 import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
 
@@ -99,13 +100,31 @@ class ParkingCardList extends Component {
                     size={15}
                   />
                 </View>
-                <Text style={{ marginBottom: 10, fontSize: 25 }}>
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontSize: 25,
+                    fontFamily: 'Inter-SemiBoldItalic'
+                  }}
+                >
                   Adress: {parkingSpot.address}
                 </Text>
-                <Text style={{ marginBottom: 10, fontSize: 20 }}>
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontSize: 20,
+                    fontFamily: 'Inter-SemiBoldItalic'
+                  }}
+                >
                   Price: {parkingSpot.price} $
                 </Text>
-                <Text style={{ marginBottom: 10, fontSize: 20 }}>
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontSize: 20,
+                    fontFamily: 'Inter-SemiBoldItalic'
+                  }}
+                >
                   Policy: {parkingSpot.policy}
                 </Text>
               </Card>

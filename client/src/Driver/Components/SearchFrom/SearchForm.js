@@ -10,6 +10,7 @@ import {
 import { Input, Button } from 'react-native-elements'
 import DateAndTimePicker from './DateAndTimePicker'
 import NumericInput from 'react-native-numeric-input'
+import * as Font from 'expo-font'
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -17,13 +18,16 @@ const styles = StyleSheet.create({
   addressInput: {
     alignSelf: 'center',
     width: '80%',
-    margin: 10
+    margin: 10,
+    fontFamily: 'Inter-SemiBoldItalic'
+
   },
   distanceText: {
     marginTop: 5,
     marginBottom: 5,
     fontSize: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'Inter-SemiBoldItalic'
   },
   distanceInput: {
     marginBottom: 10
@@ -57,6 +61,9 @@ class SearchForm extends React.Component {
       address: null,
       price: 0
     }
+    // let [fontsLoaded] = useFonts({
+    //   'Inter-SemiBoldItalic': 'https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12',
+    // });
     // this.onChange = this.onChange.bind(this)
     // this.showDatepicker = this.showDatepicker.bind(this)
     this.updateForDate = this.updateForDate.bind(this)
@@ -94,6 +101,7 @@ class SearchForm extends React.Component {
   onChangePrice (price) {
     this.setState({ price: price })
   }
+
   render () {
     const { navigation } = this.props
     return (

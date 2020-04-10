@@ -36,7 +36,7 @@ async searchParkingSpotByLocation(req, res, next) {
     } catch (err) 
     { console.error(err);
        return res.json(err); 
-    };
+    }
  },
 
  async searchParkingSpotByLocationAndPrice(req, res, next) {
@@ -62,7 +62,7 @@ async searchParkingSpotByLocation(req, res, next) {
     } catch (err) 
     { console.error(err);
        return res.json(err); 
-    };
+    }
  },
 
  async searchParkingSpotByLocationAndPriceAndSize(req, res, next) {
@@ -210,7 +210,7 @@ async searchParkingSpotByLocation(req, res, next) {
    } catch (err) 
    { console.error(err);
       return res.json(err); 
-   };
+   }
 },
 
 async searchByLocationAndPriceAndSizeByCurrentTime(req, res, next) {

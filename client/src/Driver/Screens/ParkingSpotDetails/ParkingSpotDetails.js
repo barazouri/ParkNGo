@@ -9,6 +9,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  inputContainer: {
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.2)',
+    width: '100%',
+    height: 200,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    alignSelf: 'center',
+    marginBottom: 20,
+    marginTop: 20,
+  },
   sliderBoxContainer: {
     height: 300
   },
@@ -21,11 +32,36 @@ const styles = StyleSheet.create({
   },
   address: {
     fontSize: 30,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginBottom:10,
+    fontFamily: 'Inter-SemiBoldItalic'
+
   },
   submitButton: {
     width: Dimensions.get('window').width,
-    top: 20 
+    top: 20
+  },
+  directions: {
+    fontSize: 20,
+    alignSelf: 'center',
+    marginBottom:10,
+    fontFamily: 'Inter-SemiBoldItalic'
+
+
+  },
+  price: {
+    fontSize: 20,
+    alignSelf: 'center',
+    marginBottom:10,
+    fontFamily: 'Inter-SemiBoldItalic'
+
+
+  },
+  policy: {
+    fontSize: 20,
+    alignSelf: 'center',
+    fontFamily: 'Inter-SemiBoldItalic'
+
   }
 })
 
@@ -79,12 +115,14 @@ class ParkingSpotDetails extends React.Component {
           <Text>{parkingSpot.totalRankParking}</Text>
           </View> */}
         </View>
+        <View style={styles.inputContainer}>
         <Text style={styles.address}>{parkingSpot.address}</Text>
-        <Text>{parkingSpot.directions}</Text>
-        <Text>{`${parkingSpot.price}$`}</Text>
-        <Text>{parkingSpot.policy}</Text>
+        <Text style={styles.directions}>{parkingSpot.directions}</Text>
+        <Text style={styles.price}>{`${parkingSpot.price}$`}</Text>
+        <Text style={styles.policy}>{parkingSpot.policy}</Text>
+        </View>
         <Button
-          title='Submit'
+          title='Book'
           style={styles.submitButton}
           color='#841584'
           onPress={this.submitForm}
