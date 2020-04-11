@@ -108,7 +108,7 @@ async getAllParkingSpotsByProfile(req, res, next) {
       console.log("enter")
       const allparkingSpots = [];
       result.map(profile => {
-            allparkingSpots.push(profile.parkingSpots);
+            return res.json(profile.parkingSpots);
       })
       console.log(allparkingSpots);
       res.json(allparkingSpots);
