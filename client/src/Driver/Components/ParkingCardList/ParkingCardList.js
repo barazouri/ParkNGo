@@ -13,8 +13,9 @@ import { Card, Button } from 'react-native-elements' // 0.19.0
 import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
 
 import { parkingSpots } from './data'
+const userProfile = 'guygolpur@gmail.com'
 const config = require('../../../../config/config')
-const profile = 'testguy@gmail.com'
+const profile = 'guygol@gmail.com'
 const styles = StyleSheet.create({
   image: {
     width: '100%',
@@ -38,26 +39,28 @@ class ParkingCardList extends Component {
     //this is without distance and without untilDate API need to be change
     let { address, forDate, untilDate, price } = this.props.route.params
     console.log(untilDate)
-    if (!untilDate && price === 0) {
-      console.log('no distance no untilDate')
-      return config.API + `/searchParkingSpotByLocation?address=${address}`
+    if (address && profile && price && forDate && untilDate) {
+      console.log('all params')
+      return (
+        config.API +
+        `/searchByLocationAndPriceAndSizeByTime?address=${address}&email=${profile}&fromPrice=${0}&toPrice=${price}&fromTime=${forDate.toString()}&untilTime=${untilDate.toString()}&email=${userProfile}`
+      ) //need to be change
     } else if (!untilDate && price > 0) {
       console.log(untilDate)
+      console.log(price)
       console.log('no untildate with price')
       return (
         config.API +
         `/searchParkingSpotByLocationAndPrice?address=${address}&fromPrice=${0}&toPrice=${price}`
       ) //need to be change
     } else {
-      console.log('all params')
-      return (
-        config.API +
-        `/searchByLocationAndPriceAndSizeByTime?address=${address}&email=${profile}&fromPrice=${0}&toPrice=${price}&fromTime=${forDate.toString()}&untilTime=${untilDate.toString()}&email=guygolpur@gmail.com`
-      ) //need to be change
+      console.log('no distance no untilDate')
+      return config.API + `/searchParkingSpotByLocation?address=${address}`
     }
   }
   componentDidMount () {
     let url = this.getUrlForApi()
+    console.log(url)
     fetch(url)
       .then(response => response.json())
       .then(json => {
@@ -69,8 +72,11 @@ class ParkingCardList extends Component {
   }
   handleCardPress (parkingSpot) {
     const { navigation } = this.props
+    let { forDate, untilDate } = this.props.route.params
     navigation.navigate('ParkingSpotDetails', {
-      parkingSpot: parkingSpot
+      parkingSpot: parkingSpot,
+      forDate: forDate,
+      untilDate: untilDate
     })
   }
   render () {
@@ -78,6 +84,7 @@ class ParkingCardList extends Component {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
+          {console.log(parkingSpots)}
           {this.state.parkingSpots.map((parkingSpot, index) => (
             <TouchableOpacity
               style={{ flex: 1 }}

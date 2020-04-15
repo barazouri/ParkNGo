@@ -19,7 +19,7 @@ async searchParkingSpotByLocation(req, res, next) {
        const result = await Profiles.find();
        if (!result.length) {
         console.log("A parking spot with that address does not exist");
-        return res.json("A parking spot with that address does not exist");
+        return res.json([]);
      }
        const allParkingSpots = [];
        result.map(profile => {
@@ -45,7 +45,7 @@ async searchParkingSpotByLocation(req, res, next) {
        const result = await Profiles.find({ parkingSpots: {$elemMatch: {price:{$gte: fromPrice} ,price:{$lte: toPrice}}}});
        if (!result.length) {
         console.log("A parking spot with that address does not exist");
-        return res.json("A parking spot with that address does not exist");
+        return res.json([]);
      }
        const allParkingSpots = [];
        result.map(profile => {
@@ -72,8 +72,8 @@ async searchParkingSpotByLocation(req, res, next) {
        let result = [];
        result = await Profiles.find({ parkingSpots: {$elemMatch: {price:{$gte: fromPrice} ,price:{$lte: toPrice}}}});
        if (!result.length) {
-        console.log("A parking spot with that address does not exist");
-        return res.json("A parking spot with that address does not exist");
+        console.log("");
+        return res.json([]);
      }
        const allParkingSpots = [];
        result.map(profile => {
@@ -118,8 +118,8 @@ async searchParkingSpotByLocation(req, res, next) {
       let untilTimeDate = new Date(untilTime)
       result = await Profiles.find({ parkingSpots: {$elemMatch: {price:{$gte: fromPrice} ,price:{$lte: toPrice}}}});
       if (!result.length) {
-       console.log("A parking spot with that address does not exist");
-       return res.json("A parking spot with that address does not exist");
+       console.log([]);
+       return res.json([]);
     }
       const allParkingSpots = [];
       const resultParkingSpots = [];
@@ -222,8 +222,8 @@ async searchByLocationAndPriceAndSizeByCurrentTime(req, res, next) {
       let untilTimeDate = new Date(untilTime)
       result = await Profiles.find({ parkingSpots: {$elemMatch: {price:{$gte: fromPrice} ,price:{$lte: toPrice}}}});
       if (!result.length) {
-       console.log("A parking spot with that address does not exist");
-       return res.json("A parking spot with that address does not exist");
+       console.log([]);
+       return res.json([]);
     }
       const allParkingSpots = [];
       const resultParkingSpots = [];

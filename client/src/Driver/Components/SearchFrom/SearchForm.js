@@ -151,7 +151,7 @@ class SearchForm extends React.Component {
               <Text style={styles.distanceText}>Max price</Text>
               <View style={styles.numberInput}>
                 <NumericInput
-                  value={this.state.distance}
+                  value={this.state.price}
                   onChange={this.onChangePrice}
                   totalWidth={240}
                   totalHeight={50}
