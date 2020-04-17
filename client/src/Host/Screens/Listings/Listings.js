@@ -55,7 +55,7 @@ class Listings extends Component {
     navigation.navigate('HostParkingSpotDetails', {
       parkingSpot: parkingSpot
     })
-    console.log(parkingSpot)
+    // console.log(parkingSpot)
   }
   render () {
     const { navigation } = this.props

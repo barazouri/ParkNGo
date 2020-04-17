@@ -95,7 +95,7 @@ class HostParkingSpotDetails extends React.Component {
     navigation.navigate('HostEditParkingSpot', {
       parkingSpot: parkingSpot
     })
-    console.log(parkingSpot)
+    // console.log(parkingSpot)
   }
   render () {
     const { parkingSpot } = this.props.route.params
