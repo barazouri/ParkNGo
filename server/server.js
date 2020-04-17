@@ -2,7 +2,7 @@ const express = require('express');
 const resultsCtl = require('./controller/results.ctl');
 const searchCtl = require('./controller/search.ctl');
 const bookCtl = require('./controller/book.ctl');
-
+const lisencePlateRecognition = require('./controller/lisencePlateRecognition')
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -27,7 +27,7 @@ app.get('/makeSpecificParkingNotAvailable',resultsCtl.makeSpecificParkingNotAvai
 app.get('/makeSpecificParkingAvailable',resultsCtl.makeSpecificParkingAvailable);
 app.get('/removeSpecificParkingSpot',resultsCtl.removeSpecificParkingSpot);
 
-
+app.post('/lisencePlateRecognition',lisencePlateRecognition.licensePlateUpdate);
 app.post('/addProfileBasic',resultsCtl.addProfileBasic);
 app.post('/editDriverProfile',resultsCtl.editDriverProfile);
 app.post('/addNewParkingSpot',resultsCtl.addNewParkingSpot);
@@ -60,7 +60,7 @@ app.post('/approveOrDeclineReq',bookCtl.approveOrDeclineReq);
 
 app.all('*', (req, res) => {
   console.log("localhost:3000/getAllProfiles");        //works
-  res.send('localhost:3000/getAllProfiles');
+  // res.send('localhost:3000/getAllProfiles');
 });
 
 app.listen(port, () => console.log(`listening on port ${port}`));

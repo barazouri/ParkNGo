@@ -8,12 +8,14 @@ import {
   Image,
   StyleSheet
 } from 'react-native'
+import * as Font from 'expo-font'
 import { Card, Button } from 'react-native-elements' // 0.19.0
 import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
 
 import { parkingSpots } from './data'
+const userProfile = 'guygolpur@gmail.com'
 const config = require('../../../../config/config')
-
+const profile = 'guygol@gmail.com'
 const styles = StyleSheet.create({
   image: {
     width: '100%',
@@ -33,27 +35,32 @@ class ParkingCardList extends Component {
     }
     this.handleCardPress = this.handleCardPress.bind(this)
   }
-  getUrlForApi(){
-    let { address, forDate, untilDate, distance } = this.props.route.params
-    console.log(distance)
-    if (distance === 0 && !untilDate) {
-      //this is without distance and without untilDate API need to be change
-      console.log("no distance no untilDate")
+  getUrlForApi () {
+    //this is without distance and without untilDate API need to be change
+    let { address, forDate, untilDate, price } = this.props.route.params
+    console.log(untilDate)
+    if (address && profile && price && forDate && untilDate) {
+      console.log('all params')
+      return (
+        config.API +
+        `/searchByLocationAndPriceAndSizeByTime?address=${address}&email=${profile}&fromPrice=${0}&toPrice=${price}&fromTime=${forDate.toString()}&untilTime=${untilDate.toString()}&email=${userProfile}`
+      ) //need to be change
+    } else if (!untilDate && price > 0) {
+      console.log(untilDate)
+      console.log(price)
+      console.log('no untildate with price')
+      return (
+        config.API +
+        `/searchParkingSpotByLocationAndPrice?address=${address}&fromPrice=${0}&toPrice=${price}`
+      ) //need to be change
+    } else {
+      console.log('no distance no untilDate')
       return config.API + `/searchParkingSpotByLocation?address=${address}`
-
-    }
-    else if(!untilDate) {
-      console.log("no untildate with distance")
-      return config.API + `/searchParkingSpotByLocation?address=${address}` //need to be change
-    }
-     else {
-       console.log("all params")
-      return config.API + `/searchParkingSpotByLocation?address=${address}` //need to be change
     }
   }
   componentDidMount () {
-    const { route, navigation } = this.props
     let url = this.getUrlForApi()
+    console.log(url)
     fetch(url)
       .then(response => response.json())
       .then(json => {
@@ -65,8 +72,11 @@ class ParkingCardList extends Component {
   }
   handleCardPress (parkingSpot) {
     const { navigation } = this.props
+    let { forDate, untilDate } = this.props.route.params
     navigation.navigate('ParkingSpotDetails', {
-      parkingSpot: parkingSpot
+      parkingSpot: parkingSpot,
+      forDate: forDate,
+      untilDate: untilDate
     })
   }
   render () {
@@ -74,6 +84,7 @@ class ParkingCardList extends Component {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
+          {console.log(parkingSpots)}
           {this.state.parkingSpots.map((parkingSpot, index) => (
             <TouchableOpacity
               style={{ flex: 1 }}
@@ -96,13 +107,31 @@ class ParkingCardList extends Component {
                     size={15}
                   />
                 </View>
-                <Text style={{ marginBottom: 10, fontSize: 25 }}>
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontSize: 25,
+                    fontFamily: 'Inter-SemiBoldItalic'
+                  }}
+                >
                   Adress: {parkingSpot.address}
                 </Text>
-                <Text style={{ marginBottom: 10, fontSize: 20 }}>
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontSize: 20,
+                    fontFamily: 'Inter-SemiBoldItalic'
+                  }}
+                >
                   Price: {parkingSpot.price} $
                 </Text>
-                <Text style={{ marginBottom: 10, fontSize: 20 }}>
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontSize: 20,
+                    fontFamily: 'Inter-SemiBoldItalic'
+                  }}
+                >
                   Policy: {parkingSpot.policy}
                 </Text>
               </Card>
