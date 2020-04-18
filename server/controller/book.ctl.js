@@ -33,25 +33,36 @@ module.exports = {
     try {
       const { email = null } = req.query
       const result = await Profiles.find({ email: email })
-      const allFutureReservations = []
-      result.map(profile => {
-        profile.driverOrderSpot.map(order => {
-          allFutureReservations.push(order)
+      let allFutureReservations = []
+      await result.map(profile => {
+        allFutureReservations = profile.driverOrderSpot.map(async order => {
+          const resultsParkingspot = await Profiles.find(
+            { 'parkingSpots.parkingId': order.parkingSpotID },
+            {
+              parkingSpots: {
+                $elemMatch: { parkingId: order.parkingSpotID }
+              }
+            }
+          )
+          return {
+            parkingSpotID: order.parkingSpotID,
+            address: resultsParkingspot[0].parkingSpots[0].address,
+            requireToDate: order.requireToDate,
+            requireUntilDate: order.requireUntilDate,
+            policy: resultsParkingspot[0].parkingSpots[0].policy,
+            parkingSize: resultsParkingspot[0].parkingSpots[0].parkingSize,
+            price: resultsParkingspot[0].parkingSpots[0].price,
+            directions: resultsParkingspot[0].parkingSpots[0].directions,
+            availability: resultsParkingspot[0].parkingSpots[0].availability,
+            totalRankParking: resultsParkingspot[0].parkingSpots[0].totalRankParking
+          }
         })
       })
-      await allFutureReservations.map(async (reservation, index) => {
-        const parkingspot = await Profiles.find(
-          { 'parkingSpots.parkingId': reservation.parkingSpotID },
-          // { parkingSpots: { $elemMatch: { parkingId: reservation.parkingSpotID } } }
-        ).select('parkingSpots')
-        if(parkingspot[0]){
-          console.log(parkingspot[0])
-          allFutureReservations[index].address = parkingspot[0].address
-        }
-        // reservation.address = parkingspot.address
-      })
-      // console.log(allFutureReservations)
-      res.json(allFutureReservations)
+      const resultsallFutureReservations = await Promise.all(
+        allFutureReservations
+      )
+      console.log(resultsallFutureReservations)
+      res.json(resultsallFutureReservations)
     } catch (err) {
       console.error(err)
       return res.json(err)
