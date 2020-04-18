@@ -84,6 +84,10 @@ class HostParkingSpotDetails extends React.Component {
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
     this.loadCalendar = this.loadCalendar.bind(this)
     this.formatDate = this.formatDate.bind(this)
+    this.getMarkAvailableDates = this.getMarkAvailableDates.bind(this)
+    this.getMarkFutureDates = this.getMarkFutureDates.bind(this)
+    this.getMarkWaitingDates = this.getMarkWaitingDates.bind(this)
+
   }
   onContentSizeChange(contentWidth, contentHeight) {
     // Save the content height in state
@@ -144,6 +148,67 @@ class HostParkingSpotDetails extends React.Component {
       parkingSpot: parkingSpot
     })
     // console.log(parkingSpot)
+  }
+
+  getMarkAvailableDates () {
+    const { parkingSpot } = this.props.route.params
+    let dates = {}
+    parkingSpot.windowsOfTime.map((window, index) => {
+      dates[`${this.formatDate(window.AvailablefromTime)}`] = {
+        startingDay: true,
+        color: 'green',
+        textColor: 'white'
+      }
+      dates[`${this.formatDate(window.AvailableUntilTime)}`] = {
+        selected: true,
+        endingDay: true,
+        color: 'green',
+        textColor: 'white'
+      }
+    })
+    console.log(dates)
+    return dates
+  }
+
+  getMarkFutureDates () {
+    const { parkingSpot } = this.props.route.params
+    let dates = {}
+    // console.log('helloi')
+    parkingSpot.futureReservations.map((future, index) => {
+      dates[`${this.formatDate(future.requireToDate)}`] = {
+        startingDay: true,
+        color: 'red',
+        textColor: 'white'
+      }
+      dates[`${this.formatDate(future.requireUntilDate)}`] = {
+        selected: true,
+        endingDay: true,
+        color: 'red',
+        textColor: 'white'
+      }
+    })
+    console.log(dates)
+    return dates
+  }
+
+  getMarkWaitingDates () {
+    const { parkingSpot } = this.props.route.params
+    let dates = {}
+    parkingSpot.hostWaitingQueue.map((wait, index) => {
+      dates[`${this.formatDate(wait.requireToDate)}`] = {
+        startingDay: true,
+        color: 'blue',
+        textColor: 'white'
+      }
+      dates[`${this.formatDate(wait.requireUntilDate)}`] = {
+        selected: true,
+        endingDay: true,
+        color: 'blue',
+        textColor: 'white'
+      }
+    })
+    console.log(dates)
+    return dates
   }
 
   render () {
@@ -212,49 +277,37 @@ class HostParkingSpotDetails extends React.Component {
           <View>
 
           <Text style={styles.parkingDataTitle}>Available Dates (green marked)</Text>
-          {parkingSpot.windowsOfTime.map((window, index) => (
             <Calendar
             onDayPress={(day) => {console.log('selected day', day)}}
 
-            markedDates={{
-              [`${tmp = this.formatDate(window.AvailablefromTime)}`]: {startingDay: true, color: 'green', textColor: 'white'},
-              [`${tmp = this.formatDate(window.AvailableUntilTime)}`]: {selected: true, endingDay: true, color: 'green', textColor: 'white'},
+            markedDates={
+              this.getMarkAvailableDates()
+              // [`${tmp = this.formatDate(window.AvailablefromTime)}`]: {startingDay: true, color: 'green', textColor: 'white'},
+              // [`${tmp = this.formatDate(window.AvailableUntilTime)}`]: {selected: true, endingDay: true, color: 'green', textColor: 'white'},
               // '2020-04-18': {marked: true},
               // '2020-04-19': {marked: true, dotColor: 'red'}
-            }}
+            }
             markingType={'period'}
             />
-             ))}
 
           <Text style={styles.parkingDataTitle}>Future Reservations (red marked)</Text>
-          {parkingSpot.futureReservations.map((future, index) => (
             <Calendar
-            onDayPress={(day) => {console.log('selected day', day)}}
-
-            markedDates={{
-              [`${tmp = this.formatDate(future.requireToDate)}`]: {startingDay: true, color: 'red', textColor: 'white'},
-              [`${tmp = this.formatDate(future.requireUntilDate)}`]: {selected: true, endingDay: true, color: 'red', textColor: 'white'},
-              // '2020-04-18': {marked: true},
-              // '2020-04-19': {marked: true, dotColor: 'red'}
-            }}
-            markingType={'period'}
+              onDayPress={(day) => {console.log('selected day', day)}}
+              markedDates={
+                this.getMarkFutureDates()
+              }
+              markingType={'period'}
             />
-             ))}
 
           <Text style={styles.parkingDataTitle}>Waiting for Approval (blue marked)</Text>
-          {parkingSpot.hostWaitingQueue.map((waiting, index) => (
             <Calendar
             onDayPress={(day) => {console.log('selected day', day)}}
 
-            markedDates={{
-              [`${tmp = this.formatDate(waiting.requireToDate)}`]: {startingDay: true, color: 'blue', textColor: 'white'},
-              [`${tmp = this.formatDate(waiting.requireUntilDate)}`]: {selected: true, endingDay: true, color: 'blue', textColor: 'white'},
-              // '2020-04-18': {marked: true},
-              // '2020-04-19': {marked: true, dotColor: 'red'}
-            }}
+            markedDates={
+              this.getMarkWaitingDates()
+            }
             markingType={'period'}
             />
-             ))}
              {/** 15:08*/}
           </View>
           <Button

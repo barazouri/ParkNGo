@@ -1,20 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity  } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView } from 'react-native'
 import { Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { TextInput } from 'react-native-paper'
 import NumericInput from 'react-native-numeric-input'
 import { Dropdown } from 'react-native-material-dropdown'
-
+import DateAndTimePicker from '../../../Driver/Components/SearchFrom/DateAndTimePicker'
+import SafeAreaView from 'react-native-safe-area-view'
 
 
 const config = require('../../../../config/config')
+const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+    containerSlide: {
+        flex: 1,
+    },
     container: {
         flex: 1,
         // justifyContent: 'center',
         // alignItems: 'center'
+        alignSelf: 'center'
     },
     input: {
         margin: 15,
@@ -27,31 +33,65 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         // alignItems: 'center',
      },
+     addressTitle: {
+        // textAlign: "center",
+        fontSize: 30,
+        alignSelf: 'center'
+     }
 })
 
 class HostEditParkingSpot extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            address: '',
+            // address: '',
             policy: '',
             parkingSize: '',
             price: 0,
             AvailablefromTime: '',
             AvailableUntilTime: '',
-            directions: ''
+            directions: '',
+            forDate: new Date(Date.now()),
+            untilDate: undefined,
+
+
         }
         // this.handleCardPress = this.handleCardPress.bind(this)
+        
+        this.updateForDate = this.updateForDate.bind(this)
+        this.updateUntilDate = this.updateUntilDate.bind(this)
+        this.onContentSizeChange = this.onContentSizeChange.bind(this)
+        this.handlePressSave = this.handlePressSave.bind(this)
+        this.getUrlForApi = this.getUrlForApi.bind(this)
+
+      }
+
+      getUrlForApi(){
+          return config.API + `/editSpecificParking`
+      }
+
+      onContentSizeChange(contentWidth, contentHeight) {
+        // Save the content height in state
+        this.setState({ screenHeight: contentHeight })
+      }
+
+      updateForDate (date) {
+        this.setState({ forDate: date })
+      }
+
+      updateUntilDate (date) {
+        this.setState({ untilDate: date })
       }
 
     handlePressSave() {
         const { parkingSpot } = this.props.route.params
+        let urlAdd = this.getUrlForApi()
         console.log("Saved")
-        if(this.state.address == '')
-        {
-            this.state.address = parkingSpot.address
-            console.log(this.state.address)
-        }
+        // if(this.state.address == '')
+        // {
+        //     this.state.address = parkingSpot.address
+        //     console.log(this.state.address)
+        // }
         if(this.state.price == 0)
         {
             this.state.price = parkingSpot.price
@@ -76,33 +116,51 @@ class HostEditParkingSpot extends React.Component {
             this.state.directions = parkingSpot.directions
             console.log(this.state.directions)
         }
-        if(this.state.AvailablefromTime == '')
+        // if(this.state.AvailablefromTime == '')
+        // {
+        //     this.state.AvailablefromTime = parkingSpot.AvailablefromTime
+        //     console.log(this.state.AvailablefromTime)
+        // }
+        // if(this.state.AvailableUntilTime == '')
+        // {
+        //     this.state.AvailableUntilTime = parkingSpot.AvailableUntilTime
+        //     console.log(this.state.AvailableUntilTime)
+        // }
+        console.log("fromDate " + this.state.forDate.toString())
+        if(this.state.untilDate != undefined)
         {
-            this.state.AvailablefromTime = parkingSpot.AvailablefromTime
-            console.log(this.state.AvailablefromTime)
+            console.log(this.state.untilDate)
         }
-        if(this.state.AvailableUntilTime == '')
-        {
-            this.state.AvailableUntilTime = parkingSpot.AvailableUntilTime
-            console.log(this.state.AvailableUntilTime)
-        }
+
+        const parkingId = parkingSpot.parkingId
+        const address = parkingSpot.address
+        const policy = this.state.policy
+        const parkingSize = this.state.parkingSize
+        const price = this.state.price
+        const AvailablefromTime = this.state.forDate
+        const AvailableUntilTime = this.state.untilDate
+        const directions = this.state.directions
+
+        let url = `${urlAdd}`
+        fetch(`${url}`, {
+          method: 'POST',
+          body: `parkingId=${parkingId}&address=${address}&policy=${policy}&parkingSize=${parkingSize}&price=${price}&AvailablefromTime=${AvailablefromTime}&AvailableUntilTime=${AvailableUntilTime}&directions=${directions}`,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        })
+          .then(res => res.json())
+          .catch(err => new Error(err))
 
     }
       getUrlForApi(){
           return config.API + `/editSpecificParking`
       }
-    //   componentDidMount () {
-    //     const { route, navigation } = this.props
-    //     let url = this.getUrlForApi()
-    //     fetch(`${url}`, {
-    //         method: 'POST',
-    //         body: `parkingId=${this.props.parkingId}&address=${this.props.address}&policy=${this.props.policy}&parkingSize=${this.props.parkingSize}&price=${this.props.price}&AvailablefromTime=${this.props.AvailablefromTime}&AvailableUntilTime=${this.props.AvailableUntilTime}&directions=${this.props.directions}`,
-    //         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    //     })
 
-    //   }
     render() {
         const { parkingSpot } = this.props.route.params
+        const scrollEnabled = this.state.screenHeight > height;
+
         let selectPolicy = [{
             value: 'Flexible',
         }, {
@@ -118,12 +176,31 @@ class HostEditParkingSpot extends React.Component {
           value: 'big',
         }]
         return (
+            <SafeAreaView style={styles.containerSlide}>
+            <ScrollView
+              style={{ flex: 1 }}
+              contentContainerStyle={styles.scrollview}
+              scrollEnabled={scrollEnabled}
+              onContentSizeChange={this.onContentSizeChange}
+            >
             <View style={styles.container}>
-                <TextInput style = {styles.input}
+                {/* <TextInput style = {styles.input}
                     label = "Address"
                     mode = 'outlined'
                     value={parkingSpot.address}
                     onChangeText={address => this.setState({ address })}
+                /> */}
+                <Text style={styles.addressTitle}>{parkingSpot.address}</Text>
+
+                <DateAndTimePicker
+                    updateDate={this.updateForDate}
+                    kind='Start Time'
+                    date={this.state.forDate}>
+                </DateAndTimePicker>
+
+                <DateAndTimePicker
+                    updateDate={this.updateUntilDate}
+                    kind='End Time'
                 />
 
                 <NumericInput 
@@ -135,7 +212,7 @@ class HostEditParkingSpot extends React.Component {
                     totalWidth={240} 
                     totalHeight={50} 
                     iconSize={25}
-                    step={0.1}
+                    step={1}
                     valueType='real'
                     rounded 
                     textColor='#B0228C' 
@@ -143,49 +220,16 @@ class HostEditParkingSpot extends React.Component {
                     rightButtonBackgroundColor='#EA3788' 
                     leftButtonBackgroundColor='#E56B70'
                     />
-                {/* <Button
-                    icon={
-                        <Icon name="save" style={styles.edit}>
-                        <Text style={styles.ediText}>Save</Text>
-                        </Icon>
-                    }
-                    onPress={() => this.handlePressAdress()}
-                /> */}
                 
                 <Dropdown
                     label='Policy'
                     data={selectPolicy}
                 />
-                {/* <Button
-                    icon={
-                        <Icon name="save" style={styles.edit}>
-                        <Text style={styles.ediText}>Save</Text>
-                        </Icon>
-                    }
-                    onPress={() => this.handlePressPolicy()}
-                /> */}
 
                 <Dropdown
                     label='Parking Size'
                     data={selectParkingSize}
                 />
-                {/* <Button
-                    icon={
-                        <Icon name="save" style={styles.edit}>
-                        <Text style={styles.ediText}>Save</Text>
-                        </Icon>
-                    }
-                    onPress={() => this.handlePressParkingSize()}
-                /> */}
-
-                {/* <Button
-                    icon={
-                        <Icon name="save" style={styles.edit}>
-                        <Text style={styles.ediText}>Save</Text>
-                        </Icon>
-                    }
-                    onPress={() => this.handlePressPrice()}
-                /> */}
 
                 <TextInput style = {styles.input}
                     label = "Directions"
@@ -193,37 +237,6 @@ class HostEditParkingSpot extends React.Component {
                     value={this.state.directions}
                     onChangeText={directions => this.setState({ directions })}
                 />
-
-                <TextInput style = {styles.input}
-                    label = "AvailablefromTime"
-                    mode = 'outlined'
-                    value={this.state.AvailablefromTime}
-                    onChangeText={AvailablefromTime => this.setState({ AvailablefromTime })}
-                    />
-                {/* <Button
-                    icon={
-                        <Icon name="save" style={styles.edit}>
-                        <Text style={styles.ediText}>Save</Text>
-                        </Icon>
-                    }
-                    onPress={() => this.handlePressAvailablefromTime()}
-                /> */}
-
-                <TextInput style = {styles.input}
-                    label = "AvailableUntilTime"
-                    mode = 'outlined'
-                    value={this.state.AvailableUntilTime}
-                    onChangeText={AvailableUntilTime => this.setState({ AvailableUntilTime })}
-                    />
-                {/* <Button
-                    icon={
-                        <Icon name="save" style={styles.edit}>
-                        <Text style={styles.ediText}>Save</Text>
-                        </Icon>
-                    }
-                    onPress={() => this.handlePressAvailableUntilTime()}
-                /> */}
-
 
                 <Button
                     icon={
@@ -234,6 +247,8 @@ class HostEditParkingSpot extends React.Component {
                     onPress={() => this.handlePressSave()}
                 />
             </View>
+            </ScrollView>
+            </SafeAreaView>
         );
     }
 }
