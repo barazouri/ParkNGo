@@ -20,6 +20,8 @@ app.get('/getAllParkingSpots', resultsCtl.getAllParkingSpots);
 app.get('/getAllDrivers', resultsCtl.getAllDrivers);
 
 app.get('/getAllParkingReviewsByProfile',resultsCtl.getAllParkingReviewsByProfile);
+app.get('/getAllParkingSpotsByProfile',resultsCtl.getAllParkingSpotsByProfile);
+
 app.get('/getSpecificDriverReviews',resultsCtl.getSpecificDriverReviews);
 app.get('/makeSpecificParkingNotAvailable',resultsCtl.makeSpecificParkingNotAvailable);
 app.get('/makeSpecificParkingAvailable',resultsCtl.makeSpecificParkingAvailable);
