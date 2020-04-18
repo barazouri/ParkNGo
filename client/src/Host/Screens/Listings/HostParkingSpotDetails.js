@@ -1,11 +1,13 @@
 import React from 'react'
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, ScrollView, TouchableOpacity } from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import { Button } from 'react-native-elements'
 import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome'
+import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
+import SafeAreaView from 'react-native-safe-area-view'
 
-
+const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -70,12 +72,24 @@ class HostParkingSpotDetails extends React.Component {
     this.state = {
       images: [],
       parkingSpots: [],
-      rank: 10
+      availabilFrom: [],
+      availabilUntil: [],
+      rank: 10,
+      screenHeight: 0,
+      check: '2020-04-04',
     }
     this.imageToArray = this.imageToArray.bind(this)
     this.submitForm = this.submitForm.bind(this)
     this.handleCardPress = this.handleCardPress.bind(this)
+    this.onContentSizeChange = this.onContentSizeChange.bind(this)
+    this.loadCalendar = this.loadCalendar.bind(this)
+    this.formatDate = this.formatDate.bind(this)
   }
+  onContentSizeChange(contentWidth, contentHeight) {
+    // Save the content height in state
+    this.setState({ screenHeight: contentHeight })
+  }
+
   imageToArray () {
     const { parkingSpot } = this.props.route.params
     let images = []
@@ -84,12 +98,46 @@ class HostParkingSpotDetails extends React.Component {
     })
     this.setState({ images: images })
   }
+
   componentDidMount () {
+    const { parkingSpot } = this.props.route.params
     this.imageToArray()
+    this.loadCalendar()
+    console.log("from")
+    console.log(this.state.availabilFrom)
+    console.log("until")
+    console.log(this.state.availabilUntil)
   }
+
+  loadCalendar () {
+    const { parkingSpot } = this.props.route.params
+    parkingSpot.windowsOfTime.map(window => {
+      let parseDateFrom = this.formatDate(window.AvailablefromTime)
+      this.state.availabilFrom.push(parseDateFrom)
+
+      let parseDateUntil = this.formatDate(window.AvailableUntilTime)
+      this.state.availabilUntil.push(parseDateUntil)
+    })
+  }
+
+  formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
   submitForm () {
     console.log('submited')
   }
+
   handleCardPress (parkingSpot) {
     const { navigation } = this.props
     navigation.navigate('HostEditParkingSpot', {
@@ -97,10 +145,19 @@ class HostParkingSpotDetails extends React.Component {
     })
     // console.log(parkingSpot)
   }
+
   render () {
+    const scrollEnabled = this.state.screenHeight > height;
     const { parkingSpot } = this.props.route.params
+    let tmp =''
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={styles.scrollview}
+          scrollEnabled={scrollEnabled}
+          onContentSizeChange={this.onContentSizeChange}
+        >
         <View style={styles.sliderBoxContainer}>
           <SliderBox
             images={this.state.images}
@@ -121,7 +178,6 @@ class HostParkingSpotDetails extends React.Component {
           />
           
         </View>
-        
         <Text style={styles.address}>{parkingSpot.address}</Text>
         <View style={styles.rankContainer}>
             <Text style={styles.rankTotal}>{parkingSpot.totalRankParking}</Text>
@@ -134,7 +190,6 @@ class HostParkingSpotDetails extends React.Component {
           </View>
         <View style={{ borderBottomColor: 'black',borderBottomWidth: 1,}}/>
 
-        {/* <View style={styles.parkingData}> */}
           <Text style={styles.parkingDataTitle}>Price:</Text>
           <Text style={styles.parkingData}>{`${parkingSpot.price}$`}</Text>
           <View style={styles.line}/>
@@ -154,6 +209,54 @@ class HostParkingSpotDetails extends React.Component {
           <Text style={styles.parkingDataTitle}>Is Available?</Text>
           <Text style={styles.parkingData}>{parkingSpot.availability}</Text>
           <View style={styles.line}/>
+          <View>
+
+          <Text style={styles.parkingDataTitle}>Available Dates (green marked)</Text>
+          {parkingSpot.windowsOfTime.map((window, index) => (
+            <Calendar
+            onDayPress={(day) => {console.log('selected day', day)}}
+
+            markedDates={{
+              [`${tmp = this.formatDate(window.AvailablefromTime)}`]: {startingDay: true, color: 'green', textColor: 'white'},
+              [`${tmp = this.formatDate(window.AvailableUntilTime)}`]: {selected: true, endingDay: true, color: 'green', textColor: 'white'},
+              // '2020-04-18': {marked: true},
+              // '2020-04-19': {marked: true, dotColor: 'red'}
+            }}
+            markingType={'period'}
+            />
+             ))}
+
+          <Text style={styles.parkingDataTitle}>Future Reservations (red marked)</Text>
+          {parkingSpot.futureReservations.map((future, index) => (
+            <Calendar
+            onDayPress={(day) => {console.log('selected day', day)}}
+
+            markedDates={{
+              [`${tmp = this.formatDate(future.requireToDate)}`]: {startingDay: true, color: 'red', textColor: 'white'},
+              [`${tmp = this.formatDate(future.requireUntilDate)}`]: {selected: true, endingDay: true, color: 'red', textColor: 'white'},
+              // '2020-04-18': {marked: true},
+              // '2020-04-19': {marked: true, dotColor: 'red'}
+            }}
+            markingType={'period'}
+            />
+             ))}
+
+          <Text style={styles.parkingDataTitle}>Waiting for Approval (blue marked)</Text>
+          {parkingSpot.hostWaitingQueue.map((waiting, index) => (
+            <Calendar
+            onDayPress={(day) => {console.log('selected day', day)}}
+
+            markedDates={{
+              [`${tmp = this.formatDate(waiting.requireToDate)}`]: {startingDay: true, color: 'blue', textColor: 'white'},
+              [`${tmp = this.formatDate(waiting.requireUntilDate)}`]: {selected: true, endingDay: true, color: 'blue', textColor: 'white'},
+              // '2020-04-18': {marked: true},
+              // '2020-04-19': {marked: true, dotColor: 'red'}
+            }}
+            markingType={'period'}
+            />
+             ))}
+             {/** 15:08*/}
+          </View>
           <Button
             icon={
               <Icon
@@ -165,8 +268,8 @@ class HostParkingSpotDetails extends React.Component {
             }
             // onPress={() => this.handleCardPress(parkingSpot)}
           />
-
-      </View>
+</ScrollView>
+      </SafeAreaView>
     )
   }
 }

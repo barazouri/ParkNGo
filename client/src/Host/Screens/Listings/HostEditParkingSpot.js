@@ -111,11 +111,11 @@ class HostEditParkingSpot extends React.Component {
           value: 'Strict',
         }]
         let selectParkingSize = [{
-            value: 'Small',
+            value: 'small',
         }, {
-          value: 'Medium',
+          value: 'medium',
         }, {
-          value: 'Large',
+          value: 'big',
         }]
         return (
             <View style={styles.container}>
