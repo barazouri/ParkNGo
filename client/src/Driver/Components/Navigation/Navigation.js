@@ -1,6 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from '../../Screens/Home/Home'
+import Reservations from '../../Screens/Reservations/Reservation'
 import ListingsNavigate from '../../../Host/Screens/Listings/ListingNavigate'
 import Profile from '../../Screens/Profile/Profile'
 import ParkingSearch from '../../Screens/ParkingSearch/ParkingSearch'
@@ -19,56 +20,9 @@ class Navigation extends React.Component {
     this.driverNavigation = this.driverNavigation.bind(this)
   }
   changeKindUser (kindUser) {
-      this.setState({ kindUser: kindUser }, 
-        console.log(this.state.kindUser)
-        )
+    this.setState({ kindUser: kindUser }, console.log(this.state.kindUser))
   }
   hostNavigation (Tab) {
-    return (
-      <Tab.Screen
-        // initialRouteName="Feed"
-        name='Upload'
-        component={ListingsNavigate}
-        options={{
-          tabBarLabel: 'Upload',
-          // headerRight: () => (
-          //   <Button
-          //     onPress={() => alert('This is a button!')}
-          //     title='Info'
-          //     color='#fff'
-          //   />
-          // ),
-          tabBarIcon: ({ color, size }) => (
-            <Icon name='upload' color={color} size={size} />
-          )
-        }}
-      />
-    )
-  }
-  driverNavigation (Tab) {
-    return (
-      <Tab.Screen
-        // initialRouteName="Feed"
-        name='Search'
-        component={ParkingSearch}
-        options={{
-          tabBarLabel: 'Search',
-          // headerRight: () => (
-          //   <Button
-          //     onPress={() => alert('This is a button!')}
-          //     title='Info'
-          //     color='#fff'
-          //   />
-          // ),
-          tabBarIcon: ({ color, size }) => (
-            <Icon name='search' color={color} size={size} />
-          )
-        }}
-      />
-    )
-  }
-  render () {
-    const Tab = createBottomTabNavigator()
     return (
       <Tab.Navigator>
         <Tab.Screen
@@ -82,9 +36,24 @@ class Navigation extends React.Component {
           }}
           component={Home}
         />
-        {this.state.kindUser === 'driver'
-          ? this.driverNavigation(Tab)
-          : this.hostNavigation(Tab)}
+        <Tab.Screen
+          // initialRouteName="Feed"
+          name='Upload'
+          component={ListingsNavigate}
+          options={{
+            tabBarLabel: 'Upload',
+            // headerRight: () => (
+            //   <Button
+            //     onPress={() => alert('This is a button!')}
+            //     title='Info'
+            //     color='#fff'
+            //   />
+            // ),
+            tabBarIcon: ({ color, size }) => (
+              <Icon name='upload' color={color} size={size} />
+            )
+          }}
+        />
         <Tab.Screen
           // initialRouteName="Feed"
           name='Profile'
@@ -102,6 +71,81 @@ class Navigation extends React.Component {
         />
       </Tab.Navigator>
     )
+  }
+  driverNavigation (Tab) {
+    return (
+      <Tab.Navigator>
+        <Tab.Screen
+          // initialRouteName="Feed"
+          name='Home'
+          options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name='home' color={color} size={size} />
+            )
+          }}
+          component={Home}
+        />
+        <Tab.Screen
+          // initialRouteName="Feed"
+          name='Search'
+          component={ParkingSearch}
+          options={{
+            tabBarLabel: 'Search',
+            // headerRight: () => (
+            //   <Button
+            //     onPress={() => alert('This is a button!')}
+            //     title='Info'
+            //     color='#fff'
+            //   />
+            // ),
+            tabBarIcon: ({ color, size }) => (
+              <Icon name='search' color={color} size={size} />
+            )
+          }}
+        />
+        <Tab.Screen
+          // initialRouteName="Feed"
+          name='Reservations'
+          component={Reservations}
+          options={{
+            tabBarLabel: 'Reservations',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons
+               name='md-book'
+                size={30}
+                color={color}
+              />
+            )
+          }}
+          initialParams={{
+            changeKindUser: this.changeKindUser,
+            kindUser: this.state.kindUser
+          }}
+        />
+        <Tab.Screen
+          // initialRouteName="Feed"
+          name='Profile'
+          component={Profile}
+          options={{
+            tabBarLabel: 'Profile',
+            tabBarIcon: ({ color, size }) => (
+              <Icon name='user-circle' size={30} color={color} />
+            )
+          }}
+          initialParams={{
+            changeKindUser: this.changeKindUser,
+            kindUser: this.state.kindUser
+          }}
+        />
+      </Tab.Navigator>
+    )
+  }
+  render () {
+    const Tab = createBottomTabNavigator()
+    return this.state.kindUser === 'driver'
+      ? this.driverNavigation(Tab)
+      : this.hostNavigation(Tab)
   }
 }
 

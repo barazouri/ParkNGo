@@ -165,7 +165,7 @@ async searchParkingSpotByLocation(req, res, next) {
             schedule.getAvailabilities('+0100');
          })
          parkingSpot.futureReservations.map(future => {
-            schedule.removeAvailability (future.requireToDate, future.requireUntilDate);
+            schedule.removeAvailability(future.requireToDate, future.requireUntilDate);
          })
          if(schedule.isAvailable(fromTime,untilTime))
          {

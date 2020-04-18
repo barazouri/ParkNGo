@@ -99,13 +99,8 @@ class ParkingSpotDetails extends React.Component {
       newuntilDate = new Date(untilDate)
     }
     // console.log(newuntilDate)
-    console.log('submited')
     let url = `${config.API}/bookParkingSpot`
-    console.log(url)
-    console.log(parkingSpot.parkingId)
-    console.log(forDate)
-    console.log(newuntilDate.toString())
-let bool = true
+    let bool = true
     fetch(url, {
       method: 'POST',
       headers: new Headers({
@@ -127,15 +122,6 @@ let bool = true
             dotColor='#FFEE58'
             inactiveDotColor='#90A4AE'
           />
-          {/* <View style={styles.rankContainer}>
-          <Ionicons
-            style={styles.iconStar}
-            name='ios-star'
-            color='black'
-            // size={15}
-          />
-          <Text>{parkingSpot.totalRankParking}</Text>
-          </View> */}
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.address}>{parkingSpot.address}</Text>

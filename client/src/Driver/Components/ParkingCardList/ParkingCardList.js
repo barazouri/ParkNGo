@@ -45,7 +45,8 @@ class ParkingCardList extends Component {
         config.API +
         `/searchByLocationAndPriceAndSizeByTime?address=${address}&email=${profile}&fromPrice=${0}&toPrice=${price}&fromTime=${forDate.toString()}&untilTime=${untilDate.toString()}&email=${userProfile}`
       ) //need to be change
-    } else if (!untilDate && price > 0) {
+    }
+     else if (!untilDate && price > 0) {
       console.log(untilDate)
       console.log(price)
       console.log('no untildate with price')

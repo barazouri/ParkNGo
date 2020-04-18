@@ -39,7 +39,18 @@ module.exports = {
           allFutureReservations.push(order)
         })
       })
-      console.log(allFutureReservations)
+      await allFutureReservations.map(async (reservation, index) => {
+        const parkingspot = await Profiles.find(
+          { 'parkingSpots.parkingId': reservation.parkingSpotID },
+          // { parkingSpots: { $elemMatch: { parkingId: reservation.parkingSpotID } } }
+        ).select('parkingSpots')
+        if(parkingspot[0]){
+          console.log(parkingspot[0])
+          allFutureReservations[index].address = parkingspot[0].address
+        }
+        // reservation.address = parkingspot.address
+      })
+      // console.log(allFutureReservations)
       res.json(allFutureReservations)
     } catch (err) {
       console.error(err)
@@ -155,7 +166,7 @@ module.exports = {
       let fromTimeDate = new Date(requireToDate)
       let untilTimeDate = new Date(requireUntilDate)
       if (isAutomatic) {
-         console.log("here 2")
+        console.log('here 2')
         let driverOrderSpot = {
           parkingSpotID: parkingSpotID,
           requireToDate: fromTimeDate,
@@ -189,8 +200,7 @@ module.exports = {
 
         console.log('ok')
         res.json('ok')
-      }
-      else {
+      } else {
         let driverWaitingQueue = {
           parkingId: parkingSpotID,
           requireToDate: fromTimeDate,
