@@ -7,10 +7,9 @@ import {
   createStackNavigator,
   TransitionPresets
 } from '@react-navigation/stack'
+import HeaderLogo from '../../../Components/HeaderLogo/HeaderLogo'
 
-
-const styles = StyleSheet.create({
-})
+const styles = StyleSheet.create({})
 
 class ParkingSearch extends React.Component {
   constructor (props) {
@@ -26,7 +25,8 @@ class ParkingSearch extends React.Component {
             component={SearchForm}
             options={{
               title: 'Search',
-              ...TransitionPresets.ModalSlideFromBottomIOS
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
             }}
           />
           <Stack.Screen
@@ -34,7 +34,8 @@ class ParkingSearch extends React.Component {
             component={ParkingCardList}
             options={{
               title: 'Parking Results',
-              ...TransitionPresets.ModalSlideFromBottomIOS
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
             }}
           />
           <Stack.Screen
@@ -42,11 +43,11 @@ class ParkingSearch extends React.Component {
             component={ParkingSpotDetails}
             options={{
               title: 'Parking Details',
-              ...TransitionPresets.ModalSlideFromBottomIOS
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
             }}
           />
         </Stack.Navigator>
-
       </View>
     )
   }

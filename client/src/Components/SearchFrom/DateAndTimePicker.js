@@ -93,7 +93,7 @@ const DateAndTimePicker = props => {
       {show && (
         <DateTimePickerModal
           isVisible={show}
-          value={date}
+          date={date}
           mode={mode}
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
