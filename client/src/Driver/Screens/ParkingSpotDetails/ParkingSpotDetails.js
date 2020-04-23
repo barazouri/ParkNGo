@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import { Button } from 'react-native-elements'
 const config = require('../../../../config/config.json')
-
+const profile='guygol@gmail.com'
 import { parkingSpots } from '../../Components/ParkingCardList/data'
 
 const styles = StyleSheet.create({
@@ -106,7 +106,7 @@ class ParkingSpotDetails extends React.Component {
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded' // <-- Specifying the Content-Type
       }),
-      body: `email=guygol@gmail.com&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${newuntilDate}&isAutomatic=${bool}` // <-- Post parameters
+      body: `email=${profile}&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${newuntilDate}&isAutomatic=${bool}` // <-- Post parameters
     }).catch(error => {
       console.log(error)
     })

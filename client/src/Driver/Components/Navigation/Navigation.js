@@ -1,7 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from '../../Screens/Home/Home'
-import Reservations from '../../Screens/Reservations/Reservation'
+import ReservationStack from '../../Screens/ReservationStack/ReservationStack'
 import ListingsNavigate from '../../../Host/Screens/Listings/ListingNavigate'
 import Profile from '../../Screens/Profile/Profile'
 import ParkingSearch from '../../Screens/ParkingSearch/ParkingSearch'
@@ -107,7 +107,7 @@ class Navigation extends React.Component {
         <Tab.Screen
           // initialRouteName="Feed"
           name='Reservations'
-          component={Reservations}
+          component={ReservationStack}
           options={{
             tabBarLabel: 'Reservations',
             tabBarIcon: ({ color, size }) => (
@@ -116,8 +116,10 @@ class Navigation extends React.Component {
                 size={30}
                 color={color}
               />
-            )
+            ),
+            headerTitle: 'REs'
           }}
+          
           initialParams={{
             changeKindUser: this.changeKindUser,
             kindUser: this.state.kindUser

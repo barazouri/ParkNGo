@@ -54,7 +54,8 @@ module.exports = {
             price: resultsParkingspot[0].parkingSpots[0].price,
             directions: resultsParkingspot[0].parkingSpots[0].directions,
             availability: resultsParkingspot[0].parkingSpots[0].availability,
-            totalRankParking: resultsParkingspot[0].parkingSpots[0].totalRankParking
+            totalRankParking: resultsParkingspot[0].parkingSpots[0].totalRankParking,
+            parkingPictures: resultsParkingspot[0].parkingSpots[0].parkingPictures
           }
         })
       })

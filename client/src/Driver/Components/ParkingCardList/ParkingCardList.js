@@ -3,14 +3,12 @@ import {
   View,
   Text,
   ScrollView,
-  Linking,
   TouchableOpacity,
   Image,
   StyleSheet
 } from 'react-native'
-import * as Font from 'expo-font'
-import { Card, Button } from 'react-native-elements' // 0.19.0
-import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
+import { Card } from 'react-native-elements' // 0.19.0
+import { Ionicons } from '@expo/vector-icons' // 6.2.2
 
 import { parkingSpots } from './data'
 const userProfile = 'guygolpur@gmail.com'
@@ -45,8 +43,7 @@ class ParkingCardList extends Component {
         config.API +
         `/searchByLocationAndPriceAndSizeByTime?address=${address}&email=${profile}&fromPrice=${0}&toPrice=${price}&fromTime=${forDate.toString()}&untilTime=${untilDate.toString()}&email=${userProfile}`
       ) //need to be change
-    }
-     else if (!untilDate && price > 0) {
+    } else if (!untilDate && price > 0) {
       console.log(untilDate)
       console.log(price)
       console.log('no untildate with price')
@@ -81,7 +78,6 @@ class ParkingCardList extends Component {
     })
   }
   render () {
-    const { navigation } = this.props
     return (
       <View style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>

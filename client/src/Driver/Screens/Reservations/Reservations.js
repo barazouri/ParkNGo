@@ -3,16 +3,11 @@ import {
   View,
   Text,
   ScrollView,
-  Linking,
   TouchableOpacity,
   Image,
   StyleSheet
 } from 'react-native'
-import * as Font from 'expo-font'
-import { Card, Button } from 'react-native-elements' // 0.19.0
-import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
-
-// import { parkingSpots } from './data'
+import { Card } from 'react-native-elements' // 0.19.0
 const userProfile = 'guygol@gmail.com'
 const config = require('../../../../config/config')
 const profile = 'guygol@gmail.com'
@@ -43,7 +38,7 @@ class Reservations extends Component {
       .then(response => response.json())
       .then(json => {
         this.setState({ reservations: json })
-      })
+      }, console.log(this.state.reservations))
       .catch(error => {
         console.error(error)
       })
@@ -54,7 +49,7 @@ class Reservations extends Component {
     fetch(url)
       .then(response => response.json())
       .then(json => {
-          console.log(json)
+        console.log(json)
         this.setState({ reservations: json })
       })
       .catch(error => {
@@ -70,6 +65,14 @@ class Reservations extends Component {
     //   untilDate: untilDate
     // })
   }
+  getDate (date) {
+    date = new Date(date)
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+  }
+  getTime (time) {
+    time = new Date(time)
+    return `${time.getHours()}:${time.getMinutes()}`
+  }
 
   render () {
     const { navigation } = this.props
@@ -83,8 +86,12 @@ class Reservations extends Component {
               key={index}
             >
               <Card>
-                {/* <Text>{reservation.parkingSpotID}</Text> */}
-                {() => this.getParkingDetails(reservation.parkingSpotID)}
+                {reservation.parkingPictures[0] && (
+                  <Image
+                    style={styles.image}
+                    source={{ uri: reservation.parkingPictures[0].imageUrl }}
+                  ></Image>
+                )}
                 <Text
                   style={{
                     marginBottom: 10,
@@ -92,7 +99,7 @@ class Reservations extends Component {
                     fontFamily: 'Inter-SemiBoldItalic'
                   }}
                 >
-                  From: {reservation.requireToDate}
+                  Adress: {reservation.address}
                 </Text>
                 <Text
                   style={{
@@ -101,18 +108,38 @@ class Reservations extends Component {
                     fontFamily: 'Inter-SemiBoldItalic'
                   }}
                 >
-                  To: {reservation.requireUntilDate} $
+                   
+                  Date: {this.getDate(reservation.requireToDate)} -{' '}
+                  {this.getDate(reservation.requireUntilDate)}
                 </Text>
-
-                {/* <Text
+                <Text
                   style={{
                     marginBottom: 10,
                     fontSize: 20,
                     fontFamily: 'Inter-SemiBoldItalic'
                   }}
                 >
-                  Policy: {parkingSpot.policy}
-                </Text> */}
+                  Time: {this.getTime(reservation.requireToDate)} -
+                  {this.getTime(reservation.requireUntilDate)}
+                </Text>
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontSize: 20,
+                    fontFamily: 'Inter-SemiBoldItalic'
+                  }}
+                >
+                  Price: {reservation.price} $
+                </Text>
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontSize: 20,
+                    fontFamily: 'Inter-SemiBoldItalic'
+                  }}
+                >
+                  Policy: {reservation.policy}
+                </Text>
               </Card>
             </TouchableOpacity>
           ))}
