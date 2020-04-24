@@ -6,6 +6,8 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
 import SafeAreaView from 'react-native-safe-area-view'
+import DateAndTimePicker from '../../../Driver/Components/SearchFrom/DateAndTimePicker'
+
 
 const { height } = Dimensions.get('window');
 
@@ -14,36 +16,12 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative"
   },
-  sliderBoxContainer: {
-    // height: 350,
-  },
-  rankContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignSelf: 'center'
-  },
-  iconStar: {
-    fontSize: 35,
-    color: '#ebd534',
-    position: "absolute",
-    // left: 2
-  },
-  rankTotal: {
-    fontSize: 25,
-    position: "relative",
-    left: 15,
-    top: 1
-  },
   address: {
     fontSize: 30,
     alignSelf: 'center'
   },
   parkingData: {
     alignSelf: 'center'
-  },
-  submitButton: {
-    width: Dimensions.get('window').width,
-    top: 20 
   },
   line: {
     borderBottomColor: '#d2d4cf',
@@ -53,70 +31,71 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontWeight: "bold"
   },
-  edit: {
-    fontSize: 35,
-    color: "black",
-  },
-  ediText: {
-    fontSize: 25,
-  },
-  calendarBtn: {
-    flexDirection: 'row',
+  MainContainer: {
+
+    // Setting up View inside content in Vertically center.
     justifyContent: 'center',
-    // backgroundColor: 'green'
-  },
-  calendarInner: {
-    // backgroundColor: 'green'
-    fontSize: 45,
-
-  },
-  delete: {
-    fontSize: 35,
-
-  },
+    flex:1,
+    margin: 10
+    
+    },
+    calendarWrapper: {
+        position: 'relative',
+        top: 20
+    }
 })
 
-class HostParkingSpotDetails extends React.Component {
+class HostParkingSpotCalendar extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      images: [],
-      parkingSpots: [],
       availabilFrom: [],
       availabilUntil: [],
-      rank: 10,
       screenHeight: 0,
-      check: '2020-04-04',
+      calendarStatus: false,
+      forDate: new Date(Date.now()),
+      untilDate: undefined,
+
+
     }
-    this.imageToArray = this.imageToArray.bind(this)
-    this.submitForm = this.submitForm.bind(this)
-    this.handleCardPress = this.handleCardPress.bind(this)
-    this.handleCalendarPress =this.handleCalendarPress.bind(this)
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
     this.loadCalendar = this.loadCalendar.bind(this)
     this.formatDate = this.formatDate.bind(this)
     this.getMarkAvailableDates = this.getMarkAvailableDates.bind(this)
     this.getMarkFutureDates = this.getMarkFutureDates.bind(this)
     this.getMarkWaitingDates = this.getMarkWaitingDates.bind(this)
+    this.ShowHideCalendarComponentView = this.ShowHideCalendarComponentView.bind(this)
+    this.updateForDate = this.updateForDate.bind(this)
+    this.updateUntilDate = this.updateUntilDate.bind(this)
 
   }
+  updateForDate (date) {
+    this.setState({ forDate: date })
+  }
+
+  updateUntilDate (date) {
+    this.setState({ untilDate: date })
+  }
+
+  ShowHideCalendarComponentView = () =>{
+ 
+    if(this.state.calendarStatus == true)
+    {
+      this.setState({calendarStatus: false})
+    }
+    else
+    {
+      this.setState({calendarStatus: true})
+    }
+  }
+
   onContentSizeChange(contentWidth, contentHeight) {
     // Save the content height in state
     this.setState({ screenHeight: contentHeight })
   }
 
-  imageToArray () {
-    const { parkingSpot } = this.props.route.params
-    let images = []
-    parkingSpot.parkingPictures.map(image => {
-      images.push(image.imageUrl)
-    })
-    this.setState({ images: images })
-  }
-
   componentDidMount () {
     const { parkingSpot } = this.props.route.params
-    this.imageToArray()
     this.loadCalendar()
     console.log("from")
     console.log(this.state.availabilFrom)
@@ -149,42 +128,50 @@ class HostParkingSpotDetails extends React.Component {
     return [year, month, day].join('-');
 }
 
-  submitForm () {
-    console.log('submited')
-  }
-
-  handleCardPress (parkingSpot) {
-    const { navigation } = this.props
-    navigation.navigate('HostEditParkingSpot', {
-      parkingSpot: parkingSpot
-    })
-    // console.log(parkingSpot)
-  }
-
-  handleCalendarPress (parkingSpot) {
-    const { navigation } = this.props
-    navigation.navigate('HostParkingSpotCalendar', {
-      parkingSpot: parkingSpot
-    })
-    // console.log(parkingSpot)
-  }
-
   getMarkAvailableDates () {
     const { parkingSpot } = this.props.route.params
     let dates = {}
     parkingSpot.windowsOfTime.map((window, index) => {
       dates[`${this.formatDate(window.AvailablefromTime)}`] = {
         startingDay: true,
-        color: 'green',
-        textColor: 'white'
+        color: '#6abd8e',
+        textColor: 'white',
+        // opacity: 0.3
+        //until here
       }
       dates[`${this.formatDate(window.AvailableUntilTime)}`] = {
         selected: true,
         endingDay: true,
-        color: 'green',
+        color: '#6abd8e',
         textColor: 'white'
       }
     })
+    parkingSpot.futureReservations.map((future, index) => {
+        dates[`${this.formatDate(future.requireToDate)}`] = {
+          startingDay: true,
+          color: '#e0705c',
+          textColor: 'white'
+        }
+        dates[`${this.formatDate(future.requireUntilDate)}`] = {
+          selected: true,
+          endingDay: true,
+          color: '#e0705c',
+          textColor: 'white'
+        }
+      })
+      parkingSpot.hostWaitingQueue.map((wait, index) => {
+        dates[`${this.formatDate(wait.requireToDate)}`] = {
+          startingDay: true,
+          color: '#f0e68c',
+          textColor: 'white'
+        }
+        dates[`${this.formatDate(wait.requireUntilDate)}`] = {
+          selected: true,
+          endingDay: true,
+          color: '#f0e68c',
+          textColor: 'white'
+        }
+      })
     console.log(dates)
     return dates
   }
@@ -242,85 +229,67 @@ class HostParkingSpotDetails extends React.Component {
           scrollEnabled={scrollEnabled}
           onContentSizeChange={this.onContentSizeChange}
         >
-        <View style={styles.sliderBoxContainer}>
-          <SliderBox
-            images={this.state.images}
-            sliderBoxHeight={300}
-            dotColor='#FFEE58'
-            inactiveDotColor='#90A4AE'
-          />
-          <Button
-            icon={
-              <Icon
-                name="pencil"
-                style={styles.edit}
-              >
-              <Text style={styles.ediText}>Edit</Text>
-              </Icon>
-            }
-            onPress={() => this.handleCardPress(parkingSpot)}
-          />
-        </View>
         <Text style={styles.address}>{parkingSpot.address}</Text>
-        <View style={styles.rankContainer}>
-            <Text style={styles.rankTotal}>{parkingSpot.totalRankParking}</Text>
-            <Ionicons
-              style={styles.iconStar}
-              name='ios-star'
-              color='black'
-              size={15}
-            />
-          </View>
-          <View style={styles.calendarBtn}>
-          <Button
-            type="clear"
-            icon={
-              <Icon
-                name="calendar"
-                style={styles.calendarInner}
-              >
-              {/* <Text style={styles.calendarText}>Calendar</Text> */}
-              </Icon>
-            }
-            onPress={() => this.handleCalendarPress(parkingSpot)}
-          />
-          </View>
         <View style={{ borderBottomColor: 'black',borderBottomWidth: 1,}}/>
 
-          <Text style={styles.parkingDataTitle}>Price:</Text>
-          <Text style={styles.parkingData}>{`${parkingSpot.price}$`}</Text>
           <View style={styles.line}/>
+          <View>
+            <View style={styles.MainContainer}>
+                {
+                    // Pass any View or Component inside the curly bracket.
+                    // Here the ? Question Mark represent the ternary operator.
 
-          <Text style={styles.parkingDataTitle}>Directions:</Text>
-          <Text style={styles.parkingData}>{parkingSpot.directions}</Text>
-          <View style={styles.line}/>
+                    this.state.calendarStatus ? <View><DateAndTimePicker updateDate={this.updateForDate} kind='Start Time'date={this.state.forDate}></DateAndTimePicker>
+                                                <DateAndTimePicker updateDate={this.updateUntilDate} kind='End Time'/></View> : null
+                }
+                <Button title="Add available time" onPress={this.ShowHideCalendarComponentView} />
+            </View>
 
-          <Text style={styles.parkingDataTitle}>Policy:</Text>
-          <Text style={styles.parkingData}>{parkingSpot.policy}</Text>
-          <View style={styles.line}/>
+          <Text style={styles.parkingDataTitle}>Available Dates (green marked)</Text>
+          <Text style={styles.parkingDataTitle}>Future Reservations (red marked)</Text>
+          <Text style={styles.parkingDataTitle}>Waiting for Approval (yellow marked)</Text>
+          <View style ={styles.calendarWrapper}>
+            <CalendarList
+            onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
+            // Max amount of months allowed to scroll to the past. Default = 50
+            pastScrollRange={0}
+            // Max amount of months allowed to scroll to the future. Default = 50
+            futureScrollRange={24}
+            // Enable or disable scrolling of calendar list
+            scrollEnabled={true}
+            // Enable or disable vertical scroll indicator. Default = false
+            showScrollIndicator={true}
+            onDayPress={(day) => {console.log('selected day', day)}}
 
-          <Text style={styles.parkingDataTitle}>Parking Spot Size:</Text>
-          <Text style={styles.parkingData}>{parkingSpot.parkingSize}</Text>
-          <View style={styles.line}/>
-
-          <Text style={styles.parkingDataTitle}>Is Available?</Text>
-          <Text style={styles.parkingData}>{parkingSpot.availability}</Text>
-          <View style={styles.line}/>
-        
-          <Button
-            icon={
-              <Icon
-                name="trash"
-                style={styles.delete}
-              >
-              <Text style={styles.ediText}>Delete</Text>
-              </Icon>
+            markedDates={
+              this.getMarkAvailableDates()
             }
-            // onPress={() => this.handleCardPress(parkingSpot)}
-          />
-</ScrollView>
+            markingType={'period'}
+            />
+            </View>
+
+          {/* <Text style={styles.parkingDataTitle}>Future Reservations (red marked)</Text>
+            <Calendar
+              onDayPress={(day) => {console.log('selected day', day)}}
+              markedDates={
+                this.getMarkFutureDates()
+              }
+              markingType={'period'}
+            />
+
+          <Text style={styles.parkingDataTitle}>Waiting for Approval (blue marked)</Text>
+            <Calendar
+            onDayPress={(day) => {console.log('selected day', day)}}
+
+            markedDates={
+              this.getMarkWaitingDates()
+            }
+            markingType={'period'}
+            /> */}
+          </View>
+        </ScrollView>
       </SafeAreaView>
     )
   }
 }
-export default HostParkingSpotDetails
+export default HostParkingSpotCalendar
