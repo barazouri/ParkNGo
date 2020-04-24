@@ -33,14 +33,37 @@ module.exports = {
     try {
       const { email = null } = req.query
       const result = await Profiles.find({ email: email })
-      const allFutureReservations = []
-      result.map(profile => {
-        profile.driverOrderSpot.map(order => {
-          allFutureReservations.push(order)
+      let allFutureReservations = []
+      await result.map(profile => {
+        allFutureReservations = profile.driverOrderSpot.map(async order => {
+          const resultsParkingspot = await Profiles.find(
+            { 'parkingSpots.parkingId': order.parkingSpotID },
+            {
+              parkingSpots: {
+                $elemMatch: { parkingId: order.parkingSpotID }
+              }
+            }
+          )
+          return {
+            parkingSpotID: order.parkingSpotID,
+            address: resultsParkingspot[0].parkingSpots[0].address,
+            requireToDate: order.requireToDate,
+            requireUntilDate: order.requireUntilDate,
+            policy: resultsParkingspot[0].parkingSpots[0].policy,
+            parkingSize: resultsParkingspot[0].parkingSpots[0].parkingSize,
+            price: resultsParkingspot[0].parkingSpots[0].price,
+            directions: resultsParkingspot[0].parkingSpots[0].directions,
+            availability: resultsParkingspot[0].parkingSpots[0].availability,
+            totalRankParking: resultsParkingspot[0].parkingSpots[0].totalRankParking,
+            parkingPictures: resultsParkingspot[0].parkingSpots[0].parkingPictures
+          }
         })
       })
-      console.log(allFutureReservations)
-      res.json(allFutureReservations)
+      const resultsallFutureReservations = await Promise.all(
+        allFutureReservations
+      )
+      console.log(resultsallFutureReservations)
+      res.json(resultsallFutureReservations)
     } catch (err) {
       console.error(err)
       return res.json(err)
@@ -155,7 +178,7 @@ module.exports = {
       let fromTimeDate = new Date(requireToDate)
       let untilTimeDate = new Date(requireUntilDate)
       if (isAutomatic) {
-         console.log("here 2")
+        console.log('here 2')
         let driverOrderSpot = {
           parkingSpotID: parkingSpotID,
           requireToDate: fromTimeDate,
@@ -189,8 +212,7 @@ module.exports = {
 
         console.log('ok')
         res.json('ok')
-      }
-      else {
+      } else {
         let driverWaitingQueue = {
           parkingId: parkingSpotID,
           requireToDate: fromTimeDate,
