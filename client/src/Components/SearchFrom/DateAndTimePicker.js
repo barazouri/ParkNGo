@@ -58,12 +58,7 @@ const DateAndTimePicker = props => {
   }
   const handleConfirm = date => {
     setShow(false)
-    if(mode === 'date'){
-      date.setDate(date)
-    }
-    else{
-      date.setTime(date)
-    }
+    setDate(date)
   }
 
   return (
@@ -88,7 +83,7 @@ const DateAndTimePicker = props => {
       {!show && date && (
         <View>
           <Text
-            style={{ textAlign: 'center' }}
+            style={{ textAlign: 'centerå' }}
           >{`Date: ${date.getDate()}/${date.getDay()}/${date.getFullYear()}`}</Text>
           <Text style={{ textAlign: 'center' }}>
             {`Time: ${date.getHours()}:${date.getMinutes()}`}{' '}
