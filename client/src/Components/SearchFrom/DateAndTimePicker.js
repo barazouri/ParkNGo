@@ -83,7 +83,7 @@ const DateAndTimePicker = props => {
       {!show && date && (
         <View>
           <Text
-            style={{ textAlign: 'centerå' }}
+            style={{ textAlign: 'center' }}
           >{`Date: ${date.getDate()}/${date.getDay()}/${date.getFullYear()}`}</Text>
           <Text style={{ textAlign: 'center' }}>
             {`Time: ${date.getHours()}:${date.getMinutes()}`}{' '}
