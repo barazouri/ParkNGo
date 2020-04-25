@@ -264,20 +264,14 @@ async removeSpecificParkingSpot(req, res, next) {
 
    async editSpecificParking(req, res, next) {
       try {
-         const { parkingId = null, address = null, policy = null, parkingSize = null, price = null, AvailablefromTime = null, AvailableUntilTime = null, directions = null } = req.body;
+         const { parkingId = null, address = null, policy = null, parkingSize = null, price = null, directions = null } = req.body;
          const parkingIDFound = await Profiles.find({ parkingSpots: {$elemMatch: {parkingId }}});
          if (!parkingIDFound.length) {
             console.log("A parking spot with that ID does not exist");
             return res.json("A parking spot with that ID does not exist");
          }
          else {
-            let fromTime = new Date(AvailablefromTime)
-            let untilDate = new Date(AvailableUntilTime)
-            let windowsOfTime = {
-               AvailablefromTime: fromTime,
-               AvailableUntilTime: untilDate,
-            }
-            let parkingSpot = { "parkingId": parkingId,"address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "windowsOfTime": windowsOfTime, "directions": directions }
+            let parkingSpot = { "parkingId": parkingId,"address": address, "policy": policy, "parkingSize": parkingSize, "price": price, "directions": directions }
             await Profiles.updateOne(
                { parkingSpots: {$elemMatch: {parkingId: parkingId }} },
                { $set: { 'parkingSpots.$.parkingId': parkingSpot.parkingId,
@@ -285,7 +279,6 @@ async removeSpecificParkingSpot(req, res, next) {
                'parkingSpots.$.policy': parkingSpot.policy,
                'parkingSpots.$.parkingSize': parkingSpot.parkingSize,
                'parkingSpots.$.price': parkingSpot.price,
-               'parkingSpots.$.windowsOfTime': parkingSpot.windowsOfTime,
                'parkingSpots.$.directions': parkingSpot.directions, } }
             )
             console.log(`${parkingId}'s parking spot has been updated`);
