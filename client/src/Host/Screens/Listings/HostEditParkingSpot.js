@@ -20,16 +20,23 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
         // alignItems: 'center'
-        alignSelf: 'center'
+        alignSelf: 'center',
+        position: 'relative',
+        height: 100,
+        top: 50,
+        height: 800
     },
     input: {
         margin: 15,
+        top: 100,
         // height: 40,
         // borderColor: '#7a42f4',
         // borderWidth: 1,
         width: 200,
      },
      edit: {
+        fontSize: 55,
+        color: "black",
         // justifyContent: 'center',
         // alignItems: 'center',
      },
@@ -37,6 +44,14 @@ const styles = StyleSheet.create({
         // textAlign: "center",
         fontSize: 30,
         alignSelf: 'center'
+     },
+     saveBtnContainer: {
+        position: 'relative', 
+        top: 120
+     },
+     priceBtn: {
+         position: 'relative',
+         top: 50
      }
 })
 
@@ -192,7 +207,7 @@ class HostEditParkingSpot extends React.Component {
                 /> */}
                 <Text style={styles.addressTitle}>{parkingSpot.address}</Text>
 
-                <DateAndTimePicker
+                {/* <DateAndTimePicker
                     updateDate={this.updateForDate}
                     kind='Start Time'
                     date={this.state.forDate}>
@@ -201,8 +216,8 @@ class HostEditParkingSpot extends React.Component {
                 <DateAndTimePicker
                     updateDate={this.updateUntilDate}
                     kind='End Time'
-                />
-
+                /> */}
+                <View style = {styles.priceBtn}>
                 <NumericInput 
                     value={this.state.price} 
                     onChange={price => this.setState({price})} 
@@ -220,16 +235,19 @@ class HostEditParkingSpot extends React.Component {
                     rightButtonBackgroundColor='#EA3788' 
                     leftButtonBackgroundColor='#E56B70'
                     />
-                
+                    </View>
+                <View style = {styles.input}>
                 <Dropdown
                     label='Policy'
                     data={selectPolicy}
                 />
-
-                <Dropdown
+                </View>
+                <View style = {styles.input}>
+                <Dropdown 
                     label='Parking Size'
                     data={selectParkingSize}
                 />
+                </View>
 
                 <TextInput style = {styles.input}
                     label = "Directions"
@@ -237,15 +255,17 @@ class HostEditParkingSpot extends React.Component {
                     value={this.state.directions}
                     onChangeText={directions => this.setState({ directions })}
                 />
-
-                <Button
+                <View style={styles.saveBtnContainer}>
+                <Button 
+                    type="clear"
                     icon={
                         <Icon name="save" style={styles.edit}>
-                        <Text style={styles.ediText}>Save</Text>
+                        {/* <Text style={styles.ediText}>Save</Text> */}
                         </Icon>
                     }
                     onPress={() => this.handlePressSave()}
                 />
+                </View>
             </View>
             </ScrollView>
             </SafeAreaView>

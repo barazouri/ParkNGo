@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Listings from './Listings'
 import HostParkingSpotDetails from './HostParkingSpotDetails'
 import HostEditParkingSpot from './HostEditParkingSpot'
+import HostParkingSpotCalendar from '../../Components/ParkingSpotCalendar/parkingSpotCalendar'
 import {
   createStackNavigator,
   TransitionPresets
@@ -42,6 +43,14 @@ class ListingNavigate extends React.Component {
             component={HostEditParkingSpot}
             options={{
               title: 'Edit Parking Spot',
+              ...TransitionPresets.ModalSlideFromBottomIOS
+            }}
+          />
+          <Stack.Screen
+            name='HostParkingSpotCalendar'
+            component={HostParkingSpotCalendar}
+            options={{
+              title: 'Calendar',
               ...TransitionPresets.ModalSlideFromBottomIOS
             }}
           />

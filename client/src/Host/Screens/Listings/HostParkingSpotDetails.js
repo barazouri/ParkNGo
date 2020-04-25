@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     position: "relative"
   },
   sliderBoxContainer: {
-    height: 350,
+    // height: 350,
   },
   rankContainer: {
     flexDirection: 'row',
@@ -60,6 +60,16 @@ const styles = StyleSheet.create({
   ediText: {
     fontSize: 25,
   },
+  calendarBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    // backgroundColor: 'green'
+  },
+  calendarInner: {
+    // backgroundColor: 'green'
+    fontSize: 45,
+
+  },
   delete: {
     fontSize: 35,
 
@@ -81,6 +91,7 @@ class HostParkingSpotDetails extends React.Component {
     this.imageToArray = this.imageToArray.bind(this)
     this.submitForm = this.submitForm.bind(this)
     this.handleCardPress = this.handleCardPress.bind(this)
+    this.handleCalendarPress =this.handleCalendarPress.bind(this)
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
     this.loadCalendar = this.loadCalendar.bind(this)
     this.formatDate = this.formatDate.bind(this)
@@ -145,6 +156,14 @@ class HostParkingSpotDetails extends React.Component {
   handleCardPress (parkingSpot) {
     const { navigation } = this.props
     navigation.navigate('HostEditParkingSpot', {
+      parkingSpot: parkingSpot
+    })
+    // console.log(parkingSpot)
+  }
+
+  handleCalendarPress (parkingSpot) {
+    const { navigation } = this.props
+    navigation.navigate('HostParkingSpotCalendar', {
       parkingSpot: parkingSpot
     })
     // console.log(parkingSpot)
@@ -241,7 +260,6 @@ class HostParkingSpotDetails extends React.Component {
             }
             onPress={() => this.handleCardPress(parkingSpot)}
           />
-          
         </View>
         <Text style={styles.address}>{parkingSpot.address}</Text>
         <View style={styles.rankContainer}>
@@ -252,6 +270,20 @@ class HostParkingSpotDetails extends React.Component {
               color='black'
               size={15}
             />
+          </View>
+          <View style={styles.calendarBtn}>
+          <Button
+            type="clear"
+            icon={
+              <Icon
+                name="calendar"
+                style={styles.calendarInner}
+              >
+              {/* <Text style={styles.calendarText}>Calendar</Text> */}
+              </Icon>
+            }
+            onPress={() => this.handleCalendarPress(parkingSpot)}
+          />
           </View>
         <View style={{ borderBottomColor: 'black',borderBottomWidth: 1,}}/>
 
@@ -274,42 +306,7 @@ class HostParkingSpotDetails extends React.Component {
           <Text style={styles.parkingDataTitle}>Is Available?</Text>
           <Text style={styles.parkingData}>{parkingSpot.availability}</Text>
           <View style={styles.line}/>
-          <View>
-
-          <Text style={styles.parkingDataTitle}>Available Dates (green marked)</Text>
-            <Calendar
-            onDayPress={(day) => {console.log('selected day', day)}}
-
-            markedDates={
-              this.getMarkAvailableDates()
-              // [`${tmp = this.formatDate(window.AvailablefromTime)}`]: {startingDay: true, color: 'green', textColor: 'white'},
-              // [`${tmp = this.formatDate(window.AvailableUntilTime)}`]: {selected: true, endingDay: true, color: 'green', textColor: 'white'},
-              // '2020-04-18': {marked: true},
-              // '2020-04-19': {marked: true, dotColor: 'red'}
-            }
-            markingType={'period'}
-            />
-
-          <Text style={styles.parkingDataTitle}>Future Reservations (red marked)</Text>
-            <Calendar
-              onDayPress={(day) => {console.log('selected day', day)}}
-              markedDates={
-                this.getMarkFutureDates()
-              }
-              markingType={'period'}
-            />
-
-          <Text style={styles.parkingDataTitle}>Waiting for Approval (blue marked)</Text>
-            <Calendar
-            onDayPress={(day) => {console.log('selected day', day)}}
-
-            markedDates={
-              this.getMarkWaitingDates()
-            }
-            markingType={'period'}
-            />
-             {/** 15:08*/}
-          </View>
+        
           <Button
             icon={
               <Icon
