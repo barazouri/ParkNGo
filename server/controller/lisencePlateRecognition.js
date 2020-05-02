@@ -9,6 +9,7 @@ module.exports = {
         console.log("A profile with that gmail account isn't exist")
         return res.json("A profile with that gmail account isn't exist")
       } else {
+        let reservation
         let exitDate = Date.now()
         if (plateNumber.length == 0) {
           // add date to this queryti find the specific park on a specific date
@@ -24,20 +25,44 @@ module.exports = {
             { parkingSpots: { $elemMatch: { parkingId: parkingId } } }
           )
           console.log(parkingSpot.parkingSpots[0].availability)
-          const userFound = await Profiles.findOne({
+          if (parkingSpot.parkingSpots[0].availability == '')
+            throw new Error('there is no car into the parking spot')
+          const userFoundExit = await Profiles.findOne({
             driverLicensePlate: parkingSpot.parkingSpots[0].availability
           })
-         await Profiles.updateOne(
+          let parkingSpotResult = await Profiles.findOne(
+            {
+              profileId: profileId
+            },
+            { parkingSpots: { $elemMatch: { parkingId: parkingId } } }
+          )
+          parkingSpotResult.parkingSpots[0].futureReservations.map(futureReservation => {
+            if (futureReservation.bookedBy === userFoundExit.email) {
+              reservation = futureReservation
+              console.log(reservation)
+            }
+          })
+          console.log("reser")
+          console.log(reservation)
+          await Profiles.updateOne(
             { profileId: profileId, 'parkingSpots.parkingId': parkingId },
             {
-              $pull: {'parkingSpots.$.futureReservations': {'bookedBy': userFound.email}}
+              $pull: {
+                'parkingSpots.$.futureReservations': {
+                  bookedBy: userFoundExit.email
+                }
+              }
             }
           )
-          let pastReservation = {bookedBy: userFound.email, untilDate: Date.now()}
-          await Profiles.findOneAndUpdate(
+          let pastReservation = {
+            bookedBy: userFoundExit.email,
+            untilDate: Date.now(),
+            fromoDate: reservation.enteredTime
+          }
+          await Profiles.updateOne(
             { profileId: profileId, 'parkingSpots.parkingId': parkingId },
             {
-              $push: {'parkingSpots.$.pastReservations': pastReservation}
+              $push: { 'parkingSpots.$.pastReservations': pastReservation }
             }
           )
         } else {
@@ -49,31 +74,27 @@ module.exports = {
             },
             { $set: { 'driverOrderSpot.$.enteredTime': Date.now() } }
           )
-          const userFound = await Profiles.findOne({
+          const userFoundEntered = await Profiles.findOne({
             driverLicensePlate: plateNumber
           })
-          console.log(userFound.email)
+          console.log(userFoundEntered.email)
+          let parkingSpotResult = await Profiles.findOne(
+            {
+              profileId: profileId
+            },
+            { parkingSpots: { $elemMatch: { parkingId: parkingId } } }
+          )
+          parkingSpotResult.parkingSpots[0].futureReservations.map(futureReservation => {
+            if (futureReservation.bookedBy === userFoundEntered.email) {
+              futureReservation.enteredTime = new Date(Date.now())
+            }
+          })
+          parkingSpotResult.save()
         }
         await Profiles.updateOne(
           { profileId: profileId, 'parkingSpots.parkingId': parkingId },
           { $set: { 'parkingSpots.$.availability': plateNumber } }
         )
-        console.log(profileId)
-        console.log(parkingId)
-
-        // let test = await Profiles.updateOne(
-        //   { profileId: profileId, 'parkingSpots.parkingId': parkingId}
-        //   ,{ 'futureReservations.bookedBy': userFound.email},
-        //   {
-        //     $set: {'parkingSpots.$[futureReservations].enteredTime': Date.now()}
-        //   }
-        // )
-        // console.log(test)
-        // let test = await Profiles.updateOne(
-        //     {"parkingSpots.parkingId": parkingId, "parkingSpots.futureReservations.bookedBy": userFound.email},
-        //     { $set: {'parkingSpots.$.futureReservations.requireToDate': Date.now() } }
-        // )
-        // console.log(test)
       }
       return res.json(plateNumber)
     } catch (err) {
