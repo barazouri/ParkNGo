@@ -75,7 +75,7 @@ class HostParkingSpotCalendar extends React.Component {
       calendarText: 'Add available time',
       forDate: new Date(Date.now()),
       untilDate: undefined,
-      isAutomatic: true
+      parkingSpot: props.route.params.parkingSpot,
 
     }
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
@@ -90,7 +90,8 @@ class HostParkingSpotCalendar extends React.Component {
     this.updateUntilDate = this.updateUntilDate.bind(this)
     this.handlePressSave = this.handlePressSave.bind(this)
     this.getUrlForApi = this.getUrlForApi.bind(this)
-
+    console.log("qqqqqqq")
+    console.log(props.route.params.parkingSpot.windowsOfTime)
   }
 
   getUrlForApi(){
@@ -170,9 +171,9 @@ class HostParkingSpotCalendar extends React.Component {
 }
 
   getMarkAvailableDates () {
-    const { parkingSpot } = this.props.route.params
+    // const { parkingSpot } = this.props.route.params
     let dates = {}
-    parkingSpot.windowsOfTime.map((window, index) => {
+    this.state.parkingSpot.windowsOfTime.map((window, index) => {
       dates[`${this.formatDate(window.AvailablefromTime)}`] = {
         startingDay: true,
         color: '#6abd8e',
@@ -187,7 +188,7 @@ class HostParkingSpotCalendar extends React.Component {
         textColor: 'white'
       }
     })
-    parkingSpot.futureReservations.map((future, index) => {
+    this.state.parkingSpot.futureReservations.map((future, index) => {
         dates[`${this.formatDate(future.requireToDate)}`] = {
           startingDay: true,
           color: '#e0705c',
@@ -200,7 +201,7 @@ class HostParkingSpotCalendar extends React.Component {
           textColor: 'white'
         }
       })
-      parkingSpot.hostWaitingQueue.map((wait, index) => {
+      this.state.parkingSpot.hostWaitingQueue.map((wait, index) => {
         dates[`${this.formatDate(wait.requireToDate)}`] = {
           startingDay: true,
           color: '#f0e68c',
@@ -289,7 +290,7 @@ class HostParkingSpotCalendar extends React.Component {
     })
       .then(res => res.json())
       .catch(err => new Error(err))
-
+    this.setState({parkingSpot: parkingSpot})
   }
 
   render () {
