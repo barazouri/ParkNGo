@@ -1,18 +1,25 @@
 import React from 'react'
-import { StyleSheet, Text, View, Dimensions, ScrollView, TouchableOpacity } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity
+} from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import { Button } from 'react-native-elements'
 import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
 import Icon from 'react-native-vector-icons/FontAwesome'
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
 import SafeAreaView from 'react-native-safe-area-view'
 
-const { height } = Dimensions.get('window');
+const { height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: "relative"
+    position: 'relative'
   },
   sliderBoxContainer: {
     // height: 350,
@@ -25,12 +32,13 @@ const styles = StyleSheet.create({
   iconStar: {
     fontSize: 35,
     color: '#ebd534',
-    position: "absolute",
+    position: 'absolute',
+    alignSelf:'center'
     // left: 2
   },
   rankTotal: {
     fontSize: 25,
-    position: "relative",
+    position: 'relative',
     left: 15,
     top: 1
   },
@@ -43,37 +51,35 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     width: Dimensions.get('window').width,
-    top: 20 
+    top: 20
   },
   line: {
     borderBottomColor: '#d2d4cf',
-    borderBottomWidth: 1,
+    borderBottomWidth: 1
   },
   parkingDataTitle: {
     alignSelf: 'center',
-    fontWeight: "bold"
+    fontWeight: 'bold'
   },
   edit: {
     fontSize: 35,
-    color: "black",
+    color: 'black'
   },
   ediText: {
-    fontSize: 25,
+    fontSize: 25
   },
   calendarBtn: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'center'
     // backgroundColor: 'green'
   },
   calendarInner: {
     // backgroundColor: 'green'
-    fontSize: 45,
-
+    fontSize: 45
   },
   delete: {
-    fontSize: 35,
-
-  },
+    fontSize: 35
+  }
 })
 
 class HostParkingSpotDetails extends React.Component {
@@ -87,46 +93,43 @@ class HostParkingSpotDetails extends React.Component {
       rank: 10,
       screenHeight: 0,
       check: '2020-04-04',
+      parkingSpot: props.route.params.parkingSpot
     }
     this.imageToArray = this.imageToArray.bind(this)
     this.submitForm = this.submitForm.bind(this)
     this.handleCardPress = this.handleCardPress.bind(this)
-    this.handleCalendarPress =this.handleCalendarPress.bind(this)
+    this.handleCalendarPress = this.handleCalendarPress.bind(this)
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
     this.loadCalendar = this.loadCalendar.bind(this)
     this.formatDate = this.formatDate.bind(this)
     this.getMarkAvailableDates = this.getMarkAvailableDates.bind(this)
     this.getMarkFutureDates = this.getMarkFutureDates.bind(this)
     this.getMarkWaitingDates = this.getMarkWaitingDates.bind(this)
-
   }
-  onContentSizeChange(contentWidth, contentHeight) {
+  onContentSizeChange (contentWidth, contentHeight) {
     // Save the content height in state
     this.setState({ screenHeight: contentHeight })
   }
 
   imageToArray () {
-    const { parkingSpot } = this.props.route.params
     let images = []
-    parkingSpot.parkingPictures.map(image => {
+    this.state.parkingSpot.parkingPictures.map(image => {
       images.push(image.imageUrl)
     })
     this.setState({ images: images })
   }
 
   componentDidMount () {
-    const { parkingSpot } = this.props.route.params
     this.imageToArray()
     this.loadCalendar()
-    console.log("from")
+    console.log('from')
     console.log(this.state.availabilFrom)
-    console.log("until")
+    console.log('until')
     console.log(this.state.availabilUntil)
   }
 
   loadCalendar () {
-    const { parkingSpot } = this.props.route.params
-    parkingSpot.windowsOfTime.map(window => {
+    this.state.parkingSpot.windowsOfTime.map(window => {
       let parseDateFrom = this.formatDate(window.AvailablefromTime)
       this.state.availabilFrom.push(parseDateFrom)
 
@@ -135,19 +138,17 @@ class HostParkingSpotDetails extends React.Component {
     })
   }
 
-  formatDate(date) {
+  formatDate (date) {
     var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear()
 
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
+    if (month.length < 2) month = '0' + month
+    if (day.length < 2) day = '0' + day
 
-    return [year, month, day].join('-');
-}
+    return [year, month, day].join('-')
+  }
 
   submitForm () {
     console.log('submited')
@@ -170,9 +171,8 @@ class HostParkingSpotDetails extends React.Component {
   }
 
   getMarkAvailableDates () {
-    const { parkingSpot } = this.props.route.params
     let dates = {}
-    parkingSpot.windowsOfTime.map((window, index) => {
+    this.state.parkingSpot.windowsOfTime.map((window, index) => {
       dates[`${this.formatDate(window.AvailablefromTime)}`] = {
         startingDay: true,
         color: 'green',
@@ -190,10 +190,9 @@ class HostParkingSpotDetails extends React.Component {
   }
 
   getMarkFutureDates () {
-    const { parkingSpot } = this.props.route.params
     let dates = {}
     // console.log('helloi')
-    parkingSpot.futureReservations.map((future, index) => {
+    this.state.parkingSpot.futureReservations.map((future, index) => {
       dates[`${this.formatDate(future.requireToDate)}`] = {
         startingDay: true,
         color: 'red',
@@ -211,9 +210,8 @@ class HostParkingSpotDetails extends React.Component {
   }
 
   getMarkWaitingDates () {
-    const { parkingSpot } = this.props.route.params
     let dates = {}
-    parkingSpot.hostWaitingQueue.map((wait, index) => {
+    this.state.parkingSpot.hostWaitingQueue.map((wait, index) => {
       dates[`${this.formatDate(wait.requireToDate)}`] = {
         startingDay: true,
         color: 'blue',
@@ -231,9 +229,7 @@ class HostParkingSpotDetails extends React.Component {
   }
 
   render () {
-    const scrollEnabled = this.state.screenHeight > height;
-    const { parkingSpot } = this.props.route.params
-    let tmp =''
+    const scrollEnabled = this.state.screenHeight > height
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -242,28 +238,25 @@ class HostParkingSpotDetails extends React.Component {
           scrollEnabled={scrollEnabled}
           onContentSizeChange={this.onContentSizeChange}
         >
-        <View style={styles.sliderBoxContainer}>
-          <SliderBox
-            images={this.state.images}
-            sliderBoxHeight={300}
-            dotColor='#FFEE58'
-            inactiveDotColor='#90A4AE'
-          />
-          <Button
-            icon={
-              <Icon
-                name="pencil"
-                style={styles.edit}
-              >
-              <Text style={styles.ediText}>Edit</Text>
-              </Icon>
-            }
-            onPress={() => this.handleCardPress(parkingSpot)}
-          />
-        </View>
-        <Text style={styles.address}>{parkingSpot.address}</Text>
-        <View style={styles.rankContainer}>
-            <Text style={styles.rankTotal}>{parkingSpot.totalRankParking}</Text>
+          <View style={styles.sliderBoxContainer}>
+            <SliderBox
+              images={this.state.images}
+              sliderBoxHeight={300}
+              dotColor='#FFEE58'
+              inactiveDotColor='#90A4AE'
+            />
+            <Button
+              icon={
+                <Icon name='pencil' style={styles.edit}>
+                  <Text style={styles.ediText}>Edit</Text>
+                </Icon>
+              }
+              onPress={() => this.handleCardPress(this.state.parkingSpot)}
+            />
+          </View>
+          <Text style={styles.address}>{this.state.address}</Text>
+          <View style={styles.rankContainer}>
+            <Text style={styles.rankTotal}>{this.state.parkingSpot.totalRankParking}</Text>
             <Ionicons
               style={styles.iconStar}
               name='ios-star'
@@ -272,53 +265,58 @@ class HostParkingSpotDetails extends React.Component {
             />
           </View>
           <View style={styles.calendarBtn}>
-          <Button
-            type="clear"
-            icon={
-              <Icon
-                name="calendar"
-                style={styles.calendarInner}
-              >
-              {/* <Text style={styles.calendarText}>Calendar</Text> */}
-              </Icon>
-            }
-            onPress={() => this.handleCalendarPress(parkingSpot)}
-          />
+            <Button
+              type='clear'
+              icon={
+                <Icon name='calendar' style={styles.calendarInner}>
+                  {/* <Text style={styles.calendarText}>Calendar</Text> */}
+                </Icon>
+              }
+              onPress={() => this.handleCalendarPress(this.state.parkingSpot)}
+            />
           </View>
-        <View style={{ borderBottomColor: 'black',borderBottomWidth: 1,}}/>
+          <View style={{ borderBottomColor: 'black', borderBottomWidth: 1 }} />
 
           <Text style={styles.parkingDataTitle}>Price:</Text>
-          <Text style={styles.parkingData}>{`${parkingSpot.price}$`}</Text>
-          <View style={styles.line}/>
+          <Text
+            style={styles.parkingData}
+          >{`${this.state.parkingSpot.price}$`}</Text>
+          <View style={styles.line} />
 
           <Text style={styles.parkingDataTitle}>Directions:</Text>
-          <Text style={styles.parkingData}>{parkingSpot.directions}</Text>
-          <View style={styles.line}/>
+          <Text style={styles.parkingData}>
+            {this.state.parkingSpot.directions}
+          </Text>
+          <View style={styles.line} />
 
           <Text style={styles.parkingDataTitle}>Policy:</Text>
-          <Text style={styles.parkingData}>{parkingSpot.policy}</Text>
-          <View style={styles.line}/>
+          <Text style={styles.parkingData}>
+            {this.state.parkingSpot.policy}
+          </Text>
+          <View style={styles.line} />
 
           <Text style={styles.parkingDataTitle}>Parking Spot Size:</Text>
-          <Text style={styles.parkingData}>{parkingSpot.parkingSize}</Text>
-          <View style={styles.line}/>
+          <Text style={styles.parkingData}>
+            {this.state.parkingSpot.parkingSize}
+          </Text>
+          <View style={styles.line} />
+          <Text style={styles.parkingDataTitle}>{this.state.parkingSpot.availability ? "Occupied by: " : "Is Available: " }</Text>
+          <Text style={styles.parkingData}>
+            {this.state.parkingSpot.availability.length > 0
+              ? this.state.parkingSpot.availability
+              : 'Yes'}
+          </Text>
+          <View style={styles.line} />
 
-          <Text style={styles.parkingDataTitle}>Is Available?</Text>
-          <Text style={styles.parkingData}>{parkingSpot.availability}</Text>
-          <View style={styles.line}/>
-        
           <Button
             icon={
-              <Icon
-                name="trash"
-                style={styles.delete}
-              >
-              <Text style={styles.ediText}>Delete</Text>
+              <Icon name='trash' style={styles.delete}>
+                <Text style={styles.ediText}>Delete</Text>
               </Icon>
             }
             // onPress={() => this.handleCardPress(parkingSpot)}
           />
-</ScrollView>
+        </ScrollView>
       </SafeAreaView>
     )
   }
