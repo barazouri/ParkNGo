@@ -13,7 +13,8 @@ import NumericInput from 'react-native-numeric-input'
 import * as Font from 'expo-font'
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#fff'
   },
   addressInput: {
     alignSelf: 'center',
@@ -38,12 +39,12 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   numberInputContainer: {
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)',
+    // borderWidth: 1,
+    // borderColor: 'rgba(0,0,0,0.2)',
     width: '100%',
     height: 200,
-    backgroundColor: '#fff',
-    borderRadius: 20,
+    // backgroundColor: '#fff',
+    // borderRadius: 20,
     alignSelf: 'center',
     marginBottom: 20
   }
@@ -108,17 +109,19 @@ class SearchForm extends React.Component {
             onChangeText={this.handleAdress}
           />
           {/* <Text style={{textAlign:'center', fontSize:20}}>Start Time</Text> */}
-          <DateAndTimePicker
-            updateDate={this.updateForDate}
-            kind='Start Time'
-            date={this.state.forDate}
-          />
-          {/* <Text style={{textAlign:'center', fontSize:20}}>End Time</Text> */}
-          <DateAndTimePicker
-            updateDate={this.updateUntilDate}
-            date={this.state.untilDate}
-            kind='End Time'
-          />
+          <View style={{marginTop:20}}>
+            <DateAndTimePicker
+              updateDate={this.updateForDate}
+              kind='Start Time/Date'
+              date={this.state.forDate}
+            />
+            {/* <Text style={{textAlign:'center', fontSize:20}}>End Time</Text> */}
+            <DateAndTimePicker
+              updateDate={this.updateUntilDate}
+              date={this.state.untilDate}
+              kind='End Time/Date'
+            />
+          </View>
           <View style={styles.numberInputContainer}>
             <View style={styles.distanceInput}>
               <Text style={styles.distanceText}>
