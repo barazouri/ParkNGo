@@ -90,8 +90,6 @@ class HostParkingSpotCalendar extends React.Component {
     this.updateUntilDate = this.updateUntilDate.bind(this)
     this.handlePressSave = this.handlePressSave.bind(this)
     this.getUrlForApi = this.getUrlForApi.bind(this)
-    console.log("qqqqqqq")
-    console.log(props.route.params.parkingSpot.windowsOfTime)
   }
 
   getUrlForApi(){
