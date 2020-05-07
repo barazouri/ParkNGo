@@ -36,13 +36,15 @@ module.exports = {
             },
             { parkingSpots: { $elemMatch: { parkingId: parkingId } } }
           )
-          parkingSpotResult.parkingSpots[0].futureReservations.map(futureReservation => {
-            if (futureReservation.bookedBy === userFoundExit.email) {
-              reservation = futureReservation
-              console.log(reservation)
+          parkingSpotResult.parkingSpots[0].futureReservations.map(
+            futureReservation => {
+              if (futureReservation.bookedBy === userFoundExit.email) {
+                reservation = futureReservation
+                console.log(reservation)
+              }
             }
-          })
-          console.log("reser")
+          )
+          console.log('reser')
           console.log(reservation)
           await Profiles.updateOne(
             { profileId: profileId, 'parkingSpots.parkingId': parkingId },
@@ -84,11 +86,13 @@ module.exports = {
             },
             { parkingSpots: { $elemMatch: { parkingId: parkingId } } }
           )
-          parkingSpotResult.parkingSpots[0].futureReservations.map(futureReservation => {
-            if (futureReservation.bookedBy === userFoundEntered.email) {
-              futureReservation.enteredTime = new Date(Date.now())
+          parkingSpotResult.parkingSpots[0].futureReservations.map(
+            futureReservation => {
+              if (futureReservation.bookedBy === userFoundEntered.email) {
+                futureReservation.enteredTime = new Date(Date.now())
+              }
             }
-          })
+          )
           parkingSpotResult.save()
         }
         await Profiles.updateOne(
