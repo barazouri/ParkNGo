@@ -99,6 +99,7 @@ class HostParkingSpotDetails extends React.Component {
     this.submitForm = this.submitForm.bind(this)
     this.handleCardPress = this.handleCardPress.bind(this)
     this.handleCalendarPress = this.handleCalendarPress.bind(this)
+    this.handleReviewPress = this.handleReviewPress.bind(this)
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
     this.loadCalendar = this.loadCalendar.bind(this)
     this.formatDate = this.formatDate.bind(this)
@@ -122,10 +123,6 @@ class HostParkingSpotDetails extends React.Component {
   componentDidMount () {
     this.imageToArray()
     this.loadCalendar()
-    console.log('from')
-    console.log(this.state.availabilFrom)
-    console.log('until')
-    console.log(this.state.availabilUntil)
   }
 
   loadCalendar () {
@@ -151,23 +148,27 @@ class HostParkingSpotDetails extends React.Component {
   }
 
   submitForm () {
-    console.log('submited')
   }
 
-  handleCardPress (parkingSpot) {
+  handleCardPress () {
     const { navigation } = this.props
     navigation.navigate('HostEditParkingSpot', {
-      parkingSpot: parkingSpot
+      parkingSpot: this.state.parkingSpot
     })
-    // console.log(parkingSpot)
   }
 
-  handleCalendarPress (parkingSpot) {
+  handleCalendarPress () {
     const { navigation } = this.props
     navigation.navigate('HostParkingSpotCalendar', {
-      parkingSpot: parkingSpot
+      parkingSpot: this.state.parkingSpot
     })
-    // console.log(parkingSpot)
+  }
+
+  handleReviewPress () {
+    const { navigation } = this.props
+    navigation.navigate('HostParkingSpotReviews', {
+      parkingSpot: this.state.parkingSpot
+    })
   }
 
   getMarkAvailableDates () {
@@ -185,7 +186,6 @@ class HostParkingSpotDetails extends React.Component {
         textColor: 'white'
       }
     })
-    console.log(dates)
     return dates
   }
 
@@ -205,7 +205,6 @@ class HostParkingSpotDetails extends React.Component {
         textColor: 'white'
       }
     })
-    console.log(dates)
     return dates
   }
 
@@ -224,7 +223,6 @@ class HostParkingSpotDetails extends React.Component {
         textColor: 'white'
       }
     })
-    console.log(dates)
     return dates
   }
 
@@ -251,7 +249,7 @@ class HostParkingSpotDetails extends React.Component {
                   <Text style={styles.ediText}>Edit</Text>
                 </Icon>
               }
-              onPress={() => this.handleCardPress(this.state.parkingSpot)}
+              onPress={() => this.handleCardPress()}
             />
           </View>
           <Text style={styles.address}>{this.state.address}</Text>
@@ -262,6 +260,7 @@ class HostParkingSpotDetails extends React.Component {
               name='ios-star'
               color='black'
               size={15}
+              onPress={() => this.handleReviewPress()}
             />
           </View>
           <View style={styles.calendarBtn}>
@@ -272,7 +271,7 @@ class HostParkingSpotDetails extends React.Component {
                   {/* <Text style={styles.calendarText}>Calendar</Text> */}
                 </Icon>
               }
-              onPress={() => this.handleCalendarPress(this.state.parkingSpot)}
+              onPress={() => this.handleCalendarPress()}
             />
           </View>
           <View style={{ borderBottomColor: 'black', borderBottomWidth: 1 }} />
