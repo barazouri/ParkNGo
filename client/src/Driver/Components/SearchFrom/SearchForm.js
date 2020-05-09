@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     width: '80%',
     margin: 10,
     fontFamily: 'Inter-SemiBoldItalic'
-
   },
   distanceText: {
     marginTop: 5,
@@ -61,11 +60,6 @@ class SearchForm extends React.Component {
       address: null,
       price: 0
     }
-    // let [fontsLoaded] = useFonts({
-    //   'Inter-SemiBoldItalic': 'https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12',
-    // });
-    // this.onChange = this.onChange.bind(this)
-    // this.showDatepicker = this.showDatepicker.bind(this)
     this.updateForDate = this.updateForDate.bind(this)
     this.updateUntilDate = this.updateUntilDate.bind(this)
     this.submitForm = this.submitForm.bind(this)
@@ -122,6 +116,7 @@ class SearchForm extends React.Component {
           {/* <Text style={{textAlign:'center', fontSize:20}}>End Time</Text> */}
           <DateAndTimePicker
             updateDate={this.updateUntilDate}
+            date={this.state.untilDate}
             kind='End Time'
           />
           <View style={styles.numberInputContainer}>

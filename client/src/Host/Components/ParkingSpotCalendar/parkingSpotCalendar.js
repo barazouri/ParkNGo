@@ -82,7 +82,6 @@ class HostParkingSpotCalendar extends React.Component {
       untilDate: undefined,
       parkingSpot: props.route.params.parkingSpot,
       isAutomatic: true
-
     }
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
     this.loadCalendar = this.loadCalendar.bind(this)
@@ -136,6 +135,7 @@ class HostParkingSpotCalendar extends React.Component {
     else
     {
       this.setState({calendarText: 'Back', calendarEditbtn: 'cached'})
+
     }
   }
 
