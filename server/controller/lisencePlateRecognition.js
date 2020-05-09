@@ -44,7 +44,6 @@ module.exports = {
               }
             }
           )
-
           await Profiles.updateOne(
             { profileId: profileId, 'parkingSpots.parkingId': parkingId },
             {
@@ -92,6 +91,7 @@ module.exports = {
               }
             }
           )
+
           parkingSpotResult.save()
         }
         await Profiles.updateOne(
