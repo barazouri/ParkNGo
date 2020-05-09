@@ -87,12 +87,12 @@ class ParkingSpotDetails extends React.Component {
     this.imageToArray()
   }
   submitForm () {
+    const { navigation } = this.props
     const { parkingSpot, forDate, untilDate } = this.props.route.params
     console.log(parkingSpot)
     // console.log(forDate)
     let newuntilDate
     if (untilDate === undefined) {
-      console.log('yes')
       newuntilDate = new Date(forDate)
       newuntilDate.setHours(newuntilDate.getHours() + 2) //2 hours by default
     } else {
@@ -109,6 +109,11 @@ class ParkingSpotDetails extends React.Component {
       body: `email=${profile}&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${newuntilDate}&isAutomatic=${bool}` // <-- Post parameters
     }).catch(error => {
       console.log(error)
+    })
+    navigation.navigate('BookApproved', {
+      parkingSpot: parkingSpot,
+      forDate: forDate,
+      untilDate: newuntilDate
     })
   }
   render () {

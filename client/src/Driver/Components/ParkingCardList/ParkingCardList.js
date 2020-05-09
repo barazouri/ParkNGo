@@ -5,8 +5,11 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native'
+import StarRating from 'react-native-star-rating'
+
 import { Card } from 'react-native-elements' // 0.19.0
 import { Ionicons } from '@expo/vector-icons' // 6.2.2
 
@@ -24,6 +27,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   }
 })
+const { height, width } = Dimensions.get('window')
 
 class ParkingCardList extends Component {
   constructor (props) {
@@ -96,13 +100,13 @@ class ParkingCardList extends Component {
                   ></Image>
                 )}
                 <View style={styles.rankContainer}>
-                  <Text>{parkingSpot.totalRankParking}</Text>
-                  <Ionicons
-                    style={styles.iconStar}
-                    name='ios-star'
-                    color='black'
-                    size={15}
-                  />
+                <StarRating
+                  disable={true}
+                  maxStars={5}
+                  starStyle={{color:  '#ebd534'}}
+                  rating={parkingSpot.totalRankParking}
+                  starSize={15}
+                />
                 </View>
                 <Text
                   style={{
@@ -137,6 +141,95 @@ class ParkingCardList extends Component {
         </ScrollView>
       </View>
     )
+    // return (
+    //   <View style={{ flex: 1 }}>
+    //     <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
+    //       <View
+    //         style={{
+    //           paddingHorizontal: 20,
+    //           marginTop: 20,
+    //           flexDirection: 'row',
+    //           flexWrap: 'wrap',
+    //           justifyContent: 'space-between'
+    //         }}
+    //       >
+    //         {console.log('========')}
+    //         {console.log(this.state.parkingSpots)}
+    //         {this.state.parkingSpots.map((parkingSpot, index) => (
+    //           <TouchableOpacity
+    //             style={{ flex: 1 }}
+    //             onPress={() => this.handleCardPress(parkingSpot)}
+    //             key={index}
+    //           >
+    //             <View
+    //               style={{
+    //                 width: width / 2 - 30,
+    //                 height: width / 2 - 30,
+    //                 borderWidth: 0.5,
+    //                 borderColor: '#dddddd'
+    //               }}
+    //             >
+    //               {parkingSpot.parkingPictures[0] && (
+    //                 <View style={{ flex: 1 }}>
+    //                   <Image
+    //                     style={{
+    //                       flex: 1,
+    //                       width: null,
+    //                       height: null,
+    //                       resizeMode: 'cover'
+    //                     }}
+    //                     source={{
+    //                       uri: parkingSpot.parkingPictures[0].imageUrl
+    //                     }}
+    //                   />
+    //                 </View>
+    //               )}
+    //               <View
+    //                 style={{
+    //                   flex: 1,
+    //                   alignItems: 'flex-start',
+    //                   justifyContent: 'space-evenly',
+    //                   paddingLeft: 10
+    //                 }}
+    //               >
+    //                 <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+    //                   {this.props.name}
+    //                   Adress: {parkingSpot.address}
+    //                 </Text>
+    //                 <Text style={{ fontSize: 10 }}>
+    //                   Price: {parkingSpot.price}$
+    //                 </Text>
+    //                 <StarRating
+    //                   disable={true}
+    //                   maxStars={5}
+    //                   rating={parkingSpot.totalRankParking}
+    //                   starSize={10}
+    //                 />
+    //                 {/* <Text>{parkingSpot.totalRankParking}</Text>
+    //               <Ionicons
+    //                 style={styles.iconStar}
+    //                 name='ios-star'
+    //                 color='black'
+    //                 size={15}
+    //               /> */}
+    //               </View>
+
+    //               {/* <Text
+    //               style={{
+    //                 marginBottom: 10,
+    //                 fontSize: 20,
+    //                 fontFamily: 'Inter-SemiBoldItalic'
+    //               }}
+    //             >
+    //               Policy: {parkingSpot.policy}
+    //             </Text> */}
+    //             </View>
+    //           </TouchableOpacity>
+    //         ))}
+    //       </View>
+    //     </ScrollView>
+    //   </View>
+    // )
   }
 }
 export default ParkingCardList

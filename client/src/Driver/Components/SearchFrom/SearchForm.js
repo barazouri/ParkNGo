@@ -171,7 +171,6 @@ class SearchForm extends React.Component {
             style={{ width: Dimensions.get('window').width, top: 20 }}
             color='#841584'
             onPress={() => this.submitForm(navigation)}
-            accessibilityLabel='Learn more about this purple button'
           />
         </ScrollView>
       </SafeAreaView>

@@ -44,8 +44,7 @@ module.exports = {
               }
             }
           )
-          console.log('reser')
-          console.log(reservation)
+
           await Profiles.updateOne(
             { profileId: profileId, 'parkingSpots.parkingId': parkingId },
             {

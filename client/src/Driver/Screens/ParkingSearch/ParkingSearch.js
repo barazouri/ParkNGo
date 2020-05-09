@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import ParkingCardList from '../../Components/ParkingCardList/ParkingCardList'
 import ParkingSpotDetails from '../ParkingSpotDetails/ParkingSpotDetails'
 import SearchForm from '../../Components/SearchFrom/SearchForm'
+import BookApproved from '../BookApprove/BookApprove'
 import {
   createStackNavigator,
   TransitionPresets
@@ -43,6 +44,15 @@ class ParkingSearch extends React.Component {
             component={ParkingSpotDetails}
             options={{
               title: 'Parking Details',
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
+            }}
+          />
+          <Stack.Screen
+            name='BookApproved'
+            component={BookApproved}
+            options={{
+              title: 'Book Status',
               ...TransitionPresets.ModalSlideFromBottomIOS,
               headerBackground: () => <HeaderLogo />
             }}
