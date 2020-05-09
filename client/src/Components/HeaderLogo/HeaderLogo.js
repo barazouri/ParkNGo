@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Image } from 'react-native'
+import logo from '../../../images/logo.png'
 
 const HeaderLogo = props => {
   return (
@@ -13,7 +14,7 @@ const HeaderLogo = props => {
           marginBottom: 10,
           alignSelf: 'flex-end'
         }}
-        source={require('../../../images/logo.png')}
+        source={logo}
       />
     </View>
   )

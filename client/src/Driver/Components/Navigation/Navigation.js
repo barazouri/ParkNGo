@@ -9,7 +9,7 @@ import ParkingSearch from '../../Screens/ParkingSearch/ParkingSearch'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
 import Icon from 'react-native-vector-icons/FontAwesome'
-
+import HeaderLogo from '../../../Components/HeaderLogo/HeaderLogo'
 class Navigation extends React.Component {
   constructor (props) {
     super(props)
@@ -73,10 +73,11 @@ class Navigation extends React.Component {
           // initialRouteName="Feed"
           name='Home'
           options={{
+            headerTitle: props => <HeaderLogo {...props} />,
             tabBarLabel: 'Home',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='home' color={color} size={size} />
-            )
+            ),
           }}
           component={Home}
         />
@@ -105,15 +106,10 @@ class Navigation extends React.Component {
           options={{
             tabBarLabel: 'Reservations',
             tabBarIcon: ({ color, size }) => (
-              <Ionicons
-               name='md-book'
-                size={30}
-                color={color}
-              />
+              <Ionicons name='md-book' size={30} color={color} />
             ),
             headerTitle: 'REs'
           }}
-          
           initialParams={{
             changeKindUser: this.changeKindUser,
             kindUser: this.state.kindUser

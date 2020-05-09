@@ -108,7 +108,6 @@ class Reservations extends Component {
                     fontFamily: 'Inter-SemiBoldItalic'
                   }}
                 >
-                   
                   Date: {this.getDate(reservation.requireToDate)} -{' '}
                   {this.getDate(reservation.requireUntilDate)}
                 </Text>

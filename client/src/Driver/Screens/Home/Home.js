@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-
+import HeaderLogo from '../../../Components/HeaderLogo/HeaderLogo'
 
 const styles = StyleSheet.create({
     container: {
@@ -14,7 +14,7 @@ class Home extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={styles.container}> 
                 <Text>Home</Text>
             </View>
         );

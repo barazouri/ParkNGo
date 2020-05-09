@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.2)',
     width: '100%',
-    height: 150,
+    height: 140,
     backgroundColor: '#fff',
     borderRadius: 20,
     alignSelf: 'center',
@@ -109,6 +109,7 @@ const DateAndTimePicker = props => {
           isVisible={show}
           date={date}
           mode={mode}
+          headerTextIOS={mode === 'time' ? "Pick a time" : "Pick a date"}
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />

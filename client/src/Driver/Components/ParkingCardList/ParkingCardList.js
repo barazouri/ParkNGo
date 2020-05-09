@@ -5,8 +5,11 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native'
+import StarRating from 'react-native-star-rating'
+
 import { Card } from 'react-native-elements' // 0.19.0
 import { Ionicons } from '@expo/vector-icons' // 6.2.2
 
@@ -24,6 +27,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end'
   }
 })
+const { height, width } = Dimensions.get('window')
 
 class ParkingCardList extends Component {
   constructor (props) {
@@ -96,13 +100,13 @@ class ParkingCardList extends Component {
                   ></Image>
                 )}
                 <View style={styles.rankContainer}>
-                  <Text>{parkingSpot.totalRankParking}</Text>
-                  <Ionicons
-                    style={styles.iconStar}
-                    name='ios-star'
-                    color='black'
-                    size={15}
-                  />
+                <StarRating
+                  disable={true}
+                  maxStars={5}
+                  starStyle={{color:  '#ebd534'}}
+                  rating={parkingSpot.totalRankParking}
+                  starSize={15}
+                />
                 </View>
                 <Text
                   style={{
