@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from '../../Screens/Home/Home'
 import ReservationStack from '../../Screens/ReservationStack/ReservationStack'
 import ListingsNavigate from '../../../Host/Screens/Listings/ListingNavigate'
+import UploadPark from '../../../Host/Screens/Listings/UploadPark'
 import Profile from '../../Screens/Profile/Profile'
 import ParkingSearch from '../../Screens/ParkingSearch/ParkingSearch'
 import { Ionicons } from '@expo/vector-icons'
@@ -27,28 +28,21 @@ class Navigation extends React.Component {
       <Tab.Navigator>
         <Tab.Screen
           // initialRouteName="Feed"
-          name='Home'
+          name='Listings'
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Listings',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='home' color={color} size={size} />
             )
           }}
-          component={Home}
+          component={ListingsNavigate}
         />
         <Tab.Screen
           // initialRouteName="Feed"
           name='Upload'
-          component={ListingsNavigate}
+          component={UploadPark}
           options={{
             tabBarLabel: 'Upload',
-            // headerRight: () => (
-            //   <Button
-            //     onPress={() => alert('This is a button!')}
-            //     title='Info'
-            //     color='#fff'
-            //   />
-            // ),
             tabBarIcon: ({ color, size }) => (
               <Icon name='upload' color={color} size={size} />
             )

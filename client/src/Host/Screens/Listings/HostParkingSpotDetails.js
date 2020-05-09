@@ -252,7 +252,7 @@ class HostParkingSpotDetails extends React.Component {
               onPress={() => this.handleCardPress()}
             />
           </View>
-          <Text style={styles.address}>{this.state.address}</Text>
+          <Text style={styles.address}>{this.state.parkingSpot.address}</Text>
           <View style={styles.rankContainer}>
             <Text style={styles.rankTotal}>{this.state.parkingSpot.totalRankParking}</Text>
             <Ionicons
