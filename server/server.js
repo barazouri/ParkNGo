@@ -4,15 +4,10 @@ const searchCtl = require('./controller/search.ctl');
 const bookCtl = require('./controller/book.ctl');
 const lisencePlateRecognition = require('./controller/lisencePlateRecognition')
 const app = express();
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
 const port = process.env.PORT || 3000;
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
+
 app.use(express.urlencoded({extended:true}));
 app.use( (req, res, next)=> {
-  req.io = io
   res.setHeader('Access-Control-Allow-Origin', '*');
   next();
 });
@@ -63,15 +58,11 @@ app.post('/approveOrDeclineReq',bookCtl.approveOrDeclineReq);
 
 
 
+app.all('*', (req, res) => {
+  console.log("localhost:3000/getAllProfiles");        //works
+  // res.send('localhost:3000/getAllProfiles');
+});
 
-
-// setInterval(() => {
-//   io.emit('ping', { data: "hello"});
-// }, 1000);
-// app.all('*', (req, res) => {
-//   console.log("There is no rout");        //works
-//   // res.send('localhost:3000/getAllProfiles');
-// });
 app.listen(port, () => console.log(`listening on port ${port}`));
 
 

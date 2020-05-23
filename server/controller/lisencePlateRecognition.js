@@ -1,4 +1,5 @@
 const Profiles = require('../models/profiles')
+
 module.exports = {
   async licensePlateUpdate (req, res) {
     try {
@@ -98,10 +99,6 @@ module.exports = {
           { $set: { 'parkingSpots.$.availability': plateNumber } }
         )
       }
-      // req.io.on('connection', function (socket) {
-      //   console.log('a user connected')
-      // })
-      // req.io.emit('parkingSpotStatus', { plateNumber: plateNumber })
       return res.json(plateNumber)
     } catch (err) {
       console.error(err)
