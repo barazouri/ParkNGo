@@ -99,6 +99,7 @@ module.exports = {
           { $set: { 'parkingSpots.$.availability': plateNumber } }
         )
       }
+      res.io.emit("parkingSpotAvailabilityChange",  plateNumber)
       return res.json(plateNumber)
     } catch (err) {
       console.error(err)

@@ -13,6 +13,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
 import SafeAreaView from 'react-native-safe-area-view'
+const io = require('socket.io-client')
 
 const { height } = Dimensions.get('window')
 
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     color: '#ebd534',
     position: 'absolute',
-    alignSelf:'center'
+    alignSelf: 'center'
     // left: 2
   },
   rankTotal: {
@@ -93,7 +94,8 @@ class HostParkingSpotDetails extends React.Component {
       rank: 10,
       screenHeight: 0,
       check: '2020-04-04',
-      parkingSpot: props.route.params.parkingSpot
+      parkingSpot: props.route.params.parkingSpot,
+      plateNumber: null
     }
     this.imageToArray = this.imageToArray.bind(this)
     this.submitForm = this.submitForm.bind(this)
@@ -120,6 +122,15 @@ class HostParkingSpotDetails extends React.Component {
   }
 
   componentDidMount () {
+    const socket = io('http://b585f275.ngrok.io', {
+      transports: ['websocket']
+    })
+    socket.on('parkingSpotAvailabilityChange', plateNumber => {
+      let { parkingSpot } = this.state
+      parkingSpot.availability = plateNumber
+      console.log(plateNumber)
+      this.setState({ parkingSpot: parkingSpot })
+    })
     this.imageToArray()
     this.loadCalendar()
     console.log('from')
@@ -256,7 +267,9 @@ class HostParkingSpotDetails extends React.Component {
           </View>
           <Text style={styles.address}>{this.state.address}</Text>
           <View style={styles.rankContainer}>
-            <Text style={styles.rankTotal}>{this.state.parkingSpot.totalRankParking}</Text>
+            <Text style={styles.rankTotal}>
+              {this.state.parkingSpot.totalRankParking}
+            </Text>
             <Ionicons
               style={styles.iconStar}
               name='ios-star'
@@ -300,12 +313,18 @@ class HostParkingSpotDetails extends React.Component {
             {this.state.parkingSpot.parkingSize}
           </Text>
           <View style={styles.line} />
-          <Text style={styles.parkingDataTitle}>{this.state.parkingSpot.availability ? "Occupied by: " : "Is Available: " }</Text>
+          <Text style={styles.parkingDataTitle}>
+            {this.state.parkingSpot.availability ||
+            this.state.parkingSpot.availability.length > 0
+              ? 'Occupied by: '
+              : 'Is Available: '}
+          </Text>
           <Text style={styles.parkingData}>
             {this.state.parkingSpot.availability.length > 0
               ? this.state.parkingSpot.availability
               : 'Yes'}
           </Text>
+          {/* <Text>{this.state.plateNumber}</Text> */}
           <View style={styles.line} />
 
           <Button

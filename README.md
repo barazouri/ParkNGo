@@ -12,3 +12,7 @@ bash camera.sh
 
 openalpr github:
 https://github.com/openalpr/openalpr
+
+server:
+to use the socket run command: ngrok http 3000
+npm start
