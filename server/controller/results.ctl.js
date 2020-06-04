@@ -149,9 +149,7 @@ module.exports = {
          profile.parkingSpots.map(parkingSpot => {
             allparkingSpots.push(parkingSpot)
          })
-      //   return res.json(profile.parkingSpots)
       })
-      // console.log(allparkingSpots)
       res.json(allparkingSpots)
     } catch (err) {
       console.error(err)
