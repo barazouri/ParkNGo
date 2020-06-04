@@ -99,6 +99,7 @@ class HostParkingSpotDetails extends React.Component {
     }
     this.imageToArray = this.imageToArray.bind(this)
     this.submitForm = this.submitForm.bind(this)
+    this.handleReviewPress = this.handleReviewPress.bind(this)
     this.handleCardPress = this.handleCardPress.bind(this)
     this.handleCalendarPress = this.handleCalendarPress.bind(this)
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
@@ -133,10 +134,6 @@ class HostParkingSpotDetails extends React.Component {
     })
     this.imageToArray()
     this.loadCalendar()
-    console.log('from')
-    console.log(this.state.availabilFrom)
-    console.log('until')
-    console.log(this.state.availabilUntil)
   }
 
   loadCalendar () {
@@ -179,6 +176,12 @@ class HostParkingSpotDetails extends React.Component {
       parkingSpot: parkingSpot
     })
     // console.log(parkingSpot)
+  }
+  handleReviewPress () {
+    const { navigation } = this.props
+    navigation.navigate('HostParkingSpotReviews', {
+      parkingSpot: this.state.parkingSpot
+    })
   }
 
   getMarkAvailableDates () {
