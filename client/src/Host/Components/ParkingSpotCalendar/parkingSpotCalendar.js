@@ -77,9 +77,11 @@ class HostParkingSpotCalendar extends React.Component {
       screenHeight: 0,
       calendarStatus: false,
       calendarText: 'Add available time',
+      calendarEditbtn: '',
       forDate: new Date(Date.now()),
       untilDate: undefined,
-      parkingSpot: props.route.params.parkingSpot
+      parkingSpot: props.route.params.parkingSpot,
+      isAutomatic: true
     }
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
     this.loadCalendar = this.loadCalendar.bind(this)
@@ -110,21 +112,30 @@ class HostParkingSpotCalendar extends React.Component {
     this.setState({ untilDate: date })
   }
 
-  ShowHideCalendarComponentView = () => {
-    if (this.state.calendarStatus == true) {
-      this.setState({ calendarStatus: false })
-      this.setState({ calendarText: 'Add available time' })
-    } else {
-      this.setState({ calendarStatus: true })
-      this.setState({ calendarText: 'Back' })
+  ShowHideCalendarComponentView = () =>{
+ 
+    if(this.state.calendarStatus == true)
+    {
+      this.setState({calendarStatus: false})
+      this.setState({calendarText: 'Add available time', calendarEditbtn: ''})
+    }
+    else
+    {
+      this.setState({calendarStatus: true})
+      this.setState({calendarText: 'Back', calendarEditbtn: 'cached'})
     }
   }
 
-  OpenCloseCalendarComponentView = () => {
-    if (this.state.calendarStatus == true) {
-      this.setState({ calendarText: 'Add available time' })
-    } else {
-      this.setState({ calendarText: 'Back' })
+  OpenCloseCalendarComponentView = () =>{
+ 
+    if(this.state.calendarStatus == true)
+    {
+      this.setState({calendarText: 'Add available time', calendarEditbtn: ''})
+    }
+    else
+    {
+      this.setState({calendarText: 'Back', calendarEditbtn: 'cached'})
+
     }
   }
 
@@ -134,7 +145,6 @@ class HostParkingSpotCalendar extends React.Component {
   }
 
   componentDidMount () {
-    const { parkingSpot } = this.props.route.params
     this.loadCalendar()
     // console.log("from")
     // console.log(this.state.availabilFrom)
@@ -143,8 +153,7 @@ class HostParkingSpotCalendar extends React.Component {
   }
 
   loadCalendar () {
-    const { parkingSpot } = this.props.route.params
-    parkingSpot.windowsOfTime.map(window => {
+    this.state.parkingSpot.windowsOfTime.map(window => {
       let parseDateFrom = this.formatDate(window.AvailablefromTime)
       this.state.availabilFrom.push(parseDateFrom)
 
@@ -166,7 +175,6 @@ class HostParkingSpotCalendar extends React.Component {
   }
 
   getMarkAvailableDates () {
-    // const { parkingSpot } = this.props.route.params
     let dates = {}
     this.state.parkingSpot.windowsOfTime.map((window, index) => {
       dates[`${this.formatDate(window.AvailablefromTime)}`] = {
@@ -214,10 +222,9 @@ class HostParkingSpotCalendar extends React.Component {
   }
 
   getMarkFutureDates () {
-    const { parkingSpot } = this.props.route.params
     let dates = {}
     // console.log('helloi')
-    parkingSpot.futureReservations.map((future, index) => {
+    this.state.parkingSpot.futureReservations.map((future, index) => {
       dates[`${this.formatDate(future.requireToDate)}`] = {
         startingDay: true,
         color: 'red',
@@ -235,9 +242,8 @@ class HostParkingSpotCalendar extends React.Component {
   }
 
   getMarkWaitingDates () {
-    const { parkingSpot } = this.props.route.params
     let dates = {}
-    parkingSpot.hostWaitingQueue.map((wait, index) => {
+    this.state.parkingSpot.hostWaitingQueue.map((wait, index) => {
       dates[`${this.formatDate(wait.requireToDate)}`] = {
         startingDay: true,
         color: 'blue',
@@ -256,7 +262,6 @@ class HostParkingSpotCalendar extends React.Component {
 
   handlePressSave () {
     this.ShowHideCalendarComponentView()
-    const { parkingSpot } = this.props.route.params
     let urlAdd = this.getUrlForApi()
     // console.log("Saved")
 
@@ -269,7 +274,7 @@ class HostParkingSpotCalendar extends React.Component {
     if (this.state.isAutomatic === true) {
       isAutomatic == true
     }
-    const parkingId = parkingSpot.parkingId
+    const parkingId = this.state.parkingSpot.parkingId
     let url = `${urlAdd}`
     fetch(`${url}`, {
       method: 'POST',
@@ -298,7 +303,6 @@ class HostParkingSpotCalendar extends React.Component {
       }
     ]
     const scrollEnabled = this.state.screenHeight > height
-    const { parkingSpot } = this.props.route.params
     let tmp = ''
     return (
       <SafeAreaView style={styles.container}>
@@ -308,58 +312,48 @@ class HostParkingSpotCalendar extends React.Component {
           scrollEnabled={scrollEnabled}
           onContentSizeChange={this.onContentSizeChange}
         >
-          <Text style={styles.address}>{parkingSpot.address}</Text>
+          <Text style={styles.address}>{this.state.parkingSpot.address}</Text>
           <View style={{ borderBottomColor: 'black', borderBottomWidth: 1 }} />
 
           <View style={styles.line} />
           <View>
             <View style={styles.MainContainer}>
-              {// Pass any View or Component inside the curly bracket.
-              // Here the ? Question Mark represent the ternary operator.
+            <Button
+                  icon={{name: this.state.calendarEditbtn}}
+                  type="clear" 
+                  title={this.state.calendarText} onPress={this.ShowHideCalendarComponentView} />
+                {
+                    // Pass any View or Component inside the curly bracket.
+                    // Here the ? Question Mark represent the ternary operator.
 
-              this.state.calendarStatus ? (
-                <View>
-                  <DateAndTimePicker
-                    updateDate={this.updateForDate}
-                    kind='Start Time'
-                    date={this.state.forDate}
-                  ></DateAndTimePicker>
-                  <DateAndTimePicker
-                    updateDate={this.updateUntilDate}
-                    kind='End Time'
-                  />
-                  <View style={styles.automaticBtn}>
-                    <Dropdown
-                      // textColor='pink'
-                      // shadeOpacity='0.24'
-                      // labelFontSize="25"
-                      baseColor='black'
-                      label='Is Automatic?'
-                      data={automatic}
-                      // value={this.state.isAutomatic}
-                      onChangeText={value =>
-                        this.setState({ isAutomatic: value })
-                      }
-                    />
-                  </View>
-                  <View style={styles.saveBtn}>
-                    <Button
-                      type='clear'
-                      icon={
-                        <Icon name='save' style={styles.editSave}>
-                          {/* <Text style={styles.ediText}>Save</Text> */}
-                        </Icon>
-                      }
-                      onPress={() => this.handlePressSave()}
-                    />
-                  </View>
-                </View>
-              ) : null}
-              <Button
-                type='clear'
-                title={this.state.calendarText}
-                onPress={this.ShowHideCalendarComponentView}
-              />
+                    this.state.calendarStatus ? <View><DateAndTimePicker updateDate={this.updateForDate} kind='Start Time'date={this.state.forDate}></DateAndTimePicker>
+                                                <DateAndTimePicker updateDate={this.updateUntilDate} kind='End Time'/>
+                                                <View style={styles.automaticBtn}>
+                                                  <Dropdown
+                                                  // textColor='pink'
+                                                  // shadeOpacity='0.24'
+                                                  // labelFontSize="25"
+                                                    baseColor='black'
+                                                    label='Is Automatic?'
+                                                    data={automatic}
+                                                    // value={this.state.isAutomatic}
+                                                    onChangeText={value => this.setState({ isAutomatic: value })}
+                                                  />
+                                                </View>
+                                                <View style={styles.saveBtn}>
+                                                  <Button
+                                                  type="clear"
+                                                    icon={
+                                                      <Icon name="save" style={styles.editSave}>
+                                                        {/* <Text style={styles.ediText}>Save</Text> */}
+                                                      </Icon>
+                                                    }
+                                                    onPress={() => this.handlePressSave()}
+                                                  />
+                                                </View>
+                                                </View> : null
+                  }
+
             </View>
             <View style={styles.line} />
 

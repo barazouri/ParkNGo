@@ -1,4 +1,4 @@
 {
-    "API":"http://localhost:3000",
     "ioServer": "http://ede143674b92.ngrok.io"
+    "API":"https://parkngoproj.herokuapp.com"
 }

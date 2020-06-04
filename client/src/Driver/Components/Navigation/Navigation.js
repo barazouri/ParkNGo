@@ -3,12 +3,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from '../../Screens/Home/Home'
 import ReservationStack from '../../Screens/ReservationStack/ReservationStack'
 import ListingsNavigate from '../../../Host/Screens/Listings/ListingNavigate'
+import UploadPark from '../../../Host/Screens/Listings/UploadPark'
 import Profile from '../../Screens/Profile/Profile'
 import ParkingSearch from '../../Screens/ParkingSearch/ParkingSearch'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from 'react-native-vector-icons'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import HeaderLogo from '../../../Components/HeaderLogo/HeaderLogo'
+
 class Navigation extends React.Component {
   constructor (props) {
     super(props)
@@ -27,28 +28,21 @@ class Navigation extends React.Component {
       <Tab.Navigator>
         <Tab.Screen
           // initialRouteName="Feed"
-          name='Home'
+          name='Listings'
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Listings',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='home' color={color} size={size} />
             )
           }}
-          component={Home}
+          component={ListingsNavigate}
         />
         <Tab.Screen
           // initialRouteName="Feed"
           name='Upload'
-          component={ListingsNavigate}
+          component={UploadPark}
           options={{
             tabBarLabel: 'Upload',
-            // headerRight: () => (
-            //   <Button
-            //     onPress={() => alert('This is a button!')}
-            //     title='Info'
-            //     color='#fff'
-            //   />
-            // ),
             tabBarIcon: ({ color, size }) => (
               <Icon name='upload' color={color} size={size} />
             )
@@ -79,11 +73,10 @@ class Navigation extends React.Component {
           // initialRouteName="Feed"
           name='Home'
           options={{
-            headerTitle: props => <HeaderLogo {...props} />,
             tabBarLabel: 'Home',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='home' color={color} size={size} />
-            ),
+            )
           }}
           component={Home}
         />
@@ -112,10 +105,15 @@ class Navigation extends React.Component {
           options={{
             tabBarLabel: 'Reservations',
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name='md-book' size={30} color={color} />
+              <Ionicons
+               name='md-book'
+                size={30}
+                color={color}
+              />
             ),
             headerTitle: 'REs'
           }}
+          
           initialParams={{
             changeKindUser: this.changeKindUser,
             kindUser: this.state.kindUser
