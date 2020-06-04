@@ -15,4 +15,5 @@ https://github.com/openalpr/openalpr
 
 server:
 to use the socket run command: ngrok http 3000
+change config ioServer variable with the ngrok http 3000 url
 npm start

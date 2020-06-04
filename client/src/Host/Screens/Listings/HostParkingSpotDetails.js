@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
 import SafeAreaView from 'react-native-safe-area-view'
 const io = require('socket.io-client')
-
+import config from '../../../../config/config.json'
 const { height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
@@ -122,7 +122,7 @@ class HostParkingSpotDetails extends React.Component {
   }
 
   componentDidMount () {
-    const socket = io('http://b585f275.ngrok.io', {
+    const socket = io(config.ioServer, {
       transports: ['websocket']
     })
     socket.on('parkingSpotAvailabilityChange', plateNumber => {

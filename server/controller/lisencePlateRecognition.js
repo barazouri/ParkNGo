@@ -25,8 +25,9 @@ module.exports = {
             { parkingSpots: { $elemMatch: { parkingId: parkingId } } }
           )
           console.log(parkingSpot.parkingSpots[0].availability)
-          if (parkingSpot.parkingSpots[0].availability == '')
+          if (parkingSpot.parkingSpots[0].availability == ''){
             throw new Error('there is no car into the parking spot')
+          }
           const userFoundExit = await Profiles.findOne({
             driverLicensePlate: parkingSpot.parkingSpots[0].availability
           })
