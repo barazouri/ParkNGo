@@ -7,6 +7,7 @@ import { Dropdown } from 'react-native-material-dropdown'
 import { TextInput } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Button } from 'react-native-elements'
+import { Input } from 'react-native-elements'
 
 
 const config = require('../../../../config/config')
@@ -17,29 +18,40 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'center',
         position: 'relative',
-        height: 100,
-        top: 50,
-        height: 800
+        alignSelf: 'center',
     },
     priceBtn: {
         position: 'relative',
-        top: 50
+        alignSelf: 'center',
+        // top: 50
     },
+    inputDirections: {
+        margin: 30,
+        width: 220,
+        alignSelf: 'center'
+      },
     input: {
-        margin: 15,
-        top: 100,
+        // margin: 15,
+        // top: 100,
+        alignSelf: 'center',
         width: 200,
     },
     edit: {
         fontSize: 55,
         color: "black",
     },
+    priceLabel: {
+        alignSelf: 'center',
+        fontSize: 20,
+        margin: 10
+    }
 })
 
 class UploadPark extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            address: '',
             email: 'guygolpur@gmail.com',
             policy: '',
             parkingSize: '',
@@ -111,7 +123,7 @@ class UploadPark extends React.Component {
         }]
 
         return (
-            <SafeAreaView style={styles.containerSlide}>
+            <SafeAreaView style={{flex:1}}>
 
                 <ScrollView
                     style={{ flex: 1 }}
@@ -120,8 +132,14 @@ class UploadPark extends React.Component {
                     onContentSizeChange={this.onContentSizeChange}
                 >
                     <View style={styles.container}>
-
+                    <Input
+                         containerStyle={styles.inputDirections}
+                         placeholder='Address'
+                         value={this.state.address}
+                         onChangeText={address => this.setState({ address })}
+                         />
                         <View style={styles.priceBtn}>
+                            <Text style={styles.priceLabel}>Price</Text>
                             <NumericInput
                                 value={this.state.price}
                                 onChange={price => this.setState({ price })}
@@ -135,9 +153,8 @@ class UploadPark extends React.Component {
                                 rounded
                                 textColor='#B0228C'
                                 iconStyle={{ color: 'white' }}
-                                rightButtonBackgroundColor='#EA3788'
-                                leftButtonBackgroundColor='#E56B70'
-                            />
+                                rightButtonBackgroundColor='#A9A9A9'
+                                leftButtonBackgroundColor='#A9A9A9'                            />
                         </View>
                         <View style={styles.input}>
                             <Dropdown
@@ -154,22 +171,18 @@ class UploadPark extends React.Component {
                             />
                         </View>
 
-                        <TextInput style={styles.input}
+                        {/* <TextInput style={styles.input}
                             label="Directions"
                             mode='outlined'
                             value={this.state.directions}
                             onChangeText={directions => this.setState({ directions })}
-                        />
-                        <DateAndTimePicker
-                            updateDate={this.updateForDate}
-                            kind='Start Time'
-                            date={this.state.forDate}
-                        />
-                        {/* <Text style={{textAlign:'center', fontSize:20}}>End Time</Text> */}
-                        <DateAndTimePicker
-                            updateDate={this.updateUntilDate}
-                            kind='End Time'
-                        />
+                        /> */}
+                        <Input
+                         containerStyle={styles.inputDirections}
+                         placeholder='Directions'
+                         value={this.state.directions}
+                         onChangeText={directions => this.setState({ directions })}
+                         />
                         <View style={styles.saveBtnContainer}>
                             <Button
                                 type="clear"
