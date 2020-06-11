@@ -5,9 +5,12 @@ const bookCtl = require('./controller/book.ctl');
 const lisencePlateRecognition = require('./controller/lisencePlateRecognition')
 const app = express();
 const port = process.env.PORT || 3000;
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
 app.use(express.urlencoded({extended:true}));
 app.use( (req, res, next)=> {
+  res.io = io
   res.setHeader('Access-Control-Allow-Origin', '*');
   next();
 });
@@ -56,14 +59,16 @@ app.get('/getDriverDeclineReservations',bookCtl.getDriverDeclineReservations);
 app.post('/bookParkingSpot',bookCtl.bookParkingSpot);
 app.post('/approveOrDeclineReq',bookCtl.approveOrDeclineReq);
 
-
-
-app.all('*', (req, res) => {
-  console.log("localhost:3000/getAllProfiles");        //works
-  // res.send('localhost:3000/getAllProfiles');
+io.on('connection', function(socket){
+  console.log('a user connected');
 });
 
-app.listen(port, () => console.log(`listening on port ${port}`));
+// app.all('*', (req, res) => {
+//   console.log("localhost:3000/getAllProfiles");        //works
+//   // res.send('localhost:3000/getAllProfiles');
+// });
+
+http.listen(port, () => console.log(`listening on port ${port}`));
 
 
 

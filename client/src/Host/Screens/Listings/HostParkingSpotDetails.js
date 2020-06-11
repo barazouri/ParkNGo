@@ -13,7 +13,8 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
 import SafeAreaView from 'react-native-safe-area-view'
-
+const io = require('socket.io-client')
+import config from '../../../../config/config.json'
 const { height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     color: '#ebd534',
     position: 'absolute',
-    alignSelf:'center'
+    alignSelf: 'center'
     // left: 2
   },
   rankTotal: {
@@ -93,13 +94,14 @@ class HostParkingSpotDetails extends React.Component {
       rank: 10,
       screenHeight: 0,
       check: '2020-04-04',
-      parkingSpot: props.route.params.parkingSpot
+      parkingSpot: props.route.params.parkingSpot,
+      plateNumber: null
     }
     this.imageToArray = this.imageToArray.bind(this)
     this.submitForm = this.submitForm.bind(this)
+    this.handleReviewPress = this.handleReviewPress.bind(this)
     this.handleCardPress = this.handleCardPress.bind(this)
     this.handleCalendarPress = this.handleCalendarPress.bind(this)
-    this.handleReviewPress = this.handleReviewPress.bind(this)
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
     this.loadCalendar = this.loadCalendar.bind(this)
     this.formatDate = this.formatDate.bind(this)
@@ -121,6 +123,15 @@ class HostParkingSpotDetails extends React.Component {
   }
 
   componentDidMount () {
+    const socket = io(config.ioServer, {
+      transports: ['websocket']
+    })
+    socket.on('parkingSpotAvailabilityChange', plateNumber => {
+      let { parkingSpot } = this.state
+      parkingSpot.availability = plateNumber
+      console.log(plateNumber)
+      this.setState({ parkingSpot: parkingSpot })
+    })
     this.imageToArray()
     this.loadCalendar()
   }
@@ -148,22 +159,24 @@ class HostParkingSpotDetails extends React.Component {
   }
 
   submitForm () {
+    console.log('submited')
   }
 
-  handleCardPress () {
+  handleCardPress (parkingSpot) {
     const { navigation } = this.props
     navigation.navigate('HostEditParkingSpot', {
-      parkingSpot: this.state.parkingSpot
+      parkingSpot: parkingSpot
     })
+    // console.log(parkingSpot)
   }
 
-  handleCalendarPress () {
+  handleCalendarPress (parkingSpot) {
     const { navigation } = this.props
     navigation.navigate('HostParkingSpotCalendar', {
-      parkingSpot: this.state.parkingSpot
+      parkingSpot: parkingSpot
     })
+    // console.log(parkingSpot)
   }
-
   handleReviewPress () {
     const { navigation } = this.props
     navigation.navigate('HostParkingSpotReviews', {
@@ -186,6 +199,7 @@ class HostParkingSpotDetails extends React.Component {
         textColor: 'white'
       }
     })
+    console.log(dates)
     return dates
   }
 
@@ -205,6 +219,7 @@ class HostParkingSpotDetails extends React.Component {
         textColor: 'white'
       }
     })
+    console.log(dates)
     return dates
   }
 
@@ -223,6 +238,7 @@ class HostParkingSpotDetails extends React.Component {
         textColor: 'white'
       }
     })
+    console.log(dates)
     return dates
   }
 
@@ -249,18 +265,19 @@ class HostParkingSpotDetails extends React.Component {
                   <Text style={styles.ediText}>Edit</Text>
                 </Icon>
               }
-              onPress={() => this.handleCardPress()}
+              onPress={() => this.handleCardPress(this.state.parkingSpot)}
             />
           </View>
-          <Text style={styles.address}>{this.state.parkingSpot.address}</Text>
+          <Text style={styles.address}>{this.state.address}</Text>
           <View style={styles.rankContainer}>
-            <Text style={styles.rankTotal}>{this.state.parkingSpot.totalRankParking}</Text>
+            <Text style={styles.rankTotal}>
+              {this.state.parkingSpot.totalRankParking}
+            </Text>
             <Ionicons
               style={styles.iconStar}
               name='ios-star'
               color='black'
               size={15}
-              onPress={() => this.handleReviewPress()}
             />
           </View>
           <View style={styles.calendarBtn}>
@@ -271,7 +288,7 @@ class HostParkingSpotDetails extends React.Component {
                   {/* <Text style={styles.calendarText}>Calendar</Text> */}
                 </Icon>
               }
-              onPress={() => this.handleCalendarPress()}
+              onPress={() => this.handleCalendarPress(this.state.parkingSpot)}
             />
           </View>
           <View style={{ borderBottomColor: 'black', borderBottomWidth: 1 }} />
@@ -299,12 +316,18 @@ class HostParkingSpotDetails extends React.Component {
             {this.state.parkingSpot.parkingSize}
           </Text>
           <View style={styles.line} />
-          <Text style={styles.parkingDataTitle}>{this.state.parkingSpot.availability ? "Occupied by: " : "Is Available: " }</Text>
+          <Text style={styles.parkingDataTitle}>
+            {this.state.parkingSpot.availability ||
+            this.state.parkingSpot.availability.length > 0
+              ? 'Occupied by: '
+              : 'Is Available: '}
+          </Text>
           <Text style={styles.parkingData}>
             {this.state.parkingSpot.availability.length > 0
               ? this.state.parkingSpot.availability
               : 'Yes'}
           </Text>
+          {/* <Text>{this.state.plateNumber}</Text> */}
           <View style={styles.line} />
 
           <Button
