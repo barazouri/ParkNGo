@@ -45,7 +45,7 @@ class Navigation extends React.Component {
             tabBarLabel: 'Upload',
             tabBarIcon: ({ color, size }) => (
               <Icon name='upload' color={color} size={size} />
-            )
+            ),
           }}
         />
         <Tab.Screen
