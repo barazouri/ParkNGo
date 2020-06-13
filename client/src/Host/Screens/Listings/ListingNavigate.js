@@ -9,7 +9,7 @@ import {
   createStackNavigator,
   TransitionPresets
 } from '@react-navigation/stack'
-
+import HeaderLogo from '../../../Components/HeaderLogo/HeaderLogo'
 
 const styles = StyleSheet.create({
 })
@@ -28,15 +28,18 @@ class ListingNavigate extends React.Component {
             component={Listings}
             options={{
               title: 'Listings',
-              ...TransitionPresets.ModalSlideFromBottomIOS
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
             }}
+            
           />
           <Stack.Screen
             name='HostParkingSpotDetails'
             component={HostParkingSpotDetails}
             options={{
               title: 'Parking Spot Details',
-              ...TransitionPresets.ModalSlideFromBottomIOS
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
             }}
           />
          <Stack.Screen
@@ -44,7 +47,8 @@ class ListingNavigate extends React.Component {
             component={HostEditParkingSpot}
             options={{
               title: 'Edit Parking Spot',
-              ...TransitionPresets.ModalSlideFromBottomIOS
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
             }}
           />
           <Stack.Screen
@@ -52,7 +56,8 @@ class ListingNavigate extends React.Component {
             component={HostParkingSpotCalendar}
             options={{
               title: 'Calendar',
-              ...TransitionPresets.ModalSlideFromBottomIOS
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
             }}
           />
           <Stack.Screen
@@ -60,7 +65,8 @@ class ListingNavigate extends React.Component {
             component={HostParkingSpotReviews}
             options={{
               title: 'Reviews',
-              ...TransitionPresets.ModalSlideFromBottomIOS
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
             }}
           />
         </Stack.Navigator>

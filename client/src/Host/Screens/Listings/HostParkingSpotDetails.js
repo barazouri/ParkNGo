@@ -70,13 +70,16 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   calendarBtn: {
-    flexDirection: 'row',
-    justifyContent: 'center'
-    // backgroundColor: 'green'
+    marginTop: 10,
+    borderWidth: 1,
+    width: 80,
+    height: 60,
+    borderRadius: 20,
+    alignSelf: 'center',
+    marginBottom: 20
   },
   calendarInner: {
-    // backgroundColor: 'green'
-    fontSize: 45
+    fontSize: 35
   },
   delete: {
     fontSize: 35
