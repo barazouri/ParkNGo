@@ -52,12 +52,13 @@ module.exports = {
         console.log('A parking spot with that address does not exist')
         return res.json([])
       }
-      const allParkingSpots = []
+      let allParkingSpots = []
       result.map(profile => {
         profile.parkingSpots.map(parkingSpot => {
+          console.log(parkingSpot)
           if (
             parkingSpot.address == address &&
-            parkingSpot.availability == 'yes' &&
+            parkingSpot.availability == '' &&
             parkingSpot.price >= fromPrice &&
             parkingSpot.price <= toPrice
           ) {
@@ -65,7 +66,6 @@ module.exports = {
           }
         })
       })
-      console.log(allParkingSpots)
       res.json(allParkingSpots)
     } catch (err) {
       console.error(err)
@@ -81,6 +81,11 @@ module.exports = {
         fromPrice = null,
         toPrice = null
       } = req.query
+      console.log(email)
+      console.log(address)
+      console.log(fromPrice)
+      console.log(toPrice)
+
       const profileResult = await Profiles.find({ email: email })
       let result = []
       result = await Profiles.find({
@@ -97,7 +102,7 @@ module.exports = {
         profile.parkingSpots.map(parkingSpot => {
           if (
             parkingSpot.address == address &&
-            parkingSpot.availability == 'yes' &&
+            parkingSpot.availability == '' &&
             parkingSpot.price >= fromPrice &&
             parkingSpot.price <= toPrice
           ) {
@@ -161,7 +166,7 @@ module.exports = {
         profile.parkingSpots.map(parkingSpot => {
           if (
             parkingSpot.address == address &&
-            parkingSpot.availability == 'yes' &&
+            parkingSpot.availability == '' &&
             parkingSpot.price >= fromPrice &&
             parkingSpot.price <= toPrice
           ) {
@@ -221,38 +226,6 @@ module.exports = {
           resultParkingSpots.push(parkingSpot)
         }
       })
-
-      //    allParkingSpots.map(parkingSpot => {
-      //       console.log("parkingSpot.futureReservations: ");
-      //       console.log("length: " + parkingSpot.futureReservations.length + ' parkingId: ' + parkingSpot.parkingId)
-      //       if(parkingSpot.futureReservations.length <= 0)
-      //       {
-      //          resultParkingSpots.push(parkingSpot);
-      //          console.log("enter first: ");
-      //          console.log(resultParkingSpots);
-      //       }
-      //       parkingSpot.futureReservations.map(future => {
-      //          let futureFromMFrom = future.requireToDate.getTime() - fromTimeDate.getTime()//
-      //          let futureFromMUntil = future.requireToDate.getTime() - untilTimeDate.getTime()//
-      //          let futureUntilMFrom = future.requireUntilDate.getTime() - fromTimeDate.getTime()//
-      //          let futureUntilMUntil = future.requireUntilDate.getTime() - untilTimeDate.getTime()//
-      //       if((futureFromMFrom > 0)&&(futureFromMUntil > 0))
-      //       {
-      //          console.log("2");
-      //          console.log("futureFromMUntil: " + futureFromMUntil)
-      //          resultParkingSpots.push(parkingSpot);
-      //          console.log("enter second: ");
-      //          console.log(resultParkingSpots);
-      //       }
-      //       if((futureUntilMFrom < 0)&&(futureUntilMUntil < 0))
-      //       {
-      //          console.log("3");
-      //          resultParkingSpots.push(parkingSpot);
-      //          console.log("enter third: ");
-      //          // console.log(resultParkingSpots);
-      //       }
-      //    })
-      // })
       console.log(resultParkingSpots)
       res.json(resultParkingSpots)
     } catch (err) {
@@ -272,7 +245,6 @@ module.exports = {
       } = req.query
       const profileResult = await Profiles.find({ email: email })
       let result = []
-      // let fromTimeDate = new Date.now()
       let untilTimeDate = new Date(untilTime)
       result = await Profiles.find({
         parkingSpots: {
