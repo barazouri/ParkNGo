@@ -79,9 +79,17 @@ class SearchForm extends React.Component {
       console.log('address required') //need to add user message
       return
     }
+    let newuntilDate
+    if (this.state.untilDate === undefined) {
+      newuntilDate = new Date(this.state.forDate)
+      newuntilDate.setHours(newuntilDate.getHours() + 2) //2 hours by default
+      this.setState({ untilDate: newuntilDate })
+    } else {
+      newuntilDate = new Date(this.state.untilDate)
+    }
     navigation.navigate('ParkingResults', {
       forDate: this.state.forDate,
-      untilDate: this.state.untilDate,
+      untilDate: newuntilDate,
       distance: this.state.distance,
       address: this.state.address,
       price: this.state.price
@@ -109,7 +117,7 @@ class SearchForm extends React.Component {
             onChangeText={this.handleAdress}
           />
           {/* <Text style={{textAlign:'center', fontSize:20}}>Start Time</Text> */}
-          <View style={{marginTop:20}}>
+          <View style={{ marginTop: 20 }}>
             <DateAndTimePicker
               updateDate={this.updateForDate}
               kind='Start Time/Date'

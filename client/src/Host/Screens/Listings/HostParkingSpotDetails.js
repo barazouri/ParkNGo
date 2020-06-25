@@ -127,7 +127,8 @@ class HostParkingSpotDetails extends React.Component {
 
   componentDidMount () {
     const socket = io(config.ioServer, {
-      transports: ['websocket']
+      transports: ['websocket'],
+      forceNode: true 
     })
     socket.on('parkingSpotAvailabilityChange', plateNumber => {
       let { parkingSpot } = this.state

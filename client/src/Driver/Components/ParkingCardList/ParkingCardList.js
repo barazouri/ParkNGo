@@ -129,7 +129,7 @@ class ParkingCardList extends Component {
                     fontFamily: 'Inter-SemiBoldItalic'
                   }}
                 >
-                  Price: {parkingSpot.price} $
+                  Price: {parkingSpot.price} {'\u20AA'}/Hour
                 </Text>
                 <Text
                   style={{

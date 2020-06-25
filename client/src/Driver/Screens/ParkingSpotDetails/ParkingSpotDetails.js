@@ -70,7 +70,7 @@ class ParkingSpotDetails extends React.Component {
         'https://source.unsplash.com/1024x768/?girl',
         'https://source.unsplash.com/1024x768/?tree' // Network image
       ],
-      rank: 10
+      rank: 10,
     }
     this.imageToArray = this.imageToArray.bind(this)
     this.submitForm = this.submitForm.bind(this)
@@ -90,15 +90,13 @@ class ParkingSpotDetails extends React.Component {
     const { navigation } = this.props
     const { parkingSpot, forDate, untilDate } = this.props.route.params
     console.log(parkingSpot)
-    // console.log(forDate)
-    let newuntilDate
-    if (untilDate === undefined) {
-      newuntilDate = new Date(forDate)
-      newuntilDate.setHours(newuntilDate.getHours() + 2) //2 hours by default
-    } else {
-      newuntilDate = new Date(untilDate)
-    }
-    // console.log(newuntilDate)
+    // let newuntilDate
+    // if (untilDate === undefined) {
+    //   newuntilDate = new Date(forDate)
+    //   newuntilDate.setHours(newuntilDate.getHours() + 2) //2 hours by default
+    // } else {
+    //   newuntilDate = new Date(untilDate)
+    // }
     let url = `${config.API}/bookParkingSpot`
     let bool = true
     fetch(url, {
@@ -106,18 +104,18 @@ class ParkingSpotDetails extends React.Component {
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded' // <-- Specifying the Content-Type
       }),
-      body: `email=${profile}&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${newuntilDate}&isAutomatic=${bool}` // <-- Post parameters
+      body: `email=${profile}&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${untilDate}&isAutomatic=${bool}` // <-- Post parameters
     }).catch(error => {
       console.log(error)
     })
     navigation.navigate('BookApproved', {
       parkingSpot: parkingSpot,
       forDate: forDate,
-      untilDate: newuntilDate
+      untilDate: untilDate
     })
   }
   render () {
-    const { parkingSpot } = this.props.route.params
+    const { parkingSpot, forDate, untilDate } = this.props.route.params
     return (
       <View style={styles.container}>
         <View style={styles.sliderBoxContainer}>
@@ -131,8 +129,26 @@ class ParkingSpotDetails extends React.Component {
         <View style={styles.inputContainer}>
           <Text style={styles.address}>{parkingSpot.address}</Text>
           <Text style={styles.directions}>{parkingSpot.directions}</Text>
-          <Text style={styles.price}>{`${parkingSpot.price}$`}</Text>
+          <Text style={styles.price}>{`${parkingSpot.price} \u20AA/Hour`}</Text>
           <Text style={styles.policy}>{parkingSpot.policy}</Text>
+        </View>
+        <View style={{flexDirection: 'column'}}>
+          <View>
+          <Text
+            style={{ textAlign: 'center', fontFamily: 'Inter-SemiBoldItalic' }}
+          >{`Date: ${forDate.getDate()}/${forDate.getMonth()+1}/${forDate.getFullYear()}`}</Text>
+          <Text style={{ textAlign: 'center', fontFamily: 'Inter-SemiBoldItalic' }}>
+            {`Time: ${forDate.getHours()}:${forDate.getMinutes()}`}{' '}
+          </Text>
+          </View>
+          <View>
+          <Text
+            style={{ textAlign: 'center', fontFamily: 'Inter-SemiBoldItalic' }}
+          >{`Date: ${untilDate.getDate()}/${untilDate.getMonth()+1}/${untilDate.getFullYear()}`}</Text>
+          <Text style={{ textAlign: 'center', fontFamily: 'Inter-SemiBoldItalic' }}>
+            {`Time: ${untilDate.getHours()}:${untilDate.getMinutes()}`}{' '}
+          </Text>
+          </View>
         </View>
         <Button
           title='Book'
