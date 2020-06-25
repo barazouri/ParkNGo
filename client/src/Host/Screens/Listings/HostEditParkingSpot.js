@@ -4,29 +4,33 @@ import {
   Text,
   View,
   Dimensions,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native'
 import { Button } from 'react-native-elements'
 import NumericInput from 'react-native-numeric-input'
 import { Dropdown } from 'react-native-material-dropdown'
 import SafeAreaView from 'react-native-safe-area-view'
 import { Input } from 'react-native-elements'
+import ExplanationPopUp from '../../Components/ExplanationPopUp/explanationPopUp'
+import FeedBack from '../../Components/FeedBack/feedBack'
+import { AntDesign } from '@expo/vector-icons';
 
 const config = require('../../../../config/config')
 const { height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   containerSlide: {
-    flex: 1
+    flex: 1,
   },
   container: {
-    flex: 1,
-    alignSelf: 'center',
-    position: 'relative',
-    top: 50
+    // flex: 1,
+    // alignSelf: 'center',
+    // position: 'relative',
+    // top: 50
   },
   input: {
-    margin: 20,
+    margin: 10,
     width: 200,
     alignSelf: 'center'
   },
@@ -50,11 +54,15 @@ const styles = StyleSheet.create({
   priceBtn: {
     position: 'relative',
     alignSelf: 'center'
+  },
+  priceLabelExplain: {
+    alignSelf: 'center',
+    margin: 10
   }
 })
 
 class HostEditParkingSpot extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       // address: '',
@@ -65,7 +73,11 @@ class HostEditParkingSpot extends React.Component {
       AvailableUntilTime: '',
       directions: '',
       forDate: new Date(Date.now()),
-      untilDate: undefined
+      untilDate: undefined,
+      dialogVisible: false,
+      dialogVisibleParkingSize: false,
+      saveFeedBackVisible: false,
+
     }
 
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
@@ -73,25 +85,48 @@ class HostEditParkingSpot extends React.Component {
     this.getUrlForApi = this.getUrlForApi.bind(this)
     this.onChangePolicy = this.onChangePolicy.bind(this)
     this.onChangeParkingSize = this.onChangeParkingSize.bind(this)
+    this.showDialog = this.showDialog.bind(this)
+    this.closePopUp = this.closePopUp.bind(this)
+    this.showDialogParkingSize = this.showDialogParkingSize.bind(this)
+
   }
 
-  getUrlForApi () {
+  getUrlForApi() {
     return config.API + `/editSpecificParking`
   }
 
-  onContentSizeChange (contentWidth, contentHeight) {
+  onContentSizeChange(contentWidth, contentHeight) {
     this.setState({ screenHeight: contentHeight })
   }
 
-  // updateForDate(date) {
-  //     this.setState({ forDate: date })
-  // }
+  showDialog() {
+    this.setState({ dialogVisible: true });
+  }
 
-  // updateUntilDate(date) {
-  //     this.setState({ untilDate: date })
-  // }
+  showDialogParkingSize() {
+    this.setState({ dialogVisibleParkingSize: true });
+  }
 
-  handlePressSave () {
+  closePopUp(childData, childDataRedirect) {
+    const { navigation } = this.props
+
+    this.setState({
+      dialogVisible: childData,
+      dialogVisibleParkingSize: childData,
+      saveFeedBackVisible: childData,
+    })
+
+    if (childDataRedirect) {
+      navigation.navigate('Listings')
+    }
+
+  }
+
+  saveFeedBack() {
+    this.setState({ saveFeedBackVisible: true });
+  }
+
+  handlePressSave() {
     const { parkingSpot } = this.props.route.params
     let urlAdd = this.getUrlForApi()
     console.log('Saved')
@@ -139,17 +174,18 @@ class HostEditParkingSpot extends React.Component {
     })
       .then(res => res.json())
       .catch(err => new Error(err))
+      this.saveFeedBack()
   }
-  onChangePolicy (value) {
+  onChangePolicy(value) {
     console.log(`Selected value: ${value}`)
     this.setState({ policy: value })
   }
 
-  onChangeParkingSize (value) {
+  onChangeParkingSize(value) {
     this.setState({ parkingSize: value })
   }
 
-  render () {
+  render() {
     const { parkingSpot } = this.props.route.params
     const scrollEnabled = this.state.screenHeight > height
 
@@ -187,6 +223,7 @@ class HostEditParkingSpot extends React.Component {
             <Text style={styles.addressTitle}>{parkingSpot.address}</Text>
 
             <View style={styles.priceBtn}>
+              <Text style={styles.priceLabelExplain}>Price ({'\u20AA'}/Hour)</Text>
               <NumericInput
                 value={this.state.price}
                 onChange={price => this.setState({ price })}
@@ -210,6 +247,12 @@ class HostEditParkingSpot extends React.Component {
                 data={selectPolicy}
                 onChangeText={value => this.onChangePolicy(value)}
               />
+              <TouchableOpacity onPress={this.showDialog}>
+                <AntDesign name="questioncircleo" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.input}>
+              <ExplanationPopUp dialogVisible={this.state.dialogVisible} closePopUp={this.closePopUp} subject='Policy' topTitle='Flexible:' topExplain='Full refund 1 day prior to arrival.' midTitle='Moderate:' midExplain='Full refund 5 days prior to arrival.' bottomTitle='Strict:' bottomExplain='No refunds for cancellations made within 7 days of check-in.' />
             </View>
             <View style={styles.input}>
               <Dropdown
@@ -217,21 +260,30 @@ class HostEditParkingSpot extends React.Component {
                 data={selectParkingSize}
                 onChangeText={value => this.onChangeParkingSize(value)}
               />
+              <TouchableOpacity onPress={this.showDialogParkingSize}>
+                <AntDesign name="questioncircleo" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.input}>
+              <ExplanationPopUp dialogVisible={this.state.dialogVisibleParkingSize} closePopUp={this.closePopUp} subject='Parking Size' topTitle='Small:' topExplain='Private vehicles, such as: Seat Ibiza, Mazda 3, Ford Focus etc.' midTitle='Medium:' midExplain='Medium vehicles such as: Jip, Hammer, Dogde etc.' bottomTitle='Big:' bottomExplain='Big vehicles such as: Tracks, RV etc.' />
             </View>
             <Input
               containerStyle={styles.inputDirections}
-              placeholder='Directions'
+              placeholder='Comments'
               value={this.state.directions}
               onChangeText={directions => this.setState({ directions })}
             />
-            <View style={styles.saveBtnContainer}>
+            <View style={styles.input}>
               <Button
                 title='Save'
-                style={{ width: Dimensions.get('window').width, top: 20 }}
+                style={{ width: Dimensions.get('window').width }}
                 color='#841584'
                 onPress={() => this.handlePressSave()}
               />
             </View>
+            <View style={styles.input}>
+                <FeedBack dialogVisible={this.state.saveFeedBackVisible} closePopUp={this.closePopUp} subject='Edit Successfully!' topTitle='The parking spot edited Successfully' />
+              </View>
           </View>
         </ScrollView>
       </SafeAreaView>

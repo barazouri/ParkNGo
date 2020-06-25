@@ -230,7 +230,7 @@ class UploadParkContent extends React.Component {
                 </TouchableOpacity>
               </View>
               <View style={styles.input}>
-                <ExplanationPopUp dialogVisible={this.state.dialogVisible} closePopUp={this.closePopUp} subject='Parking Size' topTitle='Small:' topExplain='Private vehicles, such as: Seat Ibiza, Mazda 3, Ford Focus etc.' midTitle='Medium:' midExplain='Medium vehicles such as: Jip, Hammer, Dogde etc.' bottomTitle='Big:' bottomExplain='Big vehicles such as: Tracks, RV etc.' />
+                <ExplanationPopUp dialogVisible={this.state.dialogVisible} closePopUp={this.closePopUp} subject='Policy' topTitle='Flexible:' topExplain='Full refund 1 day prior to arrival.' midTitle='Moderate:' midExplain='Full refund 5 days prior to arrival.' bottomTitle='Strict:' bottomExplain='No refunds for cancellations made within 7 days of check-in.' />
               </View>
               <View style={styles.input}>
                 <Dropdown
