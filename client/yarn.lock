@@ -4685,7 +4685,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -4849,10 +4849,10 @@ react-native-gesture-handler@~1.6.0:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
-react-native-google-places-autocomplete@^1.4.1:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/react-native-google-places-autocomplete/-/react-native-google-places-autocomplete-1.4.2.tgz#2538ae7eebc2c4e3ff774849c1b2c149ff3e9e55"
-  integrity sha512-YSSaQD/Kw+80vZEQMqAzytgc4trTczQJ6c2HrV6W6wov39CjWCI2mLdySwrCGqquBa9xS2jYiZH+JKGLRojD3w==
+react-native-google-places-autocomplete@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/react-native-google-places-autocomplete/-/react-native-google-places-autocomplete-1.7.2.tgz#94f41e5c8becc23e576ffb98dcc462eebe322e29"
+  integrity sha512-N0kWkcaZ6XA7oNUPJE0O+Jl0nMiEFls/xXGZaTWnGxTnJ+hMvCGhodfWvp9bNWkmbgbqdKB6wHVhc8pHjJOwVg==
   dependencies:
     lodash.debounce "^4.0.8"
     prop-types "^15.5.10"
@@ -5891,6 +5891,13 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     extend-shallow "^3.0.2"
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
+
+toggle-switch-react-native@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/toggle-switch-react-native/-/toggle-switch-react-native-2.1.0.tgz#e7d27ea95a70aedfbed12c691a5063a2eee16c93"
+  integrity sha512-2LCGdfqZcHw/Y4yOJkiN3VV5xnZkkztdy5MTVZ9DJRLkmL6xi1QlFM5vC/EBMTm+xetOae7zg55F8iid9XFR6g==
+  dependencies:
+    prop-types "^15.5.7"
 
 toidentifier@1.0.0:
   version "1.0.0"

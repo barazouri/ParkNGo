@@ -28,6 +28,21 @@ class Navigation extends React.Component {
       <Tab.Navigator>
         <Tab.Screen
           // initialRouteName="Feed"
+          name='Home'
+          options={{
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name='home' color={color} size={size} />
+            )
+          }}
+          initialParams={{
+            changeKindUser: this.changeKindUser,
+            kindUser: this.state.kindUser
+          }}
+          component={Home}
+        />
+        <Tab.Screen
+          // initialRouteName="Feed"
           name='Listings'
           options={{
             tabBarLabel: 'Listings',
@@ -45,10 +60,10 @@ class Navigation extends React.Component {
             tabBarLabel: 'Create',
             tabBarIcon: ({ color, size }) => (
               <Icon name='upload' color={color} size={size} />
-            ),
+            )
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           // initialRouteName="Feed"
           name='Profile'
           component={Profile}
@@ -62,7 +77,7 @@ class Navigation extends React.Component {
             changeKindUser: this.changeKindUser,
             kindUser: this.state.kindUser
           }}
-        />
+        /> */}
       </Tab.Navigator>
     )
   }
@@ -77,6 +92,10 @@ class Navigation extends React.Component {
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='home' color={color} size={size} />
             )
+          }}
+          initialParams={{
+            changeKindUser: this.changeKindUser,
+            kindUser: this.state.kindUser
           }}
           component={Home}
         />
@@ -105,21 +124,16 @@ class Navigation extends React.Component {
           options={{
             tabBarLabel: 'Reservations',
             tabBarIcon: ({ color, size }) => (
-              <Ionicons
-               name='md-book'
-                size={30}
-                color={color}
-              />
+              <Ionicons name='md-book' size={30} color={color} />
             ),
             headerTitle: 'REs'
           }}
-          
           initialParams={{
             changeKindUser: this.changeKindUser,
             kindUser: this.state.kindUser
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           // initialRouteName="Feed"
           name='Profile'
           component={Profile}
@@ -133,7 +147,7 @@ class Navigation extends React.Component {
             changeKindUser: this.changeKindUser,
             kindUser: this.state.kindUser
           }}
-        />
+        /> */}
       </Tab.Navigator>
     )
   }
