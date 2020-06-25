@@ -40,22 +40,27 @@ class ParkingCardList extends Component {
   getUrlForApi () {
     //this is without distance and without untilDate API need to be change
     let { address, forDate, untilDate, price } = this.props.route.params
-    console.log(untilDate)
-    if (address && profile && price && forDate && untilDate) {
+    console.log(`untilDate : ${untilDate}`)
+    console.log(`address : ${address}`)
+    console.log(`forDate : ${forDate}`)
+    console.log(`price : ${price}`)
+    console.log(`profile : ${price}`)
+
+    if (address && profile && price && forDate && untilDate ) {
       console.log('all params')
       return (
         config.API +
         `/searchByLocationAndPriceAndSizeByTime?address=${address}&email=${profile}&fromPrice=${0}&toPrice=${price}&fromTime=${forDate.toString()}&untilTime=${untilDate.toString()}&email=${userProfile}`
       ) //need to be change
-    } else if (!untilDate && price > 0) {
-      console.log(untilDate)
-      console.log(price)
-      console.log('no untildate with price')
+    } 
+    else if(!untilDate && price > 0){
+      console.log("with until date with price and location")
       return (
         config.API +
-        `/searchParkingSpotByLocationAndPrice?address=${address}&fromPrice=${0}&toPrice=${price}`
+        `/searchParkingSpotByLocationAndPriceAndSize?email=${profile}&address=${address}&fromPrice=${0}&toPrice=${price}`
       ) //need to be change
-    } else {
+    }
+     else {
       console.log('no distance no untilDate')
       return config.API + `/searchParkingSpotByLocation?address=${address}`
     }
