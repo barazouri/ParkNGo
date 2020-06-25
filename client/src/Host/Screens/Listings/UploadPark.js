@@ -1,37 +1,27 @@
 import React from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-  Image
-} from 'react-native'
-import DateAndTimePicker from '../../../Driver/Components/SearchFrom/DateAndTimePicker'
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import SafeAreaView from 'react-native-safe-area-view'
 import NumericInput from 'react-native-numeric-input'
 import { Dropdown } from 'react-native-material-dropdown'
-import { TextInput } from 'react-native-paper'
-import Icon from 'react-native-vector-icons/FontAwesome'
 import { Button } from 'react-native-elements'
 import { Input } from 'react-native-elements'
 import HeaderLogo from '../../../Components/HeaderLogo/HeaderLogo'
 const config = require('../../../../config/config')
 const { height } = Dimensions.get('window')
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import { AntDesign } from '@expo/vector-icons';
+import ExplanationPopUp from '../../Components/ExplanationPopUp/explanationPopUp'
+import FeedBack from '../../Components/FeedBack/feedBack'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignSelf: 'center',
     position: 'relative',
-    alignSelf: 'center'
   },
   priceBtn: {
     position: 'relative',
     alignSelf: 'center'
-    // top: 50
   },
   inputDirections: {
     margin: 30,
@@ -39,10 +29,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   input: {
-    // margin: 15,
-    // top: 100,
     alignSelf: 'center',
-    width: 200
+    width: 250,
   },
   edit: {
     fontSize: 55,
@@ -52,11 +40,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 20,
     margin: 10
+  },
+  priceLabelExplain: {
+    alignSelf: 'center',
+    margin: 10
   }
 })
 
-class UploadPark extends React.Component {
-  constructor (props) {
+class UploadParkContent extends React.Component {
+  constructor(props) {
     super(props)
     this.state = {
       address: '',
@@ -68,7 +60,11 @@ class UploadPark extends React.Component {
       AvailableUntilTime: '',
       directions: '',
       forDate: new Date(Date.now()),
-      untilDate: undefined
+      untilDate: undefined,
+      dialogVisible: false,
+      dialogVisibleParkingSize: false,
+      saveFeedBackVisible: false,
+      redirect: false
     }
 
     this.onContentSizeChange = this.onContentSizeChange.bind(this)
@@ -79,31 +75,37 @@ class UploadPark extends React.Component {
     this.uploadParkingSpotView = this.uploadParkingSpotView.bind(this)
     this.handleAddress = this.handleAddress.bind(this)
     this.handleDirections = this.handleDirections.bind(this)
+    this.showDialog = this.showDialog.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
+    this.closePopUp = this.closePopUp.bind(this)
+    this.showDialogParkingSize = this.showDialogParkingSize.bind(this)
+    this.saveFeedBack = this.saveFeedBack.bind(this)
   }
 
-  onContentSizeChange (contentWidth, contentHeight) {
+
+  onContentSizeChange(contentWidth, contentHeight) {
     this.setState({ screenHeight: contentHeight })
   }
 
-  getUrlForApi () {
+  getUrlForApi() {
     return config.API + `/addNewParkingSpot`
   }
 
-  onChangePolicy (value) {
+  onChangePolicy(value) {
     console.log(`Selected value: ${value}`)
     this.setState({ policy: value })
   }
 
-  onChangeParkingSize (value) {
+  onChangeParkingSize(value) {
     this.setState({ parkingSize: value })
   }
   handleAddress(address) {
-      this.setState({address:address})
+    this.setState({ address: address })
   }
   handleDirections(directions) {
-    this.setState({directions:directions})
+    this.setState({ directions: directions })
   }
-  handlePressSave () {
+  handlePressSave() {
     const { navigation } = this.props
     let { email, policy, parkingSize, price, directions, address } = this.state
     let urlAdd = this.getUrlForApi()
@@ -119,10 +121,46 @@ class UploadPark extends React.Component {
     })
       .then(res => res.json())
       .catch(err => new Error(err))
-      navigation.navigate('Listings')
+    this.saveFeedBack()
+
   }
-  uploadParkingSpotView () {
+
+  saveFeedBack() {
+    this.setState({ saveFeedBackVisible: true });
+  }
+
+  showDialog() {
+    this.setState({ dialogVisible: true });
+  }
+
+  showDialogParkingSize() {
+    this.setState({ dialogVisibleParkingSize: true });
+  }
+
+  handleCancel() {
+    this.setState({ dialogVisible: false });
+  }
+
+  uploadParkingSpotView() {
     const scrollEnabled = this.state.screenHeight > height
+  }
+
+  closePopUp(childData, childDataRedirect) {
+    const { navigation } = this.props
+
+    this.setState({
+      dialogVisible: childData,
+      dialogVisibleParkingSize: childData,
+      saveFeedBackVisible: childData,
+      redirect: childDataRedirect
+    })
+
+    if (childDataRedirect) {
+      navigation.navigate('Listings')
+    }
+  }
+
+  render() {
     let selectPolicy = [
       {
         value: 'Flexible'
@@ -151,18 +189,19 @@ class UploadPark extends React.Component {
           <ScrollView
             style={{ flex: 1 }}
             contentContainerStyle={styles.scrollview}
-            scrollEnabled={scrollEnabled}
+            scrollEnabled={this.scrollEnabled}
             onContentSizeChange={this.onContentSizeChange}
           >
             <View style={styles.container}>
               <Input
                 containerStyle={styles.inputDirections}
                 placeholder='Address'
-                    // value={this.state.address}
                 onChangeText={this.handleAddress}
               />
               <View style={styles.priceBtn}>
+
                 <Text style={styles.priceLabel}>Price</Text>
+                <Text style={styles.priceLabelExplain}>({'\u20AA'}/Hour)</Text>
                 <NumericInput
                   value={this.state.price}
                   onChange={price => this.setState({ price })}
@@ -186,6 +225,12 @@ class UploadPark extends React.Component {
                   data={selectPolicy}
                   onChangeText={value => this.onChangePolicy(value)}
                 />
+                <TouchableOpacity onPress={this.showDialog}>
+                  <AntDesign name="questioncircleo" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.input}>
+                <ExplanationPopUp dialogVisible={this.state.dialogVisible} closePopUp={this.closePopUp} subject='Parking Size' topTitle='Small:' topExplain='Private vehicles, such as: Seat Ibiza, Mazda 3, Ford Focus etc.' midTitle='Medium:' midExplain='Medium vehicles such as: Jip, Hammer, Dogde etc.' bottomTitle='Big:' bottomExplain='Big vehicles such as: Tracks, RV etc.' />
               </View>
               <View style={styles.input}>
                 <Dropdown
@@ -193,19 +238,28 @@ class UploadPark extends React.Component {
                   data={selectParkingSize}
                   onChangeText={value => this.onChangeParkingSize(value)}
                 />
+                <TouchableOpacity onPress={this.showDialogParkingSize}>
+                  <AntDesign name="questioncircleo" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.input}>
+                <ExplanationPopUp dialogVisible={this.state.dialogVisibleParkingSize} closePopUp={this.closePopUp} subject='Parking Size' topTitle='Small:' topExplain='Private vehicles, such as: Seat Ibiza, Mazda 3, Ford Focus etc.' midTitle='Medium:' midExplain='Medium vehicles such as: Jip, Hammer, Dogde etc.' bottomTitle='Big:' bottomExplain='Big vehicles such as: Tracks, RV etc.' />
               </View>
               <Input
                 containerStyle={styles.inputDirections}
-                placeholder='Directions'
+                placeholder='Comments'
                 onChangeText={this.handleDirections}
               />
               <View style={styles.saveBtnContainer}>
                 <Button
-                  title='Add Park'
+                  title='Upload'
                   style={{ width: Dimensions.get('window').width, top: 20 }}
                   color='#841584'
                   onPress={() => this.handlePressSave()}
                 />
+              </View>
+              <View style={styles.input}>
+                <FeedBack dialogVisible={this.state.saveFeedBackVisible} closePopUp={this.closePopUp} subject='New Parking Spot Have Been Created!' topTitle='The parking spot added to your list' />
               </View>
             </View>
           </ScrollView>
@@ -213,20 +267,24 @@ class UploadPark extends React.Component {
       </View>
     )
   }
-  render () {
+}
+
+class UploadPark extends React.Component {
+
+  render() {
     const Stack = createStackNavigator()
     return (
-        <Stack.Navigator>
-          <Stack.Screen
-            name='Upload Park'
-            component={this.uploadParkingSpotView}
-            options={{
-              title: 'Upload Park',
-              ...TransitionPresets.ModalSlideFromBottomIOS,
-              headerBackground: () => <HeaderLogo />
-            }}
-          />
-        </Stack.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen
+          name='Upload Park'
+          component={UploadParkContent}
+          options={{
+            title: 'Create New Parking Spot',
+            ...TransitionPresets.ModalSlideFromBottomIOS,
+            headerBackground: () => <HeaderLogo />
+          }}
+        />
+      </Stack.Navigator>
     )
   }
 }
