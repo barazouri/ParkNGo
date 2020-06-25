@@ -42,7 +42,7 @@ class Navigation extends React.Component {
           name='Upload'
           component={UploadPark}
           options={{
-            tabBarLabel: 'Upload',
+            tabBarLabel: 'Create',
             tabBarIcon: ({ color, size }) => (
               <Icon name='upload' color={color} size={size} />
             ),
