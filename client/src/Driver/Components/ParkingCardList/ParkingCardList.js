@@ -81,7 +81,8 @@ class ParkingCardList extends Component {
     navigation.navigate('ParkingSpotDetails', {
       parkingSpot: parkingSpot,
       forDate: forDate,
-      untilDate: untilDate
+      untilDate: untilDate,
+      isForBook: true
     })
   }
   render () {
