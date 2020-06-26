@@ -358,13 +358,13 @@ class HostParkingSpotCalendar extends React.Component {
             <View style={styles.line} />
 
             <Text style={styles.parkingDataTitle}>
-              Available Dates (green marked)
+              Available Dates (green)
             </Text>
             <Text style={styles.parkingDataTitle}>
-              Future Reservations (red marked)
+              Future Reservations (red)
             </Text>
             <Text style={styles.parkingDataTitle}>
-              Waiting for Approval (yellow marked)
+              Waiting for Approval (yellow)
             </Text>
             <View style={styles.calendarWrapper}>
               <CalendarList

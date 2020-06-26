@@ -1,0 +1,74 @@
+{
+    "_id": {
+        "$oid": "5e7b6c9be7179a17e21be5b1"
+    },
+    "profileId": 2,
+    "firstName": "Bar",
+    "lastName": "Azouri",
+    "email": "barazouri24@gmail.com",
+    "paymentMethod": [
+        {
+            "creditCardNumber": 12345688,
+            "expiryDate": {
+                "$date": "2020-02-20T00:00:00.000Z"
+            },
+            "nameOnCard": "Bar Azouri",
+            "bankAccount": 2345
+        }
+    ],
+    "parkingSpots": [
+        {
+            "_id": {
+                "$oid": "5e7baf99fb7c8150d87dd399"
+            },
+            "parkingId": "3A",
+            "address": "Hoofien 9",
+            "policy": "easy",
+            "parkingSize": "big",
+            "price": 20,
+            "windowsOfTime": [],
+            "availability": "yes",
+            "directions": "next to the green house",
+            "totalRankParking": 5,
+            "hostReviews": [],
+            "parkingPictures": [
+                {
+                    "imageUrl": "https://st.depositphotos.com/2575095/3015/i/950/depositphotos_30156457-stock-photo-vegetation-parking-spot.jpg"
+                },
+                {
+                    "imageUrl": "https://st.depositphotos.com/2575095/3015/i/950/depositphotos_30156457-stock-photo-vegetation-parking-spot.jpg"
+                }
+            ],
+            "futureReservations": []
+        },
+        {
+            "parkingId": "2A",
+            "address": "Emil Zula 2",
+            "policy": "free cancelation",
+            "parkingSize": "big",
+            "price": 12,
+            "windowsOfTime": [],
+            "availability": "2754878",
+            "directions": "next to the orange house",
+            "totalRankParking": 5,
+            "hostReviews": [],
+            "futureReservations": [],
+            "pastReservations": []
+        }
+    ],
+    "driverLicensePlate": "2754878",
+    "driverCarSize": "medium",
+    "totalRankDriver": 5,
+    "driverOrderSpot": [
+        {
+            "parkingSpotID": "1B",
+            "requireToDate": {
+                "$date": "2020-07-06T11:49:25.000Z"
+            },
+            "requireUntilDate": {
+                "$date": "2020-07-07T13:49:25.000Z"
+            }
+        }
+    ],
+    "driverReviews": []
+}
