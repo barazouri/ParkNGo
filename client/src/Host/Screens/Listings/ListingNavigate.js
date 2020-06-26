@@ -4,6 +4,7 @@ import Listings from './Listings'
 import HostParkingSpotDetails from './HostParkingSpotDetails'
 import HostEditParkingSpot from './HostEditParkingSpot'
 import HostParkingSpotCalendar from '../../Components/ParkingSpotCalendar/parkingSpotCalendar'
+import HostAddImageToParkingSpot from '../../Components/HostAddImageToParkingSpot/HostAddImageToParkingSpot'
 import HostParkingSpotReviews from '../../Components/ParkingSpotReviews/parkingSpotReviews'
 import {
   createStackNavigator,
@@ -15,10 +16,10 @@ const styles = StyleSheet.create({
 })
 
 class ListingNavigate extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
   }
-  render () {
+  render() {
     const Stack = createStackNavigator()
     return (
       <View style={{ flex: 1 }}>
@@ -31,7 +32,7 @@ class ListingNavigate extends React.Component {
               ...TransitionPresets.ModalSlideFromBottomIOS,
               headerBackground: () => <HeaderLogo />
             }}
-            
+
           />
           <Stack.Screen
             name='HostParkingSpotDetails'
@@ -42,7 +43,7 @@ class ListingNavigate extends React.Component {
               headerBackground: () => <HeaderLogo />
             }}
           />
-         <Stack.Screen
+          <Stack.Screen
             name='HostEditParkingSpot'
             component={HostEditParkingSpot}
             options={{
@@ -56,6 +57,15 @@ class ListingNavigate extends React.Component {
             component={HostParkingSpotCalendar}
             options={{
               title: 'Calendar',
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
+            }}
+          />
+          <Stack.Screen
+            name='HostAddImageToParkingSpot'
+            component={HostAddImageToParkingSpot}
+            options={{
+              title: 'Add a new image',
               ...TransitionPresets.ModalSlideFromBottomIOS,
               headerBackground: () => <HeaderLogo />
             }}
