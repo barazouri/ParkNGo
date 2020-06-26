@@ -1,12 +1,20 @@
 import React from 'react'
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  TouchableOpacity
+} from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import { Button } from 'react-native-elements'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
 
 const config = require('../../../../config/config.json')
 const profile = 'guygol@gmail.com'
 import { parkingSpots } from '../../Components/ParkingCardList/data'
+import ExplanationPopUp from '../../../Host/Components/ExplanationPopUp/explanationPopUp'
 
 const styles = StyleSheet.create({
   container: {
@@ -72,10 +80,19 @@ class ParkingSpotDetails extends React.Component {
         'https://source.unsplash.com/1024x768/?girl',
         'https://source.unsplash.com/1024x768/?tree' // Network image
       ],
-      rank: 10
+      rank: 10,
+      dialogVisible: false
     }
     this.imageToArray = this.imageToArray.bind(this)
     this.submitForm = this.submitForm.bind(this)
+    this.closePopUp = this.closePopUp.bind(this)
+    this.showDialog = this.showDialog.bind(this)
+  }
+  closePopUp (childData, childDataRedirect) {
+    this.setState({
+      dialogVisible: childData,
+      saveFeedBackVisible: childData,
+      redirect: childDataRedirect    })
   }
   imageToArray () {
     const { parkingSpot } = this.props.route.params
@@ -87,6 +104,9 @@ class ParkingSpotDetails extends React.Component {
   }
   componentDidMount () {
     this.imageToArray()
+  }
+  showDialog() {
+    this.setState({ dialogVisible: true });
   }
   submitForm () {
     const { navigation } = this.props
@@ -116,8 +136,8 @@ class ParkingSpotDetails extends React.Component {
       untilDate: untilDate
     })
   }
-  calculateTotalPrice(){
-    const {forDate, untilDate, parkingSpot } = this.props.route.params
+  calculateTotalPrice () {
+    const { forDate, untilDate, parkingSpot } = this.props.route.params
     return (Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price
   }
   render () {
@@ -136,14 +156,30 @@ class ParkingSpotDetails extends React.Component {
           <Text style={styles.address}>{parkingSpot.address}</Text>
           <Text style={styles.directions}>{parkingSpot.directions}</Text>
           <Text style={styles.price}>{`${parkingSpot.price} \u20AA/Hour`}</Text>
-          <Text style={styles.policy}>{parkingSpot.policy}</Text>
+          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+            <Text style={styles.policy}>{parkingSpot.policy}</Text>
+            <TouchableOpacity onPress={this.showDialog} style={{left:10}}>
+              <AntDesign name='questioncircleo' size={24} color='black' />
+            </TouchableOpacity>
+          </View>
+          <ExplanationPopUp
+            dialogVisible={this.state.dialogVisible}
+            closePopUp={this.closePopUp}
+            subject='Policy'
+            topTitle='Flexible:'
+            topExplain='Full refund 1 day prior to arrival.'
+            midTitle='Moderate:'
+            midExplain='Full refund 5 days prior to arrival.'
+            bottomTitle='Strict:'
+            bottomExplain='No refunds for cancellations made within 7 days of check-in.'
+          />
           <View
             style={{
               flexDirection: 'row',
               alignSelf: 'center'
             }}
           >
-            <View style={{ margin: 20 , alignItems:  'center' }}>
+            <View style={{ margin: 20, alignItems: 'center' }}>
               <Text
                 style={{ fontFamily: 'Inter-SemiBoldItalic' }}
               >{`Date: ${forDate.getDate()}/${forDate.getMonth() +
@@ -158,7 +194,7 @@ class ParkingSpotDetails extends React.Component {
               size={24}
               color='black'
             />
-            <View style={{ margin: 20, alignItems:  'center' }}>
+            <View style={{ margin: 20, alignItems: 'center' }}>
               <Text
                 style={{ fontFamily: 'Inter-SemiBoldItalic' }}
               >{`Date: ${untilDate.getDate()}/${untilDate.getMonth() +
@@ -168,7 +204,14 @@ class ParkingSpotDetails extends React.Component {
               </Text>
             </View>
           </View>
-          <Text style={{ fontFamily: 'Inter-SemiBoldItalic', fontSize:20, textAlign: 'center', marginTop:15 }}>
+          <Text
+            style={{
+              fontFamily: 'Inter-SemiBoldItalic',
+              fontSize: 20,
+              textAlign: 'center',
+              marginTop: 15
+            }}
+          >
             Total {this.calculateTotalPrice()} {'\u20AA'}
           </Text>
         </View>
