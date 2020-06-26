@@ -157,8 +157,6 @@ class HostEditParkingSpot extends React.Component {
     const policy = this.state.policy
     const parkingSize = this.state.parkingSize
     const price = this.state.price
-    // const AvailablefromTime = this.state.forDate
-    // const AvailableUntilTime = this.state.untilDate
     const directions = this.state.directions
 
     let url = `${urlAdd}`
