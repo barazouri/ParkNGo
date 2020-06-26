@@ -92,7 +92,8 @@ class ParkingSpotDetails extends React.Component {
     this.setState({
       dialogVisible: childData,
       saveFeedBackVisible: childData,
-      redirect: childDataRedirect    })
+      redirect: childDataRedirect
+    })
   }
   imageToArray () {
     const { parkingSpot } = this.props.route.params
@@ -105,8 +106,8 @@ class ParkingSpotDetails extends React.Component {
   componentDidMount () {
     this.imageToArray()
   }
-  showDialog() {
-    this.setState({ dialogVisible: true });
+  showDialog () {
+    this.setState({ dialogVisible: true })
   }
   submitForm () {
     const { navigation } = this.props
@@ -138,7 +139,7 @@ class ParkingSpotDetails extends React.Component {
   }
   calculateTotalPrice () {
     const { forDate, untilDate, parkingSpot } = this.props.route.params
-    return (Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price
+    return ((Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price).toFixed(2)
   }
   render () {
     const { parkingSpot, forDate, untilDate } = this.props.route.params
@@ -156,9 +157,9 @@ class ParkingSpotDetails extends React.Component {
           <Text style={styles.address}>{parkingSpot.address}</Text>
           <Text style={styles.directions}>{parkingSpot.directions}</Text>
           <Text style={styles.price}>{`${parkingSpot.price} \u20AA/Hour`}</Text>
-          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
             <Text style={styles.policy}>{parkingSpot.policy}</Text>
-            <TouchableOpacity onPress={this.showDialog} style={{left:10}}>
+            <TouchableOpacity onPress={this.showDialog} style={{ left: 10 }}>
               <AntDesign name='questioncircleo' size={24} color='black' />
             </TouchableOpacity>
           </View>

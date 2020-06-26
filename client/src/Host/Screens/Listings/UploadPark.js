@@ -115,7 +115,6 @@ class UploadParkContent extends React.Component {
     this.setState({ directions: directions })
   }
   handlePressSave () {
-    const { navigation } = this.props
     let { email, policy, parkingSize, price, directions, address } = this.state
     let urlAdd = this.getUrlForApi()
     console.log('Saved')
