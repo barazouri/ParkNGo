@@ -2,8 +2,10 @@ import React from 'react'
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import { Button } from 'react-native-elements'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
 const config = require('../../../../config/config.json')
-const profile='guygol@gmail.com'
+const profile = 'guygol@gmail.com'
 import { parkingSpots } from '../../Components/ParkingCardList/data'
 
 const styles = StyleSheet.create({
@@ -14,7 +16,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.2)',
     width: '100%',
-    height: 200,
+    height: 300,
     backgroundColor: '#fff',
     borderRadius: 20,
     alignSelf: 'center',
@@ -70,7 +72,7 @@ class ParkingSpotDetails extends React.Component {
         'https://source.unsplash.com/1024x768/?girl',
         'https://source.unsplash.com/1024x768/?tree' // Network image
       ],
-      rank: 10,
+      rank: 10
     }
     this.imageToArray = this.imageToArray.bind(this)
     this.submitForm = this.submitForm.bind(this)
@@ -114,6 +116,10 @@ class ParkingSpotDetails extends React.Component {
       untilDate: untilDate
     })
   }
+  calculateTotalPrice(){
+    const {forDate, untilDate, parkingSpot } = this.props.route.params
+    return (Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price
+  }
   render () {
     const { parkingSpot, forDate, untilDate } = this.props.route.params
     return (
@@ -131,24 +137,40 @@ class ParkingSpotDetails extends React.Component {
           <Text style={styles.directions}>{parkingSpot.directions}</Text>
           <Text style={styles.price}>{`${parkingSpot.price} \u20AA/Hour`}</Text>
           <Text style={styles.policy}>{parkingSpot.policy}</Text>
-        </View>
-        <View style={{flexDirection: 'column'}}>
-          <View>
-          <Text
-            style={{ textAlign: 'center', fontFamily: 'Inter-SemiBoldItalic' }}
-          >{`Date: ${forDate.getDate()}/${forDate.getMonth()+1}/${forDate.getFullYear()}`}</Text>
-          <Text style={{ textAlign: 'center', fontFamily: 'Inter-SemiBoldItalic' }}>
-            {`Time: ${forDate.getHours()}:${forDate.getMinutes()}`}{' '}
-          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignSelf: 'center'
+            }}
+          >
+            <View style={{ margin: 20 }}>
+              <Text
+                style={{ fontFamily: 'Inter-SemiBoldItalic' }}
+              >{`Date: ${forDate.getDate()}/${forDate.getMonth() +
+                1}/${forDate.getFullYear()}`}</Text>
+              <Text style={{ fontFamily: 'Inter-SemiBoldItalic' }}>
+                {`Time: ${forDate.getHours()}:${forDate.getMinutes()}`}{' '}
+              </Text>
+            </View>
+            <MaterialCommunityIcons
+              style={{ marginTop: 23 }}
+              name='arrow-right'
+              size={24}
+              color='black'
+            />
+            <View style={{ margin: 20 }}>
+              <Text
+                style={{ fontFamily: 'Inter-SemiBoldItalic' }}
+              >{`Date: ${untilDate.getDate()}/${untilDate.getMonth() +
+                1}/${untilDate.getFullYear()}`}</Text>
+              <Text style={{ fontFamily: 'Inter-SemiBoldItalic' }}>
+                {`Time: ${untilDate.getHours()}:${untilDate.getMinutes()}`}{' '}
+              </Text>
+            </View>
           </View>
-          <View>
-          <Text
-            style={{ textAlign: 'center', fontFamily: 'Inter-SemiBoldItalic' }}
-          >{`Date: ${untilDate.getDate()}/${untilDate.getMonth()+1}/${untilDate.getFullYear()}`}</Text>
-          <Text style={{ textAlign: 'center', fontFamily: 'Inter-SemiBoldItalic' }}>
-            {`Time: ${untilDate.getHours()}:${untilDate.getMinutes()}`}{' '}
+          <Text style={{ fontFamily: 'Inter-SemiBoldItalic', fontSize:20, textAlign: 'center', marginTop:15 }}>
+            Total {this.calculateTotalPrice()} {'\u20AA'}
           </Text>
-          </View>
         </View>
         <Button
           title='Book'
