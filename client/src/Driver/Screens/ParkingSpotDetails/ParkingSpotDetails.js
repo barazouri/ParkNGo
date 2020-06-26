@@ -2,8 +2,10 @@ import React from 'react'
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import { Button } from 'react-native-elements'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
 const config = require('../../../../config/config.json')
-const profile='guygol@gmail.com'
+const profile = 'guygol@gmail.com'
 import { parkingSpots } from '../../Components/ParkingCardList/data'
 
 const styles = StyleSheet.create({
@@ -14,7 +16,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.2)',
     width: '100%',
-    height: 200,
+    height: 300,
     backgroundColor: '#fff',
     borderRadius: 20,
     alignSelf: 'center',
@@ -90,15 +92,13 @@ class ParkingSpotDetails extends React.Component {
     const { navigation } = this.props
     const { parkingSpot, forDate, untilDate } = this.props.route.params
     console.log(parkingSpot)
-    // console.log(forDate)
-    let newuntilDate
-    if (untilDate === undefined) {
-      newuntilDate = new Date(forDate)
-      newuntilDate.setHours(newuntilDate.getHours() + 2) //2 hours by default
-    } else {
-      newuntilDate = new Date(untilDate)
-    }
-    // console.log(newuntilDate)
+    // let newuntilDate
+    // if (untilDate === undefined) {
+    //   newuntilDate = new Date(forDate)
+    //   newuntilDate.setHours(newuntilDate.getHours() + 2) //2 hours by default
+    // } else {
+    //   newuntilDate = new Date(untilDate)
+    // }
     let url = `${config.API}/bookParkingSpot`
     let bool = true
     fetch(url, {
@@ -106,18 +106,22 @@ class ParkingSpotDetails extends React.Component {
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded' // <-- Specifying the Content-Type
       }),
-      body: `email=${profile}&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${newuntilDate}&isAutomatic=${bool}` // <-- Post parameters
+      body: `email=${profile}&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${untilDate}&isAutomatic=${bool}` // <-- Post parameters
     }).catch(error => {
       console.log(error)
     })
     navigation.navigate('BookApproved', {
       parkingSpot: parkingSpot,
       forDate: forDate,
-      untilDate: newuntilDate
+      untilDate: untilDate
     })
   }
+  calculateTotalPrice(){
+    const {forDate, untilDate, parkingSpot } = this.props.route.params
+    return (Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price
+  }
   render () {
-    const { parkingSpot } = this.props.route.params
+    const { parkingSpot, forDate, untilDate } = this.props.route.params
     return (
       <View style={styles.container}>
         <View style={styles.sliderBoxContainer}>
@@ -131,8 +135,42 @@ class ParkingSpotDetails extends React.Component {
         <View style={styles.inputContainer}>
           <Text style={styles.address}>{parkingSpot.address}</Text>
           <Text style={styles.directions}>{parkingSpot.directions}</Text>
-          <Text style={styles.price}>{`${parkingSpot.price}$`}</Text>
+          <Text style={styles.price}>{`${parkingSpot.price} \u20AA/Hour`}</Text>
           <Text style={styles.policy}>{parkingSpot.policy}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignSelf: 'center'
+            }}
+          >
+            <View style={{ margin: 20 , alignItems:  'center' }}>
+              <Text
+                style={{ fontFamily: 'Inter-SemiBoldItalic' }}
+              >{`Date: ${forDate.getDate()}/${forDate.getMonth() +
+                1}/${forDate.getFullYear()}`}</Text>
+              <Text style={{ fontFamily: 'Inter-SemiBoldItalic' }}>
+                {`Time: ${forDate.getHours()}:${forDate.getMinutes()}`}{' '}
+              </Text>
+            </View>
+            <MaterialCommunityIcons
+              style={{ marginTop: 23 }}
+              name='arrow-right'
+              size={24}
+              color='black'
+            />
+            <View style={{ margin: 20, alignItems:  'center' }}>
+              <Text
+                style={{ fontFamily: 'Inter-SemiBoldItalic' }}
+              >{`Date: ${untilDate.getDate()}/${untilDate.getMonth() +
+                1}/${untilDate.getFullYear()}`}</Text>
+              <Text style={{ fontFamily: 'Inter-SemiBoldItalic' }}>
+                {`Time: ${untilDate.getHours()}:${untilDate.getMinutes()}`}{' '}
+              </Text>
+            </View>
+          </View>
+          <Text style={{ fontFamily: 'Inter-SemiBoldItalic', fontSize:20, textAlign: 'center', marginTop:15 }}>
+            Total {this.calculateTotalPrice()} {'\u20AA'}
+          </Text>
         </View>
         <Button
           title='Book'

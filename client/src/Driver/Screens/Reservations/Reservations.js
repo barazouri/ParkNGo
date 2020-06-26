@@ -128,7 +128,7 @@ class Reservations extends Component {
                     fontFamily: 'Inter-SemiBoldItalic'
                   }}
                 >
-                  Price: {reservation.price} $
+                  Price: {reservation.price} {'\u20AA'}
                 </Text>
                 <Text
                   style={{
