@@ -262,7 +262,7 @@ module.exports = {
         profile.parkingSpots.map(parkingSpot => {
           if (
             parkingSpot.address == address &&
-            parkingSpot.availability == 'yes' &&
+            parkingSpot.availability == '' &&
             parkingSpot.price >= fromPrice &&
             parkingSpot.price <= toPrice
           ) {
