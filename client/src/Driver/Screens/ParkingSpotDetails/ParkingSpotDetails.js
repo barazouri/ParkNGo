@@ -143,7 +143,7 @@ class ParkingSpotDetails extends React.Component {
               alignSelf: 'center'
             }}
           >
-            <View style={{ margin: 20 }}>
+            <View style={{ margin: 20 , alignItems:  'center' }}>
               <Text
                 style={{ fontFamily: 'Inter-SemiBoldItalic' }}
               >{`Date: ${forDate.getDate()}/${forDate.getMonth() +
@@ -158,7 +158,7 @@ class ParkingSpotDetails extends React.Component {
               size={24}
               color='black'
             />
-            <View style={{ margin: 20 }}>
+            <View style={{ margin: 20, alignItems:  'center' }}>
               <Text
                 style={{ fontFamily: 'Inter-SemiBoldItalic' }}
               >{`Date: ${untilDate.getDate()}/${untilDate.getMonth() +
