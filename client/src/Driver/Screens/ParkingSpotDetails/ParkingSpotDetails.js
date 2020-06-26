@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
-import { Button } from 'react-native-elements'
+import { Button, ThemeConsumer } from 'react-native-elements'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 
@@ -81,10 +81,11 @@ class ParkingSpotDetails extends React.Component {
         'https://source.unsplash.com/1024x768/?tree' // Network image
       ],
       rank: 10,
-      dialogVisible: false
+      dialogVisible: false,
+      isForBook: props.route.params.isForBook
     }
     this.imageToArray = this.imageToArray.bind(this)
-    this.submitForm = this.submitForm.bind(this)
+    this.submitFormBook = this.submitFormBook.bind(this)
     this.closePopUp = this.closePopUp.bind(this)
     this.showDialog = this.showDialog.bind(this)
   }
@@ -92,7 +93,8 @@ class ParkingSpotDetails extends React.Component {
     this.setState({
       dialogVisible: childData,
       saveFeedBackVisible: childData,
-      redirect: childDataRedirect    })
+      redirect: childDataRedirect
+    })
   }
   imageToArray () {
     const { parkingSpot } = this.props.route.params
@@ -105,20 +107,12 @@ class ParkingSpotDetails extends React.Component {
   componentDidMount () {
     this.imageToArray()
   }
-  showDialog() {
-    this.setState({ dialogVisible: true });
+  showDialog () {
+    this.setState({ dialogVisible: true })
   }
-  submitForm () {
+  submitFormBook () {
     const { navigation } = this.props
     const { parkingSpot, forDate, untilDate } = this.props.route.params
-    console.log(parkingSpot)
-    // let newuntilDate
-    // if (untilDate === undefined) {
-    //   newuntilDate = new Date(forDate)
-    //   newuntilDate.setHours(newuntilDate.getHours() + 2) //2 hours by default
-    // } else {
-    //   newuntilDate = new Date(untilDate)
-    // }
     let url = `${config.API}/bookParkingSpot`
     let bool = true
     fetch(url, {
@@ -136,9 +130,12 @@ class ParkingSpotDetails extends React.Component {
       untilDate: untilDate
     })
   }
+  submitFormCancel(){
+    console.log("cancel")
+  }
   calculateTotalPrice () {
     const { forDate, untilDate, parkingSpot } = this.props.route.params
-    return (Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price
+    return ((Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price).toFixed(2)
   }
   render () {
     const { parkingSpot, forDate, untilDate } = this.props.route.params
@@ -156,9 +153,9 @@ class ParkingSpotDetails extends React.Component {
           <Text style={styles.address}>{parkingSpot.address}</Text>
           <Text style={styles.directions}>{parkingSpot.directions}</Text>
           <Text style={styles.price}>{`${parkingSpot.price} \u20AA/Hour`}</Text>
-          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
             <Text style={styles.policy}>{parkingSpot.policy}</Text>
-            <TouchableOpacity onPress={this.showDialog} style={{left:10}}>
+            <TouchableOpacity onPress={this.showDialog} style={{ left: 10 }}>
               <AntDesign name='questioncircleo' size={24} color='black' />
             </TouchableOpacity>
           </View>
@@ -216,10 +213,10 @@ class ParkingSpotDetails extends React.Component {
           </Text>
         </View>
         <Button
-          title='Book'
+          title={this.state.isForBook ? 'Book' : 'Cancel'}
           style={styles.submitButton}
           color='#841584'
-          onPress={this.submitForm}
+          onPress={this.state.isForBook ? this.submitFormBook : this.submitFormCancel}
           accessibilityLabel='Learn more about this purple button'
         />
       </View>

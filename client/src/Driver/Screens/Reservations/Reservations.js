@@ -56,14 +56,17 @@ class Reservations extends Component {
         console.error(error)
       })
   }
-  handleCardPress () {
-    // const { navigation } = this.props
-    // let { forDate, untilDate } = this.props.route.params
-    // navigation.navigate('ParkingSpotDetails', {
-    //   parkingSpot: parkingSpot,
-    //   forDate: forDate,
-    //   untilDate: untilDate
-    // })
+  handleCardPress (reservation) {
+    console.log(reservation.requireToDate)
+    console.log(reservation.requireUntilDate)
+
+    const { navigation } = this.props
+    navigation.navigate('ParkingSpotDetails', {
+      parkingSpot: reservation,
+      forDate: new Date(reservation.requireToDate),
+      untilDate: new Date(reservation.requireUntilDate),
+      isForBook: false
+    })
   }
   getDate (date) {
     date = new Date(date)
