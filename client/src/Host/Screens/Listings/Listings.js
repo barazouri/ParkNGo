@@ -85,10 +85,10 @@ class Listings extends Component {
                   />
                 </View>
                 <Text style={{ marginBottom: 10, fontSize: 25 }}>
-                  Adress: {parkingSpot.address}
+                  Address: {parkingSpot.address}
                 </Text>
                 <Text style={{ marginBottom: 10, fontSize: 20 }}>
-                  Price: {parkingSpot.price} $
+                  Price: {parkingSpot.price} {'\u20AA/'}hour
                 </Text>
                 <Text style={{ marginBottom: 10, fontSize: 20 }}>
                   Policy: {parkingSpot.policy}

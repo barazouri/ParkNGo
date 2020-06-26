@@ -160,8 +160,6 @@ class HostEditParkingSpot extends React.Component {
     const policy = this.state.policy
     const parkingSize = this.state.parkingSize
     const price = this.state.price
-    // const AvailablefromTime = this.state.forDate
-    // const AvailableUntilTime = this.state.untilDate
     const directions = this.state.directions
 
     let url = `${urlAdd}`
@@ -174,7 +172,7 @@ class HostEditParkingSpot extends React.Component {
     })
       .then(res => res.json())
       .catch(err => new Error(err))
-      this.saveFeedBack()
+    this.saveFeedBack()
   }
   onChangePolicy(value) {
     console.log(`Selected value: ${value}`)
@@ -282,8 +280,8 @@ class HostEditParkingSpot extends React.Component {
               />
             </View>
             <View style={styles.input}>
-                <FeedBack dialogVisible={this.state.saveFeedBackVisible} closePopUp={this.closePopUp} subject='Edit Successfully!' topTitle='The parking spot edited Successfully' />
-              </View>
+              <FeedBack dialogVisible={this.state.saveFeedBackVisible} closePopUp={this.closePopUp} subject='Edit Successfully!' topTitle='The parking spot edited Successfully' />
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
