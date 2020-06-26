@@ -120,14 +120,14 @@ class SearchForm extends React.Component {
           <View style={{ marginTop: 20 }}>
             <DateAndTimePicker
               updateDate={this.updateForDate}
-              kind='Start Time/Date'
+              kind='Start'
               date={this.state.forDate}
             />
             {/* <Text style={{textAlign:'center', fontSize:20}}>End Time</Text> */}
             <DateAndTimePicker
               updateDate={this.updateUntilDate}
               date={this.state.untilDate}
-              kind='End Time/Date'
+              kind='End'
             />
           </View>
           <View style={styles.numberInputContainer}>
