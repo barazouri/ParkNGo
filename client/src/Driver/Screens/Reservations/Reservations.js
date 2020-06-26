@@ -99,7 +99,7 @@ class Reservations extends Component {
                     fontFamily: 'Inter-SemiBoldItalic'
                   }}
                 >
-                  Adress: {reservation.address}
+                  Address: {reservation.address}
                 </Text>
                 <Text
                   style={{

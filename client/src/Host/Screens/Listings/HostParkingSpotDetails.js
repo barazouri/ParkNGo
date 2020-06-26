@@ -13,8 +13,10 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons' // 6.2.2
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
 import SafeAreaView from 'react-native-safe-area-view'
-const io = require('socket.io-client')
 import config from '../../../../config/config.json'
+import VerifyPopUp from '../../Components/VerifyPopUp/verifyPopUp'
+
+const io = require('socket.io-client')
 const { height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
     position: 'relative'
   },
   sliderBoxContainer: {
-    // height: 350,
+    // height: 310,
   },
   rankContainer: {
     flexDirection: 'row',
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   calendarBtn: {
-    marginTop: 10,
+    // marginTop: 10,
     borderWidth: 1,
     width: 80,
     height: 60,
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
 })
 
 class HostParkingSpotDetails extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       images: [],
@@ -98,7 +100,9 @@ class HostParkingSpotDetails extends React.Component {
       screenHeight: 0,
       check: '2020-04-04',
       parkingSpot: props.route.params.parkingSpot,
-      plateNumber: null
+      plateNumber: null,
+      dialogVisibleDeleteParking: false,
+      saveFeedBackVisible: false,
     }
     this.imageToArray = this.imageToArray.bind(this)
     this.submitForm = this.submitForm.bind(this)
@@ -111,13 +115,16 @@ class HostParkingSpotDetails extends React.Component {
     this.getMarkAvailableDates = this.getMarkAvailableDates.bind(this)
     this.getMarkFutureDates = this.getMarkFutureDates.bind(this)
     this.getMarkWaitingDates = this.getMarkWaitingDates.bind(this)
+    this.handleDeleteParkingSpot = this.handleDeleteParkingSpot.bind(this)
+    this.closePopUp = this.closePopUp.bind(this)
+    this.getUrlDeleteForApi = this.getUrlDeleteForApi.bind(this)
   }
-  onContentSizeChange (contentWidth, contentHeight) {
+  onContentSizeChange(contentWidth, contentHeight) {
     // Save the content height in state
     this.setState({ screenHeight: contentHeight })
   }
 
-  imageToArray () {
+  imageToArray() {
     let images = []
     this.state.parkingSpot.parkingPictures.map(image => {
       images.push(image.imageUrl)
@@ -125,10 +132,10 @@ class HostParkingSpotDetails extends React.Component {
     this.setState({ images: images })
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const socket = io(config.ioServer, {
       transports: ['websocket'],
-      forceNode: true 
+      forceNode: true
     })
     socket.on('parkingSpotAvailabilityChange', plateNumber => {
       let { parkingSpot } = this.state
@@ -140,7 +147,7 @@ class HostParkingSpotDetails extends React.Component {
     this.loadCalendar()
   }
 
-  loadCalendar () {
+  loadCalendar() {
     this.state.parkingSpot.windowsOfTime.map(window => {
       let parseDateFrom = this.formatDate(window.AvailablefromTime)
       this.state.availabilFrom.push(parseDateFrom)
@@ -150,7 +157,7 @@ class HostParkingSpotDetails extends React.Component {
     })
   }
 
-  formatDate (date) {
+  formatDate(date) {
     var d = new Date(date),
       month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
@@ -162,11 +169,11 @@ class HostParkingSpotDetails extends React.Component {
     return [year, month, day].join('-')
   }
 
-  submitForm () {
+  submitForm() {
     console.log('submited')
   }
 
-  handleCardPress (parkingSpot) {
+  handleCardPress(parkingSpot) {
     const { navigation } = this.props
     navigation.navigate('HostEditParkingSpot', {
       parkingSpot: parkingSpot
@@ -174,21 +181,21 @@ class HostParkingSpotDetails extends React.Component {
     // console.log(parkingSpot)
   }
 
-  handleCalendarPress (parkingSpot) {
+  handleCalendarPress(parkingSpot) {
     const { navigation } = this.props
     navigation.navigate('HostParkingSpotCalendar', {
       parkingSpot: parkingSpot
     })
     // console.log(parkingSpot)
   }
-  handleReviewPress () {
+  handleReviewPress() {
     const { navigation } = this.props
     navigation.navigate('HostParkingSpotReviews', {
       parkingSpot: this.state.parkingSpot
     })
   }
 
-  getMarkAvailableDates () {
+  getMarkAvailableDates() {
     let dates = {}
     this.state.parkingSpot.windowsOfTime.map((window, index) => {
       dates[`${this.formatDate(window.AvailablefromTime)}`] = {
@@ -207,7 +214,7 @@ class HostParkingSpotDetails extends React.Component {
     return dates
   }
 
-  getMarkFutureDates () {
+  getMarkFutureDates() {
     let dates = {}
     // console.log('helloi')
     this.state.parkingSpot.futureReservations.map((future, index) => {
@@ -227,7 +234,7 @@ class HostParkingSpotDetails extends React.Component {
     return dates
   }
 
-  getMarkWaitingDates () {
+  getMarkWaitingDates() {
     let dates = {}
     this.state.parkingSpot.hostWaitingQueue.map((wait, index) => {
       dates[`${this.formatDate(wait.requireToDate)}`] = {
@@ -246,7 +253,58 @@ class HostParkingSpotDetails extends React.Component {
     return dates
   }
 
-  render () {
+  handleDeleteParkingSpot(parkingSpotToDelete) {
+    this.saveFeedBack()
+  }
+
+  closePopUp(childData, childDataAnswer) {
+    const { navigation } = this.props
+
+    this.setState({
+      dialogVisibleDeleteParking: childData,
+      saveFeedBackVisible: childData,
+    })
+
+    if (childDataAnswer) {
+      console.log('aprroved to delete')
+      let urldelete = this.getUrlDeleteForApi()
+      console.log('Delete')
+
+  
+      let url = `${urldelete}`
+      fetch(`${url}`, {
+        method: 'GET',
+        // headers: {
+        //   'Content-Type': 'application/x-www-form-urlencoded'
+        // }
+      })
+        .then(res => res.json())
+        .catch(err => new Error(err))
+      this.saveFeedBack()
+
+
+      navigation.navigate('Listings')
+    }
+    else {
+      console.log('NOT aprroved to delte')
+    }
+
+  }
+
+  getUrlDeleteForApi() {
+    const { parkingSpot } = this.props.route.params
+
+    const parkingId = parkingSpot.parkingId
+    const profileId = 1
+
+    return config.API + `/removeSpecificParkingSpot?profileId=${profileId}&parkingId=${parkingId}`
+  }
+
+  saveFeedBack() {
+    this.setState({ dialogVisibleDeleteParking: true });
+  }
+
+  render() {
     const scrollEnabled = this.state.screenHeight > height
     return (
       <SafeAreaView style={styles.container}>
@@ -289,7 +347,6 @@ class HostParkingSpotDetails extends React.Component {
               type='clear'
               icon={
                 <Icon name='calendar' style={styles.calendarInner}>
-                  {/* <Text style={styles.calendarText}>Calendar</Text> */}
                 </Icon>
               }
               onPress={() => this.handleCalendarPress(this.state.parkingSpot)}
@@ -300,7 +357,7 @@ class HostParkingSpotDetails extends React.Component {
           <Text style={styles.parkingDataTitle}>Price:</Text>
           <Text
             style={styles.parkingData}
-          >{`${this.state.parkingSpot.price}$`}</Text>
+          >{`${this.state.parkingSpot.price} \u20AA/Hour`}</Text>
           <View style={styles.line} />
 
           <Text style={styles.parkingDataTitle}>Directions:</Text>
@@ -322,7 +379,7 @@ class HostParkingSpotDetails extends React.Component {
           <View style={styles.line} />
           <Text style={styles.parkingDataTitle}>
             {this.state.parkingSpot.availability ||
-            this.state.parkingSpot.availability.length > 0
+              this.state.parkingSpot.availability.length > 0
               ? 'Occupied by: '
               : 'Is Available: '}
           </Text>
@@ -340,8 +397,11 @@ class HostParkingSpotDetails extends React.Component {
                 <Text style={styles.ediText}>Delete</Text>
               </Icon>
             }
-            // onPress={() => this.handleCardPress(parkingSpot)}
+            onPress={() => this.handleDeleteParkingSpot(this.state.parkingSpot)}
           />
+          <View style={styles.input}>
+            <VerifyPopUp dialogVisible={this.state.dialogVisibleDeleteParking} closePopUp={this.closePopUp} subject='Are you sure you want to delete this parking spot?' topTitle='This parking spot will be deleted permanently' />
+          </View>
         </ScrollView>
       </SafeAreaView>
     )

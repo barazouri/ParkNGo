@@ -65,7 +65,7 @@ class SearchForm extends React.Component {
     this.updateUntilDate = this.updateUntilDate.bind(this)
     this.submitForm = this.submitForm.bind(this)
     this.OnChangeDistance = this.OnChangeDistance.bind(this)
-    this.handleAdress = this.handleAdress.bind(this)
+    this.handleAddress = this.handleAddress.bind(this)
     this.onChangePrice = this.onChangePrice.bind(this)
   }
   updateForDate (date) {
@@ -98,7 +98,7 @@ class SearchForm extends React.Component {
   OnChangeDistance (distance) {
     this.setState({ distance })
   }
-  handleAdress (address) {
+  handleAddress (address) {
     this.setState({ address })
   }
   onChangePrice (price) {
@@ -114,7 +114,7 @@ class SearchForm extends React.Component {
             containerStyle={styles.addressInput}
             placeholder='Address (required)*'
             value={this.state.address}
-            onChangeText={this.handleAdress}
+            onChangeText={this.handleAddress}
           />
           {/* <Text style={{textAlign:'center', fontSize:20}}>Start Time</Text> */}
           <View style={{ marginTop: 20 }}>

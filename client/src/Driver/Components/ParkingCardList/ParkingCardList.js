@@ -120,7 +120,7 @@ class ParkingCardList extends Component {
                     fontFamily: 'Inter-SemiBoldItalic'
                   }}
                 >
-                  Adress: {parkingSpot.address}
+                  Address: {parkingSpot.address}
                 </Text>
                 <Text
                   style={{
