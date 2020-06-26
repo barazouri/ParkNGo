@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
   },
   address: {
     fontSize: 30,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginTop: 20
   },
   parkingData: {
     alignSelf: 'center'
@@ -326,8 +327,8 @@ class HostParkingSpotCalendar extends React.Component {
                     // Pass any View or Component inside the curly bracket.
                     // Here the ? Question Mark represent the ternary operator.
 
-                    this.state.calendarStatus ? <View><DateAndTimePicker updateDate={this.updateForDate} kind='Start Time'date={this.state.forDate}></DateAndTimePicker>
-                                                <DateAndTimePicker updateDate={this.updateUntilDate} kind='End Time'/>
+                    this.state.calendarStatus ? <View><DateAndTimePicker updateDate={this.updateForDate} kind='Start'date={this.state.forDate}></DateAndTimePicker>
+                                                <DateAndTimePicker updateDate={this.updateUntilDate} kind='End'/>
                                                 <View style={styles.automaticBtn}>
                                                   <Dropdown
                                                   // textColor='pink'

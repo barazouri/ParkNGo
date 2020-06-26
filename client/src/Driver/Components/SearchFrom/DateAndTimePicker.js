@@ -73,7 +73,7 @@ const DateAndTimePicker = props => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ textAlign: 'center', fontSize: 20,fontFamily: 'Inter-SemiBoldItalic'  }}>{props.kind}</Text>
+      <Text style={{ textAlign: 'center', fontSize: 20,fontFamily: 'Inter-SemiBoldItalic'  }}>{`${props.kind} Date/Time`}</Text>
       <View style={styles.iconsContainer}>
         <View style={styles.iconTimeAndDate}>
           <MaterialCommunityIcons
@@ -109,7 +109,7 @@ const DateAndTimePicker = props => {
           isVisible={show}
           date={date}
           mode={mode}
-          headerTextIOS={mode === 'time' ? "Pick a time" : "Pick a date"}
+          headerTextIOS={mode === 'time' ? `${props.kind} Time` : `${props.kind} Date`}
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />

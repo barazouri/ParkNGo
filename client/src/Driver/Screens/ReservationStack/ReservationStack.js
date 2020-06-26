@@ -6,6 +6,7 @@ import {
   createStackNavigator,
   TransitionPresets
 } from '@react-navigation/stack'
+import ParkingSpotDetails from '../ParkingSpotDetails/ParkingSpotDetails'
 const logo = require('../../../../images/logo.png')
 
 const styles = StyleSheet.create({})
@@ -26,11 +27,18 @@ class ReservationStack extends React.Component {
             name='Reservations'
             component={Reservations}
             options={{
-                title: 'Reservations',
+              title: 'Reservations',
               ...TransitionPresets.ModalSlideFromBottomIOS,
-              headerBackground: () => (
-            <HeaderLogo/>
-              )
+              headerBackground: () => <HeaderLogo />
+            }}
+          />
+          <Stack.Screen
+            name='ParkingSpotDetails'
+            component={ParkingSpotDetails}
+            options={{
+              title: 'ParkingSpotDetails',
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
             }}
           />
         </Stack.Navigator>

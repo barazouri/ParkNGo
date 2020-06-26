@@ -56,7 +56,7 @@ class BookApprove extends React.Component {
   }
   calculateTotalPrice(){
     const {forDate, untilDate, parkingSpot } = this.props.route.params
-    return (Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price
+    return ((Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price).toFixed(2)
   }
   render () {
     const { parkingSpot, forDate, untilDate } = this.props.route.params
@@ -135,7 +135,7 @@ class BookApprove extends React.Component {
               marginTop: 15
             }}
           >
-            Total time: {(Math.abs(untilDate - forDate) / 36e5)} Hours
+            Total time: {(Math.abs(untilDate - forDate) / 36e5).toFixed(2)} Hours
           </Text>
           <Text
             style={{

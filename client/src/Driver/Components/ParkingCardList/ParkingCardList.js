@@ -46,21 +46,19 @@ class ParkingCardList extends Component {
     console.log(`price : ${price}`)
     console.log(`profile : ${price}`)
 
-    if (address && profile && price && forDate && untilDate ) {
+    if (address && profile && price && forDate && untilDate) {
       console.log('all params')
       return (
         config.API +
         `/searchByLocationAndPriceAndSizeByTime?address=${address}&email=${profile}&fromPrice=${0}&toPrice=${price}&fromTime=${forDate.toString()}&untilTime=${untilDate.toString()}&email=${userProfile}`
       ) //need to be change
-    } 
-    else if(!untilDate && price > 0){
-      console.log("with until date with price and location")
+    } else if (!untilDate && price > 0) {
+      console.log('with until date with price and location')
       return (
         config.API +
         `/searchParkingSpotByLocationAndPriceAndSize?email=${profile}&address=${address}&fromPrice=${0}&toPrice=${price}`
       ) //need to be change
-    }
-     else {
+    } else {
       console.log('no distance no untilDate')
       return config.API + `/searchParkingSpotByLocation?address=${address}`
     }
@@ -83,7 +81,8 @@ class ParkingCardList extends Component {
     navigation.navigate('ParkingSpotDetails', {
       parkingSpot: parkingSpot,
       forDate: forDate,
-      untilDate: untilDate
+      untilDate: untilDate,
+      isForBook: true
     })
   }
   render () {
@@ -105,13 +104,13 @@ class ParkingCardList extends Component {
                   ></Image>
                 )}
                 <View style={styles.rankContainer}>
-                <StarRating
-                  disable={true}
-                  maxStars={5}
-                  starStyle={{color:  '#ebd534'}}
-                  rating={parkingSpot.totalRankParking}
-                  starSize={15}
-                />
+                  <StarRating
+                    disable={true}
+                    maxStars={5}
+                    starStyle={{ color: '#ebd534' }}
+                    rating={parkingSpot.totalRankParking}
+                    starSize={15}
+                  />
                 </View>
                 <Text
                   style={{
