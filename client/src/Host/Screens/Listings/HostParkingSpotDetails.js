@@ -86,6 +86,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 5
   },
+  frameBtn: {
+    borderWidth: 1,
+    width: 80,
+    borderRadius: 20,
+    alignSelf: 'center',
+  },
   calendarInner: {
     fontSize: 35
   },
@@ -344,16 +350,19 @@ class HostParkingSpotDetails extends React.Component {
             />
           </View>
           <Text style={styles.address}>{this.state.address}</Text>
-          <View style={styles.rankContainer}>
-            <Text style={styles.rankTotal}>
-              {this.state.parkingSpot.totalRankParking}
-            </Text>
-            <Ionicons
-              style={styles.iconStar}
-              name='ios-star'
-              color='black'
-              size={15}
-            />
+          <View style={styles.frameBtn}>
+            <View style={styles.rankContainer}>
+              <Text style={styles.rankTotal}>
+                {this.state.parkingSpot.totalRankParking}
+              </Text>
+              <Ionicons
+                style={styles.iconStar}
+                name='ios-star'
+                color='black'
+                size={15}
+                onPress={() => this.handleReviewPress()}
+              />
+            </View>
           </View>
           <View style={styles.btns}>
             <View style={styles.calendarBtn}>

@@ -66,11 +66,25 @@ const styles = StyleSheet.create({
   editSave: {
     fontSize: 45,
     color: 'black'
-  }
+  },
+  stringDatedBtn: {
+    flexDirection: 'row'
+  },
+  calendarBtn: {
+    marginTop: 10,
+    borderWidth: 1,
+    width: 120,
+    height: 60,
+    borderRadius: 20,
+    alignSelf: 'center',
+    // marginBottom: 20,
+    marginLeft: 55,
+    marginRight: 5,
+  },
 })
 
 class HostParkingSpotCalendar extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       availabilFrom: [],
@@ -100,52 +114,52 @@ class HostParkingSpotCalendar extends React.Component {
     this.updateUntilDate = this.updateUntilDate.bind(this)
     this.handlePressSave = this.handlePressSave.bind(this)
     this.getUrlForApi = this.getUrlForApi.bind(this)
+    this.ShowAvailableDates = this.ShowAvailableDates.bind(this)
+    this.ShowFutureReservationsDates = this.ShowFutureReservationsDates.bind(this)
+    this.ShowWaitingQueueDates = this.ShowWaitingQueueDates.bind(this)
+    this.ShowPastReservationsDates = this.ShowPastReservationsDates.bind(this)
   }
 
-  getUrlForApi () {
+  getUrlForApi() {
     return config.API + `/addwindowsOfTimeToParkingSpot`
   }
-  updateForDate (date) {
+  updateForDate(date) {
     this.setState({ forDate: date })
   }
 
-  updateUntilDate (date) {
+  updateUntilDate(date) {
     this.setState({ untilDate: date })
   }
 
-  ShowHideCalendarComponentView = () =>{
- 
-    if(this.state.calendarStatus == true)
-    {
-      this.setState({calendarStatus: false})
-      this.setState({calendarText: 'Add available time', calendarEditbtn: ''})
+  ShowHideCalendarComponentView = () => {
+
+    if (this.state.calendarStatus == true) {
+      this.setState({ calendarStatus: false })
+      this.setState({ calendarText: 'Add available time', calendarEditbtn: '' })
     }
-    else
-    {
-      this.setState({calendarStatus: true})
-      this.setState({calendarText: 'Back', calendarEditbtn: 'cached'})
+    else {
+      this.setState({ calendarStatus: true })
+      this.setState({ calendarText: 'Back', calendarEditbtn: 'cached' })
     }
   }
 
-  OpenCloseCalendarComponentView = () =>{
- 
-    if(this.state.calendarStatus == true)
-    {
-      this.setState({calendarText: 'Add available time', calendarEditbtn: ''})
+  OpenCloseCalendarComponentView = () => {
+
+    if (this.state.calendarStatus == true) {
+      this.setState({ calendarText: 'Add available time', calendarEditbtn: '' })
     }
-    else
-    {
-      this.setState({calendarText: 'Back', calendarEditbtn: 'cached'})
+    else {
+      this.setState({ calendarText: 'Back', calendarEditbtn: 'cached' })
 
     }
   }
 
-  onContentSizeChange (contentWidth, contentHeight) {
+  onContentSizeChange(contentWidth, contentHeight) {
     // Save the content height in state
     this.setState({ screenHeight: contentHeight })
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.loadCalendar()
     // console.log("from")
     // console.log(this.state.availabilFrom)
@@ -153,7 +167,7 @@ class HostParkingSpotCalendar extends React.Component {
     // console.log(this.state.availabilUntil)
   }
 
-  loadCalendar () {
+  loadCalendar() {
     this.state.parkingSpot.windowsOfTime.map(window => {
       let parseDateFrom = this.formatDate(window.AvailablefromTime)
       this.state.availabilFrom.push(parseDateFrom)
@@ -163,7 +177,7 @@ class HostParkingSpotCalendar extends React.Component {
     })
   }
 
-  formatDate (date) {
+  formatDate(date) {
     var d = new Date(date),
       month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
@@ -175,7 +189,7 @@ class HostParkingSpotCalendar extends React.Component {
     return [year, month, day].join('-')
   }
 
-  getMarkAvailableDates () {
+  getMarkAvailableDates() {
     let dates = {}
     this.state.parkingSpot.windowsOfTime.map((window, index) => {
       dates[`${this.formatDate(window.AvailablefromTime)}`] = {
@@ -222,7 +236,7 @@ class HostParkingSpotCalendar extends React.Component {
     return dates
   }
 
-  getMarkFutureDates () {
+  getMarkFutureDates() {
     let dates = {}
     // console.log('helloi')
     this.state.parkingSpot.futureReservations.map((future, index) => {
@@ -242,7 +256,7 @@ class HostParkingSpotCalendar extends React.Component {
     return dates
   }
 
-  getMarkWaitingDates () {
+  getMarkWaitingDates() {
     let dates = {}
     this.state.parkingSpot.hostWaitingQueue.map((wait, index) => {
       dates[`${this.formatDate(wait.requireToDate)}`] = {
@@ -261,7 +275,7 @@ class HostParkingSpotCalendar extends React.Component {
     return dates
   }
 
-  handlePressSave () {
+  handlePressSave() {
     this.ShowHideCalendarComponentView()
     let urlAdd = this.getUrlForApi()
     // console.log("Saved")
@@ -292,7 +306,43 @@ class HostParkingSpotCalendar extends React.Component {
     })
   }
 
-  render () {
+  ShowAvailableDates() {
+    console.log('ShowAvailableDates')
+    const { navigation } = this.props
+    navigation.navigate('HostShowCalendarSting', {
+      parkingSpot: this.state.parkingSpot,
+      dataToShow: 'ShowAvailableDates'
+    })
+  }
+
+  ShowFutureReservationsDates() {
+    console.log('ShowFutureReservationsDates')
+    const { navigation } = this.props
+    navigation.navigate('HostShowCalendarSting', {
+      parkingSpot: this.state.parkingSpot,
+      dataToShow: 'ShowFutureReservationsDates'
+    })
+  }
+
+  ShowWaitingQueueDates() {
+    console.log('ShowWaitingQueueDates')
+    const { navigation } = this.props
+    navigation.navigate('HostShowCalendarSting', {
+      parkingSpot: this.state.parkingSpot,
+      dataToShow: 'ShowWaitingQueueDates'
+    })
+  }
+
+  ShowPastReservationsDates() {
+    console.log('ShowWaitingQueueDates')
+    const { navigation } = this.props
+    navigation.navigate('HostShowCalendarSting', {
+      parkingSpot: this.state.parkingSpot,
+      dataToShow: 'ShowPastReservationsDates'
+    })
+  }
+
+  render() {
     let automatic = [
       {
         label: 'Yes',
@@ -319,54 +369,77 @@ class HostParkingSpotCalendar extends React.Component {
           <View style={styles.line} />
           <View>
             <View style={styles.MainContainer}>
-            <Button
-                  icon={{name: this.state.calendarEditbtn}}
-                  type="clear" 
-                  title={this.state.calendarText} onPress={this.ShowHideCalendarComponentView} />
-                {
-                    // Pass any View or Component inside the curly bracket.
-                    // Here the ? Question Mark represent the ternary operator.
+              <Button
+                icon={{ name: this.state.calendarEditbtn }}
+                type="clear"
+                title={this.state.calendarText} onPress={this.ShowHideCalendarComponentView} />
+              {
+                // Pass any View or Component inside the curly bracket.
+                // Here the ? Question Mark represent the ternary operator.
 
-                    this.state.calendarStatus ? <View><DateAndTimePicker updateDate={this.updateForDate} kind='Start'date={this.state.forDate}></DateAndTimePicker>
-                                                <DateAndTimePicker updateDate={this.updateUntilDate} kind='End'/>
-                                                <View style={styles.automaticBtn}>
-                                                  <Dropdown
-                                                  // textColor='pink'
-                                                  // shadeOpacity='0.24'
-                                                  // labelFontSize="25"
-                                                    baseColor='black'
-                                                    label='Is Automatic?'
-                                                    data={automatic}
-                                                    // value={this.state.isAutomatic}
-                                                    onChangeText={value => this.setState({ isAutomatic: value })}
-                                                  />
-                                                </View>
-                                                <View style={styles.saveBtn}>
-                                                  <Button
-                                                  type="clear"
-                                                    icon={
-                                                      <Icon name="save" style={styles.editSave}>
-                                                        {/* <Text style={styles.ediText}>Save</Text> */}
-                                                      </Icon>
-                                                    }
-                                                    onPress={() => this.handlePressSave()}
-                                                  />
-                                                </View>
-                                                </View> : null
-                  }
+                this.state.calendarStatus ? <View><DateAndTimePicker updateDate={this.updateForDate} kind='Start' date={this.state.forDate}></DateAndTimePicker>
+                  <DateAndTimePicker updateDate={this.updateUntilDate} kind='End' />
+                  <View style={styles.automaticBtn}>
+                    <Dropdown
+                      // textColor='pink'
+                      // shadeOpacity='0.24'
+                      // labelFontSize="25"
+                      baseColor='black'
+                      label='Is Automatic?'
+                      data={automatic}
+                      // value={this.state.isAutomatic}
+                      onChangeText={value => this.setState({ isAutomatic: value })}
+                    />
+                  </View>
+                  <View style={styles.saveBtn}>
+                    <Button
+                      type="clear"
+                      icon={
+                        <Icon name="save" style={styles.editSave}>
+                          {/* <Text style={styles.ediText}>Save</Text> */}
+                        </Icon>
+                      }
+                      onPress={() => this.handlePressSave()}
+                    />
+                  </View>
+                </View> : null
+              }
 
             </View>
             <View style={styles.line} />
+            <View style={styles.stringDatedBtn}>
+              <View style={styles.calendarBtn}>
+                <Button
+                  // icon={{ name: this.state.calendarEditbtn }}
+                  type="clear"
+                  title='Available Dates' onPress={this.ShowAvailableDates}
+                  titleStyle={{ color: '#6abd8e' }} />
+              </View>
+              <View style={styles.calendarBtn}>
+                <Button
+                  // icon={{ name: this.state.calendarEditbtn }}
+                  type="clear"
+                  title='Future Reservations' onPress={this.ShowFutureReservationsDates}
+                  titleStyle={{ color: '#e0705c' }} />
+              </View>
+            </View>
+            <View style={styles.stringDatedBtn}>
+              <View style={styles.calendarBtn}>
+                <Button
+                  // icon={{ name: this.state.calendarEditbtn }}
+                  type="clear"
+                  title='Waiting for Approval' onPress={this.ShowWaitingQueueDates}
+                  titleStyle={{ color: '#f0e68c' }} />
+              </View>
+              <View style={styles.calendarBtn}>
+                <Button
+                  // icon={{ name: this.state.calendarEditbtn }}
+                  type="clear"
+                  title='Past Reservations' onPress={this.ShowPastReservationsDates}
+                  titleStyle={{ color: '#03cffc' }} />
+              </View>
+            </View>
 
-            <Text style={styles.parkingDataTitle}>
-              Available Dates (green)
-            </Text>
-            <Text style={styles.parkingDataTitle}>
-              Future Reservations (red)
-            </Text>
-            <Text style={styles.parkingDataTitle}>
-              Waiting for Approval (yellow)
-            </Text>
             <View style={styles.calendarWrapper}>
               <CalendarList
                 onVisibleMonthsChange={months => {
