@@ -88,6 +88,7 @@ class ParkingSpotDetails extends React.Component {
     this.submitFormBook = this.submitFormBook.bind(this)
     this.closePopUp = this.closePopUp.bind(this)
     this.showDialog = this.showDialog.bind(this)
+    this.submitFormCancel = this.submitFormCancel.bind(this)
   }
   closePopUp (childData, childDataRedirect) {
     this.setState({
@@ -113,8 +114,10 @@ class ParkingSpotDetails extends React.Component {
   submitFormBook () {
     const { navigation } = this.props
     const { parkingSpot, forDate, untilDate } = this.props.route.params
+    this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
     let url = `${config.API}/bookParkingSpot`
-    let bool = true
+    let bool = this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
+
     fetch(url, {
       method: 'POST',
       headers: new Headers({
@@ -130,12 +133,26 @@ class ParkingSpotDetails extends React.Component {
       untilDate: untilDate
     })
   }
-  submitFormCancel(){
-    console.log("cancel")
+  submitFormCancel () {
+    const { parkingSpot } = this.props.route.params
+
+    console.log(parkingSpot)
+  }
+  checkIfIsAutomaticByDates (parkingspot, forDate, untilDate) {
+    parkingspot.windowsOfTime.map(time => {
+      let AvailableUntilTime = new Date(time.AvailableUntilTime)
+      let AvailablefromTime = new Date(time.AvailablefromTime)
+
+      if (AvailableUntilTime >= untilDate && AvailablefromTime <= forDate) {
+        return time.isAutomatic
+      }
+    })
   }
   calculateTotalPrice () {
     const { forDate, untilDate, parkingSpot } = this.props.route.params
-    return ((Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price).toFixed(2)
+    return ((Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price).toFixed(
+      2
+    )
   }
   render () {
     const { parkingSpot, forDate, untilDate } = this.props.route.params
@@ -216,7 +233,9 @@ class ParkingSpotDetails extends React.Component {
           title={this.state.isForBook ? 'Book' : 'Cancel'}
           style={styles.submitButton}
           color='#841584'
-          onPress={this.state.isForBook ? this.submitFormBook : this.submitFormCancel}
+          onPress={
+            this.state.isForBook ? this.submitFormBook : this.submitFormCancel
+          }
           accessibilityLabel='Learn more about this purple button'
         />
       </View>
