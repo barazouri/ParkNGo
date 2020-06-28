@@ -177,7 +177,7 @@ module.exports = {
 
       let fromTimeDate = new Date(requireToDate)
       let untilTimeDate = new Date(requireUntilDate)
-      if (isAutomatic) {
+      if (isAutomatic === true) {
         console.log('here 2')
         let driverOrderSpot = {
           parkingSpotID: parkingSpotID,
@@ -332,7 +332,7 @@ module.exports = {
 
         console.log('ok')
         res.json('ok')
-      } else answer == 'false'
+      } else if (answer == 'false')
       {
         let driverDeclineReservations = {
           parkingId: parkingSpotID,
