@@ -18,7 +18,7 @@
             "parkingSize": "small",
             "price": 20,
             "windowsOfTime": [],
-            "availability": "yes",
+            "availability": "",
             "directions": "next to the green house",
             "totalRankParking": 5,
             "hostReviews": [],
@@ -51,7 +51,7 @@
                     }
                 }
             ],
-            "availability": "yes",
+            "availability": "",
             "directions": "behind the tree",
             "hostReviews": [],
             "parkingPictures": [

@@ -39,12 +39,6 @@ class ParkingCardList extends Component {
   getUrlForApi () {
     //this is without distance and without untilDate API need to be change
     let { address, forDate, untilDate, price } = this.props.route.params
-    console.log(`untilDate : ${untilDate}`)
-    console.log(`address : ${address}`)
-    console.log(`forDate : ${forDate}`)
-    console.log(`price : ${price}`)
-    console.log(`profile : ${price}`)
-
     if (address && profile && price && forDate && untilDate) {
       console.log('all params')
       return (

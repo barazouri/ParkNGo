@@ -1,4 +1,6 @@
 const Profiles = require('../models/profiles')
+const uniqueString = require('unique-string');
+
 module.exports = {
   /**Get without params */
   async getAllProfiles (req, res) {
@@ -191,7 +193,7 @@ module.exports = {
       const result = await Profiles.find({ profileId: profileId })
       await Profiles.updateOne(
         { profileId: profileId, 'parkingSpots.parkingId': parkingId },
-        { $set: { 'parkingSpots.$.availability': 'yes' } }
+        { $set: { 'parkingSpots.$.availability': '' } }
       )
       console.log(result)
       res.json(result)
@@ -314,12 +316,13 @@ module.exports = {
         return res.json("A profile with that gmail account isn't exist")
       } else {
         let parkingSpot = {
+          parkingId: uniqueString(),
           address: address,
           policy: policy,
           parkingSize: parkingSize,
           price: price,
           directions: directions,
-          availability: 'yes',
+          availability: '',
           windowsOfTime: windowsOfTime,
           totalRankParking: 0
         }
