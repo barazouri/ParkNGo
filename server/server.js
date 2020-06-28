@@ -58,7 +58,6 @@ app.get('/getDriverDeclineReservations',bookCtl.getDriverDeclineReservations);
 
 app.post('/bookParkingSpot',bookCtl.bookParkingSpot);
 app.post('/approveOrDeclineReq',bookCtl.approveOrDeclineReq);
-
 io.on('connection', function(socket){
   console.log('a user connected');
 });

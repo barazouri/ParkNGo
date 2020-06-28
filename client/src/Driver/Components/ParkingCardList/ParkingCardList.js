@@ -14,7 +14,6 @@ import { Card } from 'react-native-elements' // 0.19.0
 import { Ionicons } from '@expo/vector-icons' // 6.2.2
 
 import { parkingSpots } from './data'
-const userProfile = 'guygolpur@gmail.com'
 const config = require('../../../../config/config')
 const profile = 'guygol@gmail.com'
 const styles = StyleSheet.create({
@@ -40,17 +39,11 @@ class ParkingCardList extends Component {
   getUrlForApi () {
     //this is without distance and without untilDate API need to be change
     let { address, forDate, untilDate, price } = this.props.route.params
-    console.log(`untilDate : ${untilDate}`)
-    console.log(`address : ${address}`)
-    console.log(`forDate : ${forDate}`)
-    console.log(`price : ${price}`)
-    console.log(`profile : ${price}`)
-
     if (address && profile && price && forDate && untilDate) {
       console.log('all params')
       return (
         config.API +
-        `/searchByLocationAndPriceAndSizeByTime?address=${address}&email=${profile}&fromPrice=${0}&toPrice=${price}&fromTime=${forDate.toString()}&untilTime=${untilDate.toString()}&email=${userProfile}`
+        `/searchByLocationAndPriceAndSizeByTime?address=${address}&email=${profile}&fromPrice=${0}&toPrice=${price}&fromTime=${forDate.toString()}&untilTime=${untilDate.toString()}`
       ) //need to be change
     } else if (!untilDate && price > 0) {
       console.log('with until date with price and location')
