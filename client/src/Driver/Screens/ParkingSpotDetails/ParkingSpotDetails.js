@@ -116,22 +116,22 @@ class ParkingSpotDetails extends React.Component {
     const { parkingSpot, forDate, untilDate } = this.props.route.params
     this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
     let url = `${config.API}/bookParkingSpot`
-    let bool = this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
-    console.log(bool)
+    let isAutomatic = this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
 
     fetch(url, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded' // <-- Specifying the Content-Type
       }),
-      body: `email=${profile}&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${untilDate}&isAutomatic=${bool}` // <-- Post parameters
+      body: `email=${profile}&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${untilDate}&isAutomatic=${isAutomatic}` // <-- Post parameters
     }).catch(error => {
       console.log(error)
     })
     navigation.navigate('BookApproved', {
       parkingSpot: parkingSpot,
       forDate: forDate,
-      untilDate: untilDate
+      untilDate: untilDate,
+      isAutomatic: isAutomatic
     })
   }
   submitFormCancel () {
