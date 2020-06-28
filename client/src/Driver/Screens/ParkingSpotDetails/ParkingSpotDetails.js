@@ -117,6 +117,7 @@ class ParkingSpotDetails extends React.Component {
     this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
     let url = `${config.API}/bookParkingSpot`
     let bool = this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
+    console.log(bool)
 
     fetch(url, {
       method: 'POST',
@@ -139,14 +140,17 @@ class ParkingSpotDetails extends React.Component {
     console.log(parkingSpot)
   }
   checkIfIsAutomaticByDates (parkingspot, forDate, untilDate) {
+    let isAuto = true
     parkingspot.windowsOfTime.map(time => {
       let AvailableUntilTime = new Date(time.AvailableUntilTime)
       let AvailablefromTime = new Date(time.AvailablefromTime)
 
       if (AvailableUntilTime >= untilDate && AvailablefromTime <= forDate) {
-        return time.isAutomatic
+        console.log("!!!!!!!!")
+        isAuto = time.isAutomatic
       }
     })
+    return isAuto
   }
   calculateTotalPrice () {
     const { forDate, untilDate, parkingSpot } = this.props.route.params
