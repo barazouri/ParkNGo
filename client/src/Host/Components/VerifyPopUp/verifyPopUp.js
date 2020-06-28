@@ -25,6 +25,8 @@ class VerifyPopUp extends React.Component {
         this.sendApprovedData = this.sendApprovedData.bind(this)
         this.handleCancel = this.handleCancel.bind(this)
         this.sendCancelData = this.sendCancelData.bind(this)
+        this.handleDecline = this.handleDecline.bind(this)
+        this.sendDeclineData = this.sendDeclineData.bind(this)
     }
 
     handleApprove() {
@@ -37,11 +39,20 @@ class VerifyPopUp extends React.Component {
         this.sendCancelData()
     }
 
+    handleDecline() {
+        this.setState({ dialogVisible: false });
+        this.sendDeclineData()
+    }
+
     sendApprovedData() {
         this.props.closePopUp(this.state.dialogVisible, true);
     }
 
     sendCancelData() {
+        this.props.closePopUp(this.state.dialogVisible, 'cancel');
+    }
+
+    sendDeclineData() {
         this.props.closePopUp(this.state.dialogVisible, false);
     }
 
@@ -59,6 +70,9 @@ class VerifyPopUp extends React.Component {
                 </Dialog.Description>
                 <Dialog.Button label="Approve" onPress={this.handleApprove} />
                 <Dialog.Button label="Cancel" onPress={this.handleCancel} />
+                {this.props.decline ?
+                    <Dialog.Button label="Decline" onPress={this.handleDecline} />
+                    : null}
             </Dialog.Container>
         )
     }

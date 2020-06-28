@@ -67,7 +67,7 @@ class HostShowCalendarSting extends React.Component {
             saveFeedBackVisible: childData,
         })
 
-        if (childDataAnswer) {
+        if (childDataAnswer === true) {
             console.log('aprroved the request')
             let urlApproveOrDecline = this.getUrlurlApproveOrDeclineForApi()
             console.log('urlApproveOrDecline: ', urlApproveOrDecline)
@@ -88,8 +88,29 @@ class HostShowCalendarSting extends React.Component {
 
             navigation.navigate('HostParkingSpotCalendar')
         }
-        else {  // need to add like above but with answer=${false}
+        else if (childDataAnswer === false){  // need to add like above but with answer=${false}
             console.log('NOT aprroved')
+            let urlApproveOrDecline = this.getUrlurlApproveOrDeclineForApi()
+            console.log('urlApproveOrDecline: ', urlApproveOrDecline)
+
+            console.log('this.state.setUser.requireToDate: ', this.state.setUser.requireToDate)
+            let url = `${urlApproveOrDecline}`
+            fetch(`${url}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `email=${this.state.setUser.bookedBy}&parkingSpotID=${this.state.parkingSpot.parkingId}&hostID=${1}&requireToDate=${this.state.setUser.requireToDate}&requireUntilDate=${this.state.setUser.requireUntilDate}&answer=${false}` // <-- Post parameters
+            })
+                .then(res => res.json())
+                .catch(err => new Error(err))
+            this.saveFeedBack()
+
+
+            navigation.navigate('HostParkingSpotCalendar')
+        }
+        else {
+            console.log('cancel: ',childData)
         }
 
     }
@@ -184,7 +205,7 @@ class HostShowCalendarSting extends React.Component {
                                                 <Text style={styles.name}>Require to: {hostWaitingQueue.requireToDate}</Text>
                                                 <Text style={styles.name}>Require until: {hostWaitingQueue.requireUntilDate}</Text>
                                                 <View style={styles.input}>
-                                                    <VerifyPopUp dialogVisible={this.state.dialogVisibleAnswerParking} closePopUp={this.closePopUp} subject='Approve or Decline the Request' topTitle='Let the driver know your answer' />
+                                                    <VerifyPopUp decline={true} dialogVisible={this.state.dialogVisibleAnswerParking} closePopUp={this.closePopUp} subject='Approve or Decline the Request' topTitle='Let the driver know your answer' />
                                                 </View>
                                             </View>
                                         }
