@@ -7,7 +7,7 @@ export const parkingSpots = [
         parkingSiae: "big",
         price: 20,
         windowsOfTime: [],
-        availability: "yes",
+        availability: "",
         directions: "",
         uri: {uri: 'https://res.cloudinary.com/donglyhya/image/upload/v1516817597/campaign6_lfiwwo.jpg'},
     },
@@ -19,7 +19,7 @@ export const parkingSpots = [
         parkingSiae: "big",
         price: 20,
         windowsOfTime: [],
-        availability: "yes",
+        availability: "",
         directions: "",
         uri: {uri: 'https://res.cloudinary.com/donglyhya/image/upload/v1516817597/campaign4_wlc7p1.jpg'},
     }

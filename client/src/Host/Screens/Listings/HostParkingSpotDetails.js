@@ -412,7 +412,7 @@ class HostParkingSpotDetails extends React.Component {
           </Text>
           <View style={styles.line} />
           <Text style={styles.parkingDataTitle}>
-            {this.state.parkingSpot.availability ||
+            {this.state.parkingSpot.availability &&
               this.state.parkingSpot.availability.length > 0
               ? 'Occupied by: '
               : 'Is Available: '}
