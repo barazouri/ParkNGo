@@ -6,6 +6,8 @@ import HostEditParkingSpot from './HostEditParkingSpot'
 import HostParkingSpotCalendar from '../../Components/ParkingSpotCalendar/parkingSpotCalendar'
 import HostAddImageToParkingSpot from '../../Components/HostAddImageToParkingSpot/HostAddImageToParkingSpot'
 import HostParkingSpotReviews from '../../Components/ParkingSpotReviews/parkingSpotReviews'
+import HostShowCalendarSting from '../../Components/HostShowCalendarSting/hostShowCalendarSting'
+
 import {
   createStackNavigator,
   TransitionPresets
@@ -55,6 +57,15 @@ class ListingNavigate extends React.Component {
           <Stack.Screen
             name='HostParkingSpotCalendar'
             component={HostParkingSpotCalendar}
+            options={{
+              title: 'Calendar',
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              headerBackground: () => <HeaderLogo />
+            }}
+          />
+          <Stack.Screen
+            name='HostShowCalendarSting'
+            component={HostShowCalendarSting}
             options={{
               title: 'Calendar',
               ...TransitionPresets.ModalSlideFromBottomIOS,

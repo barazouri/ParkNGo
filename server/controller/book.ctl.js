@@ -332,7 +332,7 @@ module.exports = {
 
         console.log('ok')
         res.json('ok')
-      } else answer == 'false'
+      } else if (answer == 'false')
       {
         let driverDeclineReservations = {
           parkingId: parkingSpotID,
