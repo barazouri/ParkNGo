@@ -9,6 +9,7 @@ import {
   Dimensions
 } from 'react-native'
 import StarRating from 'react-native-star-rating'
+import { Dropdown } from 'react-native-material-dropdown'
 
 import { Card } from 'react-native-elements' // 0.19.0
 import { Ionicons } from '@expo/vector-icons' // 6.2.2
@@ -35,6 +36,7 @@ class ParkingCardList extends Component {
       parkingSpots: []
     }
     this.handleCardPress = this.handleCardPress.bind(this)
+    this.sortParkingSpotBy = this.sortParkingSpotBy.bind(this)
   }
   getUrlForApi () {
     //this is without distance and without untilDate API need to be change
@@ -78,9 +80,31 @@ class ParkingCardList extends Component {
       isForBook: true
     })
   }
+  sortParkingSpotBy(value){
+    let tmpParkingSpots = this.state.parkingSpots
+    if(value === 'Price'){
+      tmpParkingSpots.sort((a, b) => {
+        return parseFloat(a.price) - parseFloat(b.price)
+      })
+      this.setState({parkingSpots: tmpParkingSpots})
+    }
+    else if(value === 'Rating'){
+      tmpParkingSpots.sort((a, b) => {
+        return parseFloat(a.totalRankParking) - parseFloat(b.totalRankParking)
+      })
+      this.setState({parkingSpots: tmpParkingSpots})
+    }
+  }
   render () {
     return (
       <View style={{ flex: 1 }}>
+        <View style={{ width: 200, alignSelf: 'center' }}>
+          <Dropdown
+            placeholder='Sort By'
+            data={[{ value: 'Price' }, { value: 'Rating' }]}
+            onChangeText={value => this.sortParkingSpotBy(value)}
+          />
+        </View>
         <ScrollView contentContainerStyle={{ paddingVertical: 20 }}>
           {console.log(parkingSpots)}
           {this.state.parkingSpots.map((parkingSpot, index) => (
