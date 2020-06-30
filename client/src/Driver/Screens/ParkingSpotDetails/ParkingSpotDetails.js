@@ -116,22 +116,22 @@ class ParkingSpotDetails extends React.Component {
     const { parkingSpot, forDate, untilDate } = this.props.route.params
     this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
     let url = `${config.API}/bookParkingSpot`
-    let bool = this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
-    console.log('bool: ', bool)
-
+    let isAutomatic = this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
+    
     fetch(url, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded' // <-- Specifying the Content-Type
       }),
-      body: `email=${profile}&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${untilDate}&isAutomatic=${bool}` // <-- Post parameters
+      body: `email=${profile}&requireToDate=${forDate}&parkingSpotID=${parkingSpot.parkingId}&requireUntilDate=${untilDate}&isAutomatic=${isAutomatic}` // <-- Post parameters
     }).catch(error => {
       console.log(error)
     })
     navigation.navigate('BookApproved', {
       parkingSpot: parkingSpot,
       forDate: forDate,
-      untilDate: untilDate
+      untilDate: untilDate,
+      isAutomatic: isAutomatic
     })
   }
   submitFormCancel() {
@@ -139,18 +139,17 @@ class ParkingSpotDetails extends React.Component {
 
     console.log(parkingSpot)
   }
-  checkIfIsAutomaticByDates(parkingspot, forDate, untilDate) { 
-    let isAutomatic = true
+
+  checkIfIsAutomaticByDates (parkingspot, forDate, untilDate) {
+    let isAuto = true
     parkingspot.windowsOfTime.map(time => {
       let AvailableUntilTime = new Date(time.AvailableUntilTime)
       let AvailablefromTime = new Date(time.AvailablefromTime)
-
-      if ((AvailableUntilTime >= untilDate) && (AvailablefromTime <= forDate)) {
-        console.log('enter to time check: ', time.isAutomatic)
-        isAutomatic = time.isAutomatic
+      if (AvailableUntilTime >= untilDate && AvailablefromTime <= forDate) {
+        isAuto = time.isAutomatic
       }
     })
-    return isAutomatic
+    return isAuto
   }
   calculateTotalPrice() {
     const { forDate, untilDate, parkingSpot } = this.props.route.params

@@ -238,13 +238,18 @@ class HostEditParkingSpot extends React.Component {
                 leftButtonBackgroundColor='#A9A9A9'
               />
             </View>
-            <View style={styles.input}>
-              <Dropdown
-                placeholder='Policy'
-                data={selectPolicy}
-                onChangeText={value => this.onChangePolicy(value)}
-              />
-              <TouchableOpacity onPress={this.showDialog}>
+            <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+              <View style={{ width: 200, alignSelf: 'center' }}>
+                <Dropdown
+                  placeholder='Policy'
+                  data={selectPolicy}
+                  onChangeText={value => this.onChangePolicy(value)}
+                />
+              </View>
+              <TouchableOpacity
+                onPress={this.showDialog}
+                style={{ top: 35, left: 10 }}
+              >
                 <AntDesign name='questioncircleo' size={24} color='black' />
               </TouchableOpacity>
             </View>
@@ -261,13 +266,15 @@ class HostEditParkingSpot extends React.Component {
                 bottomExplain='No refunds for cancellations made within 7 days of check-in.'
               />
             </View>
-            <View style={styles.input}>
-              <Dropdown
-                placeholder='Parking Size'
-                data={selectParkingSize}
-                onChangeText={value => this.onChangeParkingSize(value)}
-              />
-              <TouchableOpacity onPress={this.showDialogParkingSize}>
+            <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+              <View style={styles.input}>
+                <Dropdown
+                  placeholder='Parking Size'
+                  data={selectParkingSize}
+                  onChangeText={value => this.onChangeParkingSize(value)}
+                />
+              </View>
+              <TouchableOpacity onPress={this.showDialogParkingSize} style={{top: 40}}>
                 <AntDesign name='questioncircleo' size={24} color='black' />
               </TouchableOpacity>
             </View>
@@ -290,7 +297,7 @@ class HostEditParkingSpot extends React.Component {
               value={this.state.directions}
               onChangeText={directions => this.setState({ directions })}
             />
-            <View style={styles.input}>
+            <View>
               <Button
                 title='Save'
                 style={{ width: Dimensions.get('window').width }}

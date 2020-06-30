@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   timeHeader: {
-    marginTop:10,
+    marginTop: 10,
     textAlign: 'center',
     fontFamily: 'Inter-SemiBoldItalic',
     fontSize: 20,
@@ -54,26 +54,46 @@ class BookApprove extends React.Component {
     const { navigation } = this.props
     navigation.navigate('Reservations')
   }
-  calculateTotalPrice(){
-    const {forDate, untilDate, parkingSpot } = this.props.route.params
-    return ((Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price).toFixed(2)
+  calculateTotalPrice () {
+    const { forDate, untilDate, parkingSpot } = this.props.route.params
+    return ((Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price).toFixed(
+      2
+    )
   }
   render () {
-    const { parkingSpot, forDate, untilDate } = this.props.route.params
+    const {
+      parkingSpot,
+      forDate,
+      untilDate,
+      isAutomatic
+    } = this.props.route.params
     console.log(forDate)
     console.log(untilDate)
-
+    // isAutomatic
     return (
       <View style={styles.container}>
-        <Text
-          style={{
-            textAlign: 'center',
-            fontSize: 40,
-            fontFamily: 'Inter-SemiBoldItalic'
-          }}
-        >
-          Booking Approved
-        </Text>
+        {isAutomatic && (
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 40,
+              fontFamily: 'Inter-SemiBoldItalic'
+            }}
+          >
+            Booking Approved
+          </Text>
+        )}
+        {!isAutomatic && (
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 40,
+              fontFamily: 'Inter-SemiBoldItalic'
+            }}
+          >
+            Waiting for host approval{' '}
+          </Text>
+        )}
         <View style={styles.addressContainer}>
           <Text
             style={{
@@ -114,7 +134,7 @@ class BookApprove extends React.Component {
               color='black'
             />
           </View>
-          <View style={{left: 15}}>
+          <View style={{ left: 15 }}>
             <Text style={styles.timeHeader}>Exit Time</Text>
             <Text
               style={styles.timeAndDateText}
@@ -135,7 +155,8 @@ class BookApprove extends React.Component {
               marginTop: 15
             }}
           >
-            Total time: {(Math.abs(untilDate - forDate) / 36e5).toFixed(2)} Hours
+            Total time: {(Math.abs(untilDate - forDate) / 36e5).toFixed(2)}{' '}
+            Hours
           </Text>
           <Text
             style={{
