@@ -16,34 +16,10 @@
             "address": "Hoofien 7",
             "policy": "Flexible",
             "parkingSize": "small",
-            "price": 32,
-            "directions": "Next to the white house",
+            "price": 6,
+            "directions": "Right next to the Aroma coffee shop",
             "availability": "",
             "windowsOfTime": [
-                {
-                    "_id": {
-                        "$oid": "5eb3b8412bc1dd489039a98f"
-                    },
-                    "AvailablefromTime": {
-                        "$date": "2020-06-06T10:34:00.000Z"
-                    },
-                    "AvailableUntilTime": {
-                        "$date": "2020-06-14T10:55:00.000Z"
-                    },
-                    "isAutomatic": true
-                },
-                {
-                    "_id": {
-                        "$oid": "5eb3b85c2bc1dd489039a990"
-                    },
-                    "AvailablefromTime": {
-                        "$date": "2020-06-20T10:34:00.000Z"
-                    },
-                    "AvailableUntilTime": {
-                        "$date": "2020-06-30T10:55:00.000Z"
-                    },
-                    "isAutomatic": true
-                },
                 {
                     "_id": {
                         "$oid": "5eb3b90c2bc1dd489039a995"
@@ -53,6 +29,30 @@
                     },
                     "AvailableUntilTime": {
                         "$date": "2020-07-10T10:55:00.000Z"
+                    },
+                    "isAutomatic": false
+                },
+                {
+                    "_id": {
+                        "$oid": "5efee89080c95600242a01b1"
+                    },
+                    "AvailablefromTime": {
+                        "$date": "2020-07-12T11:11:45.000Z"
+                    },
+                    "AvailableUntilTime": {
+                        "$date": "2020-07-30T11:09:51.000Z"
+                    },
+                    "isAutomatic": true
+                },
+                {
+                    "_id": {
+                        "$oid": "5efee8b780c95600242a01b2"
+                    },
+                    "AvailablefromTime": {
+                        "$date": "2020-08-01T11:13:10.000Z"
+                    },
+                    "AvailableUntilTime": {
+                        "$date": "2020-08-30T11:09:51.000Z"
                     },
                     "isAutomatic": false
                 }
@@ -86,33 +86,6 @@
             "pastReservations": [
                 {
                     "_id": {
-                        "$oid": "5eb4301300d021475ced8700"
-                    },
-                    "bookedBy": "guygolpur@gmail.com",
-                    "untilDate": {
-                        "$date": "2020-05-07T15:58:11.076Z"
-                    }
-                },
-                {
-                    "_id": {
-                        "$oid": "5eb4332400d021475ced8701"
-                    },
-                    "bookedBy": "guygolpur@gmail.com",
-                    "untilDate": {
-                        "$date": "2020-05-07T16:11:16.937Z"
-                    }
-                },
-                {
-                    "_id": {
-                        "$oid": "5eb4360200d021475ced8702"
-                    },
-                    "bookedBy": "guygolpur@gmail.com",
-                    "untilDate": {
-                        "$date": "2020-05-07T16:23:30.591Z"
-                    }
-                },
-                {
-                    "_id": {
                         "$oid": "5ec7bb12e6fae47ee378bb82"
                     },
                     "bookedBy": "barazouri24@gmail.com",
@@ -137,27 +110,6 @@
                 },
                 {
                     "_id": {
-                        "$oid": "5ec8f544fcebf12ecd6cc3ad"
-                    },
-                    "bookedBy": "barazouri24@gmail.com",
-                    "untilDate": {
-                        "$date": "2020-05-23T10:04:52.458Z"
-                    },
-                    "fromoDate": {
-                        "$date": "2020-05-23T10:04:32.678Z"
-                    }
-                },
-                {
-                    "_id": {
-                        "$oid": "5ed8ca49316bc95aefa153a9"
-                    },
-                    "bookedBy": "barazouri24@gmail.com",
-                    "untilDate": {
-                        "$date": "2020-06-04T10:17:45.047Z"
-                    }
-                },
-                {
-                    "_id": {
                         "$oid": "5ed8cb8a3c91105b6f566cec"
                     },
                     "bookedBy": "barazouri24@gmail.com",
@@ -165,60 +117,59 @@
                         "$date": "2020-06-04T10:23:06.439Z"
                     },
                     "fromoDate": {
-                        "$date": "2020-06-04T10:23:01.964Z"
+                        "$date": "2020-06-05T10:23:01.964Z"
                     }
                 }
             ],
             "hostWaitingQueue": [
                 {
                     "_id": {
-                        "$oid": "5eb3ba082bc1dd489039a99b"
+                        "$oid": "5efeebfc80c95600242a01b4"
                     },
                     "bookedBy": "guygol@gmail.com",
                     "requireToDate": {
-                        "$date": "2020-06-09T05:34:00.000Z"
+                        "$date": "2020-08-04T11:27:08.000Z"
                     },
                     "requireUntilDate": {
-                        "$date": "2020-06-11T05:34:00.000Z"
-                    }
-                }
-            ],
-            "hostDeclineReservations": [],
-            "futureReservations": [
-                {
-                    "_id": {
-                        "$oid": "5eb4423bdf0efe2f605ad53c"
-                    },
-                    "parkingId": "1A",
-                    "bookedBy": "barazouri24@gmail.com",
-                    "requireToDate": {
-                        "$date": "2020-06-12T05:34:00.000Z"
-                    },
-                    "requireUntilDate": {
-                        "$date": "2020-06-13T05:34:00.000Z"
+                        "$date": "2020-08-05T11:09:51.000Z"
                     }
                 },
                 {
                     "_id": {
-                        "$oid": "5ebaa2cff419a00bf3a05135"
+                        "$oid": "5efeecab80c95600242a01b6"
+                    },
+                    "bookedBy": "guygol@gmail.com",
+                    "requireToDate": {
+                        "$date": "2020-07-08T11:30:16.000Z"
+                    },
+                    "requireUntilDate": {
+                        "$date": "2020-07-09T11:09:51.000Z"
+                    }
+                }
+            ],
+            "hostDeclineReservations": [
+                {
+                    "_id": {
+                        "$oid": "5ef8faffb888fc0024b8df32"
                     },
                     "parkingId": "1A",
                     "bookedBy": "guygol@gmail.com",
                     "requireToDate": {
-                        "$date": "2020-07-06T16:19:19.000Z"
+                        "$date": "2020-07-06T23:17:05.000Z"
                     },
                     "requireUntilDate": {
-                        "$date": "2020-07-07T18:19:19.000Z"
+                        "$date": "2020-07-07T23:14:05.000Z"
                     }
                 }
             ],
+            "futureReservations": [],
             "hostReviews": [
                 {
                     "_id": {
                         "$oid": "5ee24d798dba982bdc245230"
                     },
                     "reviewFrom": "guygol@gmail.com",
-                    "rank": 3,
+                    "rank": 2,
                     "review": "nice but far",
                     "date": {
                         "$date": "2020-06-11T15:27:53.292Z"
@@ -229,14 +180,14 @@
                         "$oid": "5ee24d808dba982bdc245231"
                     },
                     "reviewFrom": "guygol@gmail.com",
-                    "rank": 5,
+                    "rank": 4,
                     "review": "amazing",
                     "date": {
                         "$date": "2020-06-11T15:28:00.615Z"
                     }
                 }
             ],
-            "totalRankParking": 4
+            "totalRankParking": 3
         },
         {
             "_id": {
@@ -244,24 +195,12 @@
             },
             "parkingId": "1B",
             "address": "Hoofien 7",
-            "policy": "strict",
+            "policy": "Moderate",
             "parkingSize": "small",
-            "price": 20,
-            "directions": "next to the tall tree",
+            "price": 13,
+            "directions": "After the green house turn right",
             "availability": "",
             "windowsOfTime": [
-                {
-                    "_id": {
-                        "$oid": "5eb3b8412bc1dd489039a98f"
-                    },
-                    "AvailablefromTime": {
-                        "$date": "2020-06-01T10:34:00.000Z"
-                    },
-                    "AvailableUntilTime": {
-                        "$date": "2020-06-30T10:55:00.000Z"
-                    },
-                    "isAutomatic": true
-                },
                 {
                     "_id": {
                         "$oid": "5eb3b85c2bc1dd489039a990"
@@ -282,9 +221,21 @@
                         "$date": "2020-07-16T10:34:00.000Z"
                     },
                     "AvailableUntilTime": {
-                        "$date": "2020-07-18T10:55:00.000Z"
+                        "$date": "2020-07-30T10:55:00.000Z"
                     },
                     "isAutomatic": false
+                },
+                {
+                    "_id": {
+                        "$oid": "5efef17680c95600242a01ba"
+                    },
+                    "AvailablefromTime": {
+                        "$date": "2020-08-01T11:50:39.000Z"
+                    },
+                    "AvailableUntilTime": {
+                        "$date": "2020-08-30T11:47:42.000Z"
+                    },
+                    "isAutomatic": true
                 }
             ],
             "totalRankParking": 4,
@@ -326,34 +277,102 @@
                     "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSjStU8H6C54-M-rnqPjsevrhNTKcA3VjLRoqFCXqXc5WaBp3I7&usqp=CAU"
                 }
             ],
-            "futureReservations": [
+            "futureReservations": [],
+            "pastReservations": [
+                {
+                    "bookedBy": "guygol@gmail.com",
+                    "untilDate": {
+                        "$date": "2020-05-01T11:44:18.294Z"
+                    },
+                    "fromoDate": {
+                        "$date": "2020-05-02T11:44:09.432Z"
+                    }
+                },
+                {
+                    "bookedBy": "guygol@gmail.com",
+                    "untilDate": {
+                        "$date": "2020-06-21T11:44:18.294Z"
+                    },
+                    "fromoDate": {
+                        "$date": "2020-06-22T11:44:09.432Z"
+                    }
+                }
+            ],
+            "hostWaitingQueue": [
                 {
                     "_id": {
-                        "$oid": "5eb3c9f2baa93a21592277c5"
+                        "$oid": "5efef21e80c95600242a01bc"
                     },
-                    "parkingId": "1B",
-                    "bookedBy": "barazouri24@gmail.com",
+                    "bookedBy": "guygol@gmail.com",
                     "requireToDate": {
-                        "$date": "2020-06-07T11:34:46.000Z"
+                        "$date": "2020-07-21T11:53:32.000Z"
                     },
                     "requireUntilDate": {
-                        "$date": "2020-06-09T01:34:43.000Z"
+                        "$date": "2020-07-22T11:47:42.000Z"
+                    }
+                }
+            ],
+            "hostDeclineReservations": []
+        },
+        {
+            "_id": {
+                "$oid": "5ef5c68dd7a0b60024d1f159"
+            },
+            "parkingId": "1C",
+            "address": "Hartglas 4",
+            "policy": "Flexible",
+            "parkingSize": "small",
+            "price": 6,
+            "directions": "Next to the tree",
+            "availability": "yes",
+            "windowsOfTime": [
+                {
+                    "_id": {
+                        "$oid": "5ef5c68dd7a0b60024d1f15a"
+                    },
+                    "AvailablefromTime": {
+                        "$date": "1970-01-01T00:00:00.000Z"
+                    },
+                    "AvailableUntilTime": {
+                        "$date": "1970-01-01T00:00:00.000Z"
                     }
                 },
                 {
                     "_id": {
-                        "$oid": "5eb66f541b08d400242205c2"
+                        "$oid": "5ef713cfddb6d900241bf367"
                     },
-                    "parkingId": "1B",
-                    "bookedBy": "guygol@gmail.com",
-                    "requireToDate": {
-                        "$date": "2020-07-06T11:49:25.000Z"
+                    "AvailablefromTime": {
+                        "$date": "2020-06-27T12:38:45.000Z"
                     },
-                    "requireUntilDate": {
-                        "$date": "2020-07-07T13:49:25.000Z"
-                    }
+                    "AvailableUntilTime": {
+                        "$date": "2020-06-30T03:23:34.000Z"
+                    },
+                    "isAutomatic": true
                 }
             ],
+            "totalRankParking": 0,
+            "hostReviews": [],
+            "parkingPictures": [
+                {
+                    "_id": {
+                        "$oid": "5ef5ef46db0f100024cfcf39"
+                    },
+                    "imageUrl": "https://www.discountlandlord.co.uk/wp-content/uploads/news/2014/02/Feb-18th.jpg"
+                },
+                {
+                    "_id": {
+                        "$oid": "5ef5f0b7db0f100024cfcf3a"
+                    },
+                    "imageUrl": "https://www.discountlandlord.co.uk/wp-content/uploads/news/2014/02/Feb-18th.jpg"
+                },
+                {
+                    "_id": {
+                        "$oid": "5ef5f11ddb0f100024cfcf3b"
+                    },
+                    "imageUrl": "https://www.discountlandlord.co.uk/wp-content/uploads/news/2014/02/Feb-18th.jpg"
+                }
+            ],
+            "futureReservations": [],
             "pastReservations": [],
             "hostWaitingQueue": [],
             "hostDeclineReservations": []
