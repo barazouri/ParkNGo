@@ -27,6 +27,10 @@ const styles = StyleSheet.create({
   sliderBoxContainer: {
     // height: 310,
   },
+  btns: {
+    flexDirection: 'row',
+    alignSelf: 'center'
+  },
   rankContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -72,13 +76,21 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   calendarBtn: {
-    // marginTop: 10,
+    marginTop: 21,
     borderWidth: 1,
     width: 80,
     height: 60,
     borderRadius: 20,
     alignSelf: 'center',
-    marginBottom: 20
+    marginBottom: 20,
+    marginLeft: 10,
+    marginRight: 5
+  },
+  frameBtn: {
+    borderWidth: 1,
+    width: 80,
+    borderRadius: 20,
+    alignSelf: 'center',
   },
   calendarInner: {
     fontSize: 35
@@ -118,6 +130,7 @@ class HostParkingSpotDetails extends React.Component {
     this.handleDeleteParkingSpot = this.handleDeleteParkingSpot.bind(this)
     this.closePopUp = this.closePopUp.bind(this)
     this.getUrlDeleteForApi = this.getUrlDeleteForApi.bind(this)
+    this.handleAddImageBtn = this.handleAddImageBtn.bind(this)
   }
   onContentSizeChange(contentWidth, contentHeight) {
     // Save the content height in state
@@ -188,6 +201,15 @@ class HostParkingSpotDetails extends React.Component {
     })
     // console.log(parkingSpot)
   }
+
+  handleAddImageBtn(parkingSpot) {
+    console.log('add image')
+    const { navigation } = this.props
+    navigation.navigate('HostAddImageToParkingSpot', {
+      parkingSpot: parkingSpot
+    })
+  }
+
   handleReviewPress() {
     const { navigation } = this.props
     navigation.navigate('HostParkingSpotReviews', {
@@ -270,13 +292,10 @@ class HostParkingSpotDetails extends React.Component {
       let urldelete = this.getUrlDeleteForApi()
       console.log('Delete')
 
-  
+
       let url = `${urldelete}`
       fetch(`${url}`, {
         method: 'GET',
-        // headers: {
-        //   'Content-Type': 'application/x-www-form-urlencoded'
-        // }
       })
         .then(res => res.json())
         .catch(err => new Error(err))
@@ -331,26 +350,41 @@ class HostParkingSpotDetails extends React.Component {
             />
           </View>
           <Text style={styles.address}>{this.state.address}</Text>
-          <View style={styles.rankContainer}>
-            <Text style={styles.rankTotal}>
-              {this.state.parkingSpot.totalRankParking}
-            </Text>
-            <Ionicons
-              style={styles.iconStar}
-              name='ios-star'
-              color='black'
-              size={15}
-            />
+          <View style={styles.frameBtn}>
+            <View style={styles.rankContainer}>
+              <Text style={styles.rankTotal}>
+                {this.state.parkingSpot.totalRankParking}
+              </Text>
+              <Ionicons
+                style={styles.iconStar}
+                name='ios-star'
+                color='black'
+                size={15}
+                onPress={() => this.handleReviewPress()}
+              />
+            </View>
           </View>
-          <View style={styles.calendarBtn}>
-            <Button
-              type='clear'
-              icon={
-                <Icon name='calendar' style={styles.calendarInner}>
-                </Icon>
-              }
-              onPress={() => this.handleCalendarPress(this.state.parkingSpot)}
-            />
+          <View style={styles.btns}>
+            <View style={styles.calendarBtn}>
+              <Button
+                type='clear'
+                icon={
+                  <Icon name='calendar' style={styles.calendarInner}>
+                  </Icon>
+                }
+                onPress={() => this.handleCalendarPress(this.state.parkingSpot)}
+              />
+            </View>
+            <View style={styles.calendarBtn}>
+              <Button
+                type='clear'
+                icon={
+                  <Icon name='image' style={styles.calendarInner}>
+                  </Icon>
+                }
+                onPress={() => this.handleAddImageBtn(this.state.parkingSpot)}
+              />
+            </View>
           </View>
           <View style={{ borderBottomColor: 'black', borderBottomWidth: 1 }} />
 

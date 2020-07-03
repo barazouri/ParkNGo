@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 })
 
 class ParkingSpotDetails extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       images: [
@@ -90,14 +90,14 @@ class ParkingSpotDetails extends React.Component {
     this.showDialog = this.showDialog.bind(this)
     this.submitFormCancel = this.submitFormCancel.bind(this)
   }
-  closePopUp (childData, childDataRedirect) {
+  closePopUp(childData, childDataRedirect) {
     this.setState({
       dialogVisible: childData,
       saveFeedBackVisible: childData,
       redirect: childDataRedirect
     })
   }
-  imageToArray () {
+  imageToArray() {
     const { parkingSpot } = this.props.route.params
     let images = []
     parkingSpot.parkingPictures.map(image => {
@@ -105,19 +105,19 @@ class ParkingSpotDetails extends React.Component {
     })
     this.setState({ images: images })
   }
-  componentDidMount () {
+  componentDidMount() {
     this.imageToArray()
   }
-  showDialog () {
+  showDialog() {
     this.setState({ dialogVisible: true })
   }
-  submitFormBook () {
+  submitFormBook() {
     const { navigation } = this.props
     const { parkingSpot, forDate, untilDate } = this.props.route.params
     this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
     let url = `${config.API}/bookParkingSpot`
     let isAutomatic = this.checkIfIsAutomaticByDates(parkingSpot, forDate, untilDate)
-
+    
     fetch(url, {
       method: 'POST',
       headers: new Headers({
@@ -134,11 +134,12 @@ class ParkingSpotDetails extends React.Component {
       isAutomatic: isAutomatic
     })
   }
-  submitFormCancel () {
+  submitFormCancel() {
     const { parkingSpot } = this.props.route.params
 
     console.log(parkingSpot)
   }
+
   checkIfIsAutomaticByDates (parkingspot, forDate, untilDate) {
     let isAuto = true
     parkingspot.windowsOfTime.map(time => {
@@ -151,13 +152,13 @@ class ParkingSpotDetails extends React.Component {
     })
     return isAuto
   }
-  calculateTotalPrice () {
+  calculateTotalPrice() {
     const { forDate, untilDate, parkingSpot } = this.props.route.params
     return ((Math.abs(untilDate - forDate) / 36e5) * parkingSpot.price).toFixed(
       2
     )
   }
-  render () {
+  render() {
     const { parkingSpot, forDate, untilDate } = this.props.route.params
     return (
       <View style={styles.container}>
