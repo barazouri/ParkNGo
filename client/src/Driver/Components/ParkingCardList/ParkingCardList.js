@@ -90,7 +90,7 @@ class ParkingCardList extends Component {
     }
     else if(value === 'Rating'){
       tmpParkingSpots.sort((a, b) => {
-        return parseFloat(a.totalRankParking) - parseFloat(b.totalRankParking)
+        return parseFloat(b.totalRankParking) - parseFloat(a.totalRankParking)
       })
       this.setState({parkingSpots: tmpParkingSpots})
     }
