@@ -161,13 +161,8 @@ module.exports = {
         parkingSpotID = null,
         requireToDate = null,
         requireUntilDate = null,
-        isAutomatic = false
+        isAutomatic = true
       } = req.body
-      console.log(email)
-      console.log(parkingSpotID)
-      console.log(requireToDate)
-      console.log(requireUntilDate)
-      console.log(isAutomatic)
 
       const driverProfile = await Profiles.find({ email: email })
       const parkingId = parkingSpotID
@@ -177,8 +172,7 @@ module.exports = {
 
       let fromTimeDate = new Date(requireToDate)
       let untilTimeDate = new Date(requireUntilDate)
-      if (isAutomatic === true) {
-        console.log('here 2')
+      if (isAutomatic === true || isAutomatic === 'true') {
         let driverOrderSpot = {
           parkingSpotID: parkingSpotID,
           requireToDate: fromTimeDate,
