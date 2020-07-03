@@ -222,13 +222,13 @@ class HostParkingSpotCalendar extends React.Component {
     this.state.parkingSpot.hostWaitingQueue.map((wait, index) => {
       dates[`${this.formatDate(wait.requireToDate)}`] = {
         startingDay: true,
-        color: '#f0e68c',
+        color: '#fcba03',
         textColor: 'white'
       }
       dates[`${this.formatDate(wait.requireUntilDate)}`] = {
         selected: true,
         endingDay: true,
-        color: '#f0e68c',
+        color: '#fcba03',
         textColor: 'white'
       }
     })
@@ -429,7 +429,7 @@ class HostParkingSpotCalendar extends React.Component {
                   // icon={{ name: this.state.calendarEditbtn }}
                   type="clear"
                   title='Waiting for Approval' onPress={this.ShowWaitingQueueDates}
-                  titleStyle={{ color: '#f0e68c' }} />
+                  titleStyle={{ color: '#fcba03' }} />
               </View>
               <View style={styles.calendarBtn}>
                 <Button

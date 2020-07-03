@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     waitingTitle: {
         fontSize: 25,
         textAlign: 'center',
-        color: '#f0e68c'
+        color: '#fcba03'
     },
     pastTitle: {
         fontSize: 25,

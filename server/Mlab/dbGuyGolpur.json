@@ -145,6 +145,18 @@
                     "requireUntilDate": {
                         "$date": "2020-07-09T11:09:51.000Z"
                     }
+                },
+                {
+                    "_id": {
+                        "$oid": "5eff0d501b2a620024325c78"
+                    },
+                    "bookedBy": "guygol@gmail.com",
+                    "requireToDate": {
+                        "$date": "2020-08-10T13:48:32.000Z"
+                    },
+                    "requireUntilDate": {
+                        "$date": "2020-08-11T13:46:51.000Z"
+                    }
                 }
             ],
             "hostDeclineReservations": [
@@ -162,7 +174,34 @@
                     }
                 }
             ],
-            "futureReservations": [],
+            "futureReservations": [
+                {
+                    "_id": {
+                        "$oid": "5eff0ce91b2a620024325c76"
+                    },
+                    "parkingId": "1A",
+                    "bookedBy": "guygol@gmail.com",
+                    "requireToDate": {
+                        "$date": "2020-07-20T13:47:51.000Z"
+                    },
+                    "requireUntilDate": {
+                        "$date": "2020-07-21T13:46:51.000Z"
+                    }
+                },
+                {
+                    "_id": {
+                        "$oid": "5eff1261b9bd1f12a4dbae39"
+                    },
+                    "parkingId": "1A",
+                    "bookedBy": "barazouri24@gmail.com",
+                    "requireToDate": {
+                        "$date": "2020-07-14T05:34:00.000Z"
+                    },
+                    "requireUntilDate": {
+                        "$date": "2020-07-15T05:34:00.000Z"
+                    }
+                }
+            ],
             "hostReviews": [
                 {
                     "_id": {
@@ -328,17 +367,6 @@
             "windowsOfTime": [
                 {
                     "_id": {
-                        "$oid": "5ef5c68dd7a0b60024d1f15a"
-                    },
-                    "AvailablefromTime": {
-                        "$date": "1970-01-01T00:00:00.000Z"
-                    },
-                    "AvailableUntilTime": {
-                        "$date": "1970-01-01T00:00:00.000Z"
-                    }
-                },
-                {
-                    "_id": {
                         "$oid": "5ef713cfddb6d900241bf367"
                     },
                     "AvailablefromTime": {
@@ -346,6 +374,18 @@
                     },
                     "AvailableUntilTime": {
                         "$date": "2020-06-30T03:23:34.000Z"
+                    },
+                    "isAutomatic": true
+                },
+                {
+                    "_id": {
+                        "$oid": "5eff0e931b2a620024325c7f"
+                    },
+                    "AvailablefromTime": {
+                        "$date": "2020-07-01T13:54:59.000Z"
+                    },
+                    "AvailableUntilTime": {
+                        "$date": "2020-07-31T13:46:51.000Z"
                     },
                     "isAutomatic": true
                 }
