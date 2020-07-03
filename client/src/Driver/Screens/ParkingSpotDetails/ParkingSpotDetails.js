@@ -145,7 +145,7 @@ class ParkingSpotDetails extends React.Component {
       let AvailableUntilTime = new Date(time.AvailableUntilTime)
       let AvailablefromTime = new Date(time.AvailablefromTime)
 
-      if (AvailableUntilTime >= untilDate && AvailablefromTime <= forDate) {
+      if ((AvailableUntilTime >= untilDate) && (AvailablefromTime <= forDate)) {
         isAuto = time.isAutomatic
       }
     })
