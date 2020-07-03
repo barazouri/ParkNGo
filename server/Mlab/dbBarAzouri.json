@@ -61,7 +61,7 @@
     "totalRankDriver": 5,
     "driverOrderSpot": [
         {
-            "parkingId": "1A",
+            "parkingSpotID": "1A",
             "requireToDate": {
                 "$date": "2020-05-22T11:44:18.294Z"
             },
@@ -70,7 +70,7 @@
             }
         },
         {
-            "parkingId": "1A",
+            "parkingSpotID": "1A",
             "requireToDate": {
                 "$date": "2020-05-23T09:59:47.620Z"
             },
@@ -79,7 +79,7 @@
             }
         },
         {
-            "parkingId": "1A",
+            "parkingSpotID": "1A",
             "requireToDate": {
                 "$date": "2020-06-04T10:23:06.439Z"
             },
