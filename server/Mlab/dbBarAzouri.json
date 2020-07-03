@@ -86,6 +86,18 @@
             "requireUntilDate": {
                 "$date": "2020-06-05T10:23:01.964Z"
             }
+        },
+        {
+            "_id": {
+                "$oid": "5eff1261b9bd1f12a4dbae38"
+            },
+            "parkingSpotID": "1A",
+            "requireToDate": {
+                "$date": "2020-07-14T05:34:00.000Z"
+            },
+            "requireUntilDate": {
+                "$date": "2020-07-15T05:34:00.000Z"
+            }
         }
     ],
     "driverReviews": []
