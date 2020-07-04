@@ -163,7 +163,10 @@ class UploadParkContent extends React.Component {
     })
 
     if (childDataRedirect) {
-      navigation.navigate('Listings')
+      navigation.reset({
+        routes: [{ name: 'Listings' }],
+      });
+      
     }
   }
 
